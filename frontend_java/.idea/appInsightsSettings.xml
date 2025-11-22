@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  File: app-insights-settings.xml
+  Mô tả: Cấu hình giao diện và tab mặc định của App Insights trong Android Studio.
+-->
+<project version="4">
+  <!-- 
+    AppInsightsSettings:
+    • Lưu lựa chọn giao diện/hiển thị cho cửa sổ "App Insights" của IDE.
+  -->
+  <component name="AppInsightsSettings">
+    <!-- 
+      selectedTabId:
+      • Lưu tab được chọn gần nhất, ở đây là "Firebase Crashlytics"
+      • Crashlytics là dịch vụ thống kê & theo dõi lỗi/crash của Firebase.
+    -->
+    <option name="selectedTabId" value="Firebase Crashlytics" />
+  </component>
+</project>

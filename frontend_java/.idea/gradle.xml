@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  File: gradle.xml (cấu hình IDE)
+  Mô tả: Lưu thông tin thiết lập Gradle cho dự án trong Android Studio / IntelliJ.
+-->
+<project version="4">
+  <!--
+    Component: GradleMigrationSettings
+    • migrationVersion="1"  → IDE đã ghi nhận rằng cấu trúc dự án Gradle đã được “migrate”
+      (tức cập nhật sang định dạng/syntax mới hơn) ở version 1.
+  -->
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+
+  <!--
+    Component: GradleSettings
+    • Chứa mọi cấu hình liên quan đến Gradle build system cho dự án hiện tại.
+  -->
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <!--
+        GradleProjectSettings:
+        Mỗi thẻ đại diện cho một dự án Gradle được IDE liên kết (ở đây chính là dự án gốc).
+      -->
+      <GradleProjectSettings>
+        <!--
+          testRunner="CHOOSE_PER_TEST"
+          → IDE sẽ để người dùng chọn runner (JUnit, Android JUnit, v.v.) riêng cho từng test.
+        -->
+        <option name="testRunner" value="CHOOSE_PER_TEST" />
+
+        <!-- externalProjectPath lưu đường dẫn gốc dự án Gradle -->
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+
+        <!--
+          gradleJvm:
+          #GRADLE_LOCAL_JAVA_HOME  → sử dụng JDK được chỉ định trong “Gradle JDK” của IDE
+          (hoặc JAVA_HOME cục bộ nếu không đặt cụ thể).
+        -->
+        <option name="gradleJvm" value="#GRADLE_LOCAL_JAVA_HOME" />
+
+        <!--
+          Danh sách module Gradle mà IDE theo dõi (root + module app).
+          Dùng <set> để đảm bảo không trùng lặp.
+        -->
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
