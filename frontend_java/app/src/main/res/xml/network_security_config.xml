@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  File: network_security_config.xml
+  Mô tả: Quy định cấu hình bảo mật mạng cho app Android
+-->
+<network-security-config>
+    <!--
+      base-config: Cấu hình mặc định áp dụng cho tất cả kết nối mạng trong app
+      • cleartextTrafficPermitted="true": Cho phép truyền dữ liệu dạng văn bản thuần (HTTP, không mã hoá)
+        (không khuyến khích cho sản phẩm phát hành vì lý do bảo mật)
+    -->
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <!--
+              certificates src="system":
+              Sử dụng các chứng chỉ tin cậy mặc định của hệ điều hành Android để xác thực SSL/TLS.
+            -->
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    card_view:cardCornerRadius="12dp"
+    card_view:cardElevation="6dp"
+    card_view:cardBackgroundColor="#141A31">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:weightSum="2">
+
+        <!-- Left Column -->
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvBroadcastID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mã lịch chiếu: 6"
+                android:textSize="15sp"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="6dp" />
+
+            <TextView
+                android:id="@+id/tvSeatName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chỗ ngồi: seat_4"
+                android:textSize="15sp"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+
+        <!-- Right Column -->
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="end">
+
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100.000 VNĐ"
+                android:textSize="15sp"
+                android:textColor="#00FFAB"
+                android:textStyle="bold"
+                android:layout_marginBottom="6dp" />
+
+            <TextView
+                android:id="@+id/tvDateOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="16/06/2025"
+                android:textSize="14sp"
+                android:textColor="#CCCCCC" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

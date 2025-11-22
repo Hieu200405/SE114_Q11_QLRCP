@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Layout chi tiết cho màn hình hiển thị thông tin vé (Ticket Detail).
+  Sử dụng ConstraintLayout để bố trí linh hoạt và đẹp mắt trên mọi kích thước màn hình.
+  Bố cục gồm: logo, card thông tin vé, các trường thông tin, và các nút thao tác (BACK, DELETE).
+-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layoutRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:fitsSystemWindows="true"
+    android:background="@color/primary_bg">
+
+    <!--
+      Ảnh logo lớn của app hoặc hình ảnh đại diện màn ticket.
+      Nằm ở gần top, giữa màn hình, tạo điểm nhấn thương hiệu.
+      Sử dụng màu tint để đồng bộ màu sắc với theme.
+    -->
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="196dp"
+        android:layout_height="204dp"
+        android:src="@drawable/ic_movie"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.239"
+        app:tint="@color/colorTextIcons" />
+
+    <!--
+      CardView: Khung nổi chứa toàn bộ thông tin vé và các trường chi tiết.
+      Có bo góc nhẹ (12dp), bóng nhẹ (elevation), tăng cảm giác "card".
+      Chiều rộng fill-parent (0dp + ràng buộc constraint), cao tự động.
+      Đặt ở trung tâm layout, phía trên các nút.
+    -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardTicket"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!--
+          LinearLayout dọc chứa các thành phần hiển thị thông tin chi tiết vé.
+          Có padding đều, nền màu chủ đạo.
+        -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="420dp"
+            android:background="@color/primary_bg"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!--
+              Hàng trên cùng: Hiển thị ảnh thumbnail phim và thông tin phim (tên, ngày, giờ, thời lượng).
+              Sử dụng LinearLayout ngang.
+            -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Ảnh đại diện phim, poster, thumbnail -->
+                <ImageView
+                    android:id="@+id/imgThumbnail"
+                    android:layout_width="120dp"
+                    android:layout_height="160dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/bg_img_rounded"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/default_img" />
+
+                <!--
+                  layoutInfo: Cột bên phải chứa thông tin tên phim, ngày chiếu, giờ chiếu, thời lượng
+                -->
+                <LinearLayout
+                    android:id="@+id/layoutInfo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:orientation="vertical">
+
+                    <!-- Tên phim -->
+                    <TextView
+                        android:id="@+id/tvFirmName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Arrow"
+                        android:textColor="@color/primary_text"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <!-- Ngày chiếu -->
+                    <TextView
+                        android:id="@+id/tvDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Date: 2025-10-10"
+                        android:textColor="@color/primary_text"
+                        android:textSize="16sp" />
+
+                    <!-- Giờ chiếu -->
+                    <TextView
+                        android:id="@+id/tvTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Time: 06:00"
+                        android:textColor="@color/primary_text"
+                        android:textSize="16sp" />
+
+                    <!-- Thời lượng phim -->
+                    <TextView
+                        android:id="@+id/tvRuntime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Runtime: 60 mins"
+                        android:textColor="@color/primary_text"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--
+              Divider (gạch ngang) ngăn cách phần thông tin phim với thông tin vé.
+              Dùng màu chữ chủ đạo để nổi bật trên nền tối.
+            -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="12dp"
+                android:background="@color/primary_text" />
+
+            <!--
+              layoutTicketInfo: Khu vực hiển thị các trường thông tin vé (mã user, mã vé, phòng, ghế, ngày đặt, giá...)
+              Sắp xếp dạng cặp label - value, mỗi cặp là một LinearLayout ngang.
+            -->
+            <LinearLayout
+                android:id="@+id/layoutTicketInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:orientation="vertical">
+
+                <!-- Mã User -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Mã User:"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/tvUserID"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="2"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <!-- Mã Vé -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Mã Vé:"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/tvTicketID"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="2"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <!-- Mã Phòng -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Mã Phòng:"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/tvRoomID"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="2"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <!-- Mã Ghế -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Mã Ghế:"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/tvSeatName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="seat_2"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <!-- Ngày đặt vé -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Ngày Đặt:"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/tvDateOrder"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="2025-06-16"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <!-- Thời gian đặt vé -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Thời gian đặt:"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/tvTimeOrder"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="06:00"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <!-- Giá vé -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Giá:"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/tvPrice"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="100,000 VND"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!--
+      Nút BACK: cho phép người dùng quay lại màn hình trước.
+      Đặt ở dưới cùng màn hình, chiều rộng full parent, màu xanh primary.
+    -->
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BACK"
+        android:layout_marginTop="8dp"
+        android:textAllCaps="true"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/primary_blue"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!--
+      Nút DELETE USER (ẩn mặc định), chỉ hiện nếu có quyền/xác thực đặc biệt.
+      Màu đỏ nổi bật, luôn dưới card vé và trên nút BACK.
+    -->
+    <Button
+        android:id="@+id/btnDeleteUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#DB1111"
+        android:text="Delete"
+        android:visibility="gone"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/btnBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!--
+      Nút DELETE (ẩn mặc định), dùng cho thao tác xoá vé, vị trí và màu sắc tương tự btnDeleteUser.
+      Có thể dùng để phân quyền, điều kiện khác nhau tuỳ business logic.
+    -->
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#DB1111"
+        android:text="Delete"
+        android:visibility="gone"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/btnBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
