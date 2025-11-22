@@ -40,7 +40,7 @@ python --version
 1️⃣ Clone the Project
 
 ```bash
-git clone https://github.com/huypro2005/se114_nmdd.git
+git clone https://github.com/Hieu200405/SE114_Q11_QLRCP
 ```
 
 
