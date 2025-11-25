@@ -1,0 +1,55 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:background="@drawable/background_firm_show"
+    android:layout_margin="8dp"
+    android:elevation="2dp">
+
+    <!-- Giờ chiếu -->
+    <TextView
+        android:id="@+id/textTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="06:00"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <!-- Giá vé ở bên phải -->
+    <TextView
+        android:id="@+id/textPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100.000 đ"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/textTime" />
+
+    <!-- Ngày chiếu -->
+    <TextView
+        android:id="@+id/textDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10/10/2025"
+        android:textSize="14sp"
+        android:textColor="@color/colorTextSecondary"
+        android:layout_below="@id/textTime"
+        android:layout_marginTop="4dp" />
+
+    <!-- Phòng chiếu và số ghế -->
+    <TextView
+        android:id="@+id/textRoomSeats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Phòng 2 • 20 ghế"
+        android:textSize="14sp"
+        android:textColor="@color/colorTextSecondary"
+        android:layout_below="@id/textDate"
+        android:layout_marginTop="2dp" />
+
+</RelativeLayout>

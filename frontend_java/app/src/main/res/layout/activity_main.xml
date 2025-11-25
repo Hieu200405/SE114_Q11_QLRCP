@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="#141A31"
+    android:padding="32dp"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent">
+
+
+  <!-- LOGO ỨNG DỤNG -->
+  <ImageView
+      android:id="@+id/appLogo"
+      android:layout_width="235dp"
+      android:layout_height="216dp"
+      android:layout_marginBottom="24dp"
+      android:layout_marginTop="30dp"
+      android:contentDescription="App Logo"
+      android:src="@drawable/ic_movie"
+      app:tint="@color/colorTextIcons" />
+
+  <!-- TIÊU ĐỀ -->
+  <TextView
+      android:text="Chào mừng bạn tới với CineStream"
+      android:textSize="22sp"
+      android:textStyle="bold"
+      android:textColor="#FFFFFF"
+      android:layout_marginBottom="40dp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content" />
+
+
+  <TextView
+      android:text="Đăng nhập hoặc đăng ký để bắt đầu"
+      android:textSize="20sp"
+      android:textStyle="bold"
+      android:textColor="#FFFFFF"
+      android:textAlignment="center"
+      android:layout_marginBottom="40dp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content" />
+
+  <!-- NÚT ĐĂNG NHẬP -->
+  <Button
+      android:id="@+id/btnLogin"
+      android:text="Đăng Nhập"
+      android:onClick="goToLogin"
+      android:textColor="#FFFFFF"
+      android:backgroundTint="#3D56F0"
+      android:paddingVertical="12dp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:cornerRadius="12dp"
+      app:icon="@drawable/ic_login"
+      app:iconTint="#FFFFFF"
+      app:iconSize="20dp"
+      app:iconGravity="textStart"
+      android:drawablePadding="8dp" />
+
+  <!-- NÚT ĐĂNG KÝ -->
+  <Button
+      android:id="@+id/btnRegister"
+      android:text="Đăng Ký"
+      android:onClick="goToRegister"
+      android:textColor="#FFFFFF"
+      android:backgroundTint="#FF9800"
+      android:paddingVertical="12dp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="20dp"
+      app:cornerRadius="12dp"
+      app:icon="@drawable/ic_register"
+      app:iconTint="#FFFFFF"
+      app:iconSize="20dp"
+      app:iconGravity="textStart"
+      android:drawablePadding="8dp" />
+</LinearLayout>

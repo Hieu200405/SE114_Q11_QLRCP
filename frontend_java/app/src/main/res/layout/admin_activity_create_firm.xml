@@ -1,0 +1,221 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:background="#141A31">
+
+
+    <LinearLayout
+        android:id="@+id/layoutHeader"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/_8sdp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageBack"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:background="@drawable/background_back_button"
+            android:contentDescription="@string/app_name"
+            android:padding="@dimen/_3sdp"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/textAppName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:fontFamily="@font/ubuntu_bold"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:text="  CineStream"
+            android:textColor="@color/colorTextIcons"
+            android:textSize="@dimen/_14sdp"
+            app:drawableStartCompat="@drawable/ic_movie"
+            app:drawableTint="@color/colorTextIcons" />
+
+
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutHeader"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <!-- Thumbnail -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Thumbnail"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/imageThumbnail"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_150sdp"
+                android:layout_marginBottom="12dp"
+                android:background="#333333"
+                android:src="@drawable/default_img"
+                android:scaleType="centerCrop" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonPickThumbnail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chọn Thumbnail"
+                app:cornerRadius="8dp"
+                app:backgroundTint="@color/colorAccent"
+                android:textColor="@color/white"
+                app:icon="@drawable/ic_add_photo"
+                app:iconSize="@dimen/_15sdp"
+                app:iconPadding="8dp"/>
+
+            <!-- Danh sách ảnh bìa -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="Ảnh Bìa"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerCoverImages"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_130sdp"
+                android:orientation="horizontal"
+                android:overScrollMode="never"
+                android:padding="4dp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:padding="12dp"
+                android:background="@drawable/bg_item_dark_cart">
+                <!-- Thông tin Firm -->
+                <EditText
+                    android:id="@+id/editFirmName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="#888888"
+                    android:hint="Tên phim"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#888888" />
+
+                <!-- Thêm các EditText khác tương tự: start_date, end_date, rating, runtime -->
+
+                <EditText
+                    android:id="@+id/editDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="#888888"
+                    android:hint="Mô tả"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#888888"
+                    android:gravity="start|top"
+                    android:inputType="textMultiLine"
+                    android:maxLines="5"
+                    android:scrollbars="vertical"
+                    android:overScrollMode="ifContentScrolls"
+                    android:padding="8dp" />
+
+                <EditText
+                    android:id="@+id/editRunningTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="#888888"
+                    android:inputType="number"
+                    android:hint="Thời lượng chiếu (phút)"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#888888" />
+                <EditText
+                    android:id="@+id/editRating"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="#888888"
+                    android:hint="Đánh giá (0-10)"
+                    android:inputType="numberDecimal"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#888888" />
+                <EditText
+                    android:id="@+id/editRatingCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="#888888"
+                    android:hint="Số lượng đánh giá"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#888888" />
+                <EditText
+                    android:id="@+id/editStartDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="#888888"
+                    android:hint="Ngày ra mắt (YYYY-MM-DD)"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#888888" />
+
+                <EditText
+                    android:id="@+id/editEndDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="#888888"
+                    android:hint="Ngày kết thúc (YYYY-MM-DD) (Không bắt buộc)"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#888888" />
+            </LinearLayout>
+
+
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonCreateFirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Tao phim"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/colorAccent"
+                app:cornerRadius="8dp"
+                app:iconSize="@dimen/_15sdp"
+                app:icon="@drawable/ic_check"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

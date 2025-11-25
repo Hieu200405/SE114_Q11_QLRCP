@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  File: colors.xml
+  Mô tả: Khai báo bảng màu chủ đạo và màu phụ dùng trong app.
+-->
+<resources>
+    <color name="primary_bg">#141A31</color>              <!-- Nền chủ đạo (background) toàn app, tone navy -->
+    <color name="primary_text">#FFFFFF</color>             <!-- Màu chữ chính trên nền tối (trắng) -->
+    <color name="colorPrimaryDark">#081029</color>         <!-- Nền tối nhất, có thể dùng cho status bar hoặc header -->
+    <color name="secondary_text">#CCCCCC</color>           <!-- Chữ phụ, gợi ý (hint text) màu xám nhạt -->
+    <color name="accent">#FF9800</color>                   <!-- Màu cam nhẹ dùng làm điểm nhấn -->
+    <color name="colorPrimaryLight">#1E2746</color>        <!-- Biến thể sáng hơn của màu nền chủ đạo -->
+    <color name="colorTextSecondary">#D0D8F2</color>       <!-- Màu chữ phụ, sắc xanh nhạt (thường cho subtitle) -->
+    <color name="colorPrimary">#141A31</color>             <!-- Màu chủ đạo (trùng với primary_bg) -->
+    <color name="colorTextPrimary">#CBD5ED</color>         <!-- Màu chữ chính nổi bật (sáng hơn trắng) -->
+    <color name="colorTextIcons">#ffffff</color>           <!-- Màu cho icon nền tối (trắng thuần) -->
+    <color name="colorTextOther">#FAD303</color>           <!-- Màu vàng nổi bật, có thể dùng cho warning/info -->
+    <color name="primary_blue">#2196F3</color>             <!-- Màu xanh dương chuẩn, thường dùng cho nút chính -->
+    <color name="colorAccent">#0097FB</color>              <!-- Accent xanh dương nhạt, phụ trợ primary_blue -->
+    <color name="purple_200">#FFBB86FC</color>             <!-- Màu tím (Material Design) cho state hoặc theme -->
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>               <!-- Màu xanh ngọc Material, thường làm accent -->
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>                  <!-- Đen thuần (ARGB) -->
+    <color name="white">#FFFFFFFF</color>                  <!-- Trắng thuần (ARGB) -->
+</resources>
