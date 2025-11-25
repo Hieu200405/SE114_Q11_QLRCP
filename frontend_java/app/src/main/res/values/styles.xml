@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  File: styles.xml (hoặc styles_rounded.xml)
+  Mô tả: Khai báo style cho ImageView bo góc.
+-->
+<resources>
+
+    <!--
+      Style: RoundedImageViewStyle
+      • Định nghĩa style dùng cho ImageView có bo góc tròn.
+      • cornerFamily="rounded": chọn kiểu bo tròn (rounded).
+      • cornerSize="16dp": độ lớn bo góc là 16dp.
+      • Có thể áp dụng cho ImageView bằng thuộc tính style="@style/RoundedImageViewStyle"
+    -->
+    <style name="RoundedImageViewStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
+</resources>

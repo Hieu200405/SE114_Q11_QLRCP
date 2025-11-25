@@ -1,0 +1,46 @@
+// Thông tin chung về dự án Firebase
+{
+  // Mã số dự án Firebase (Project Number)
+  "project_info": {
+    // Mã số dự án Firebase
+    "project_number": "1045204801335",
+    // ID duy nhất của dự án
+    "project_id": "se114-1653b",
+    // Bucket dùng cho Firebase Storage
+    "storage_bucket": "se114-1653b.firebasestorage.app"
+  },
+  // Danh sách client (ứng dụng) trong dự án
+  "client": [
+    {
+      // Thông tin client chính
+      "client_info": {
+        // App ID của Firebase cho ứng dụng Android
+        "mobilesdk_app_id": "1:1045204801335:android:d6c461771d685707b12cb2",
+        // Thông tin về gói Android
+        "android_client_info": {
+          // Package name của app Android
+          "package_name": "com.example.myapplication"
+        }
+      },
+      // Danh sách OAuth client (chưa cấu hình)
+      "oauth_client": [],
+      // Danh sách API key cho app
+      "api_key": [
+        {
+          // API key chính cho dự án này
+          "current_key": "AIzaSyBHZYtnz7_hIvq8pUESVAX8mYODHKnPYCA"
+        }
+      ],
+      // Cấu hình các dịch vụ liên quan đến app
+      "services": {
+        // Cấu hình App Invite service (mời bạn bè cài app)
+        "appinvite_service": {
+          // OAuth client cho nền tảng khác (rỗng)
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  // Phiên bản cấu hình file
+  "configuration_version": "1"
+}

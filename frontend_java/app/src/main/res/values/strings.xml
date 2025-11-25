@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">CineStream</string>
+    <string name="read_more">Xem Thêm</string>
+    <string name="read_less">Bớt Lại</string>
+    <string-array name="sort_options">
+        <item>Lịch chiếu hôm nay</item>
+        <item>Sắp xếp theo Rating ↑</item>
+        <item>Sắp xếp theo Rating ↓</item>
+        <item>Sắp xếp theo Tên A-Z</item>
+    </string-array>
+</resources>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#141A31"
+    android:fitsSystemWindows="true"
+>
+
+
+    <LinearLayout
+        android:id="@+id/layoutHeader"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/_8sdp"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:id="@+id/textAppName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:fontFamily="@font/ubuntu_bold"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:text="  CineStream"
+            android:textColor="@color/colorTextIcons"
+            android:textSize="@dimen/_14sdp"
+            app:drawableStartCompat="@drawable/ic_movie"
+            app:drawableTint="@color/colorTextIcons" />
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutHeader"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints">
+        <!-- Logo app -->
+        <ImageView
+            android:id="@+id/logoApp"
+            android:layout_width="161dp"
+            android:layout_height="131dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_movie"
+            app:tint="#FFFFFF" />
+
+        <!-- Spinner chọn phòng -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Chọn phòng"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp" />
+
+        <Spinner
+            android:id="@+id/spinnerRoom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="#888888"
+            android:popupBackground="#2F4281" />
+
+        <!-- Text hiển thị info phòng -->
+        <TextView
+            android:id="@+id/textRoomInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Hello, đây là thông tin phòng"
+            android:textColor="#CAA1A1"
+            android:textSize="20sp" />
+
+        <!-- Thông tin khác -->
+        <EditText
+            android:id="@+id/editTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#888888"
+            android:hint="Giờ chiếu (HH:mm:ss)"
+            android:focusable="false"
+            android:inputType="time"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#888888" />
+
+        <EditText
+            android:id="@+id/editDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#888888"
+            android:hint="Ngày chiếu (YYYY-MM-DD)"
+            android:focusable="false"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#888888" />
+
+        <EditText
+            android:id="@+id/editPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#888888"
+            android:hint="Giá vé"
+            android:inputType="number"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#888888" />
+
+        <EditText
+            android:id="@+id/editSeats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#888888"
+            android:hint="Số chỗ ngồi"
+            android:inputType="number"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#888888" />
+
+        <!-- Nút tạo -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="#888888"
+                android:text="Hủy"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btnCreate"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#3E5CAD"
+                android:text="Tạo lịch"
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
