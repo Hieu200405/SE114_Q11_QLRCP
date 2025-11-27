@@ -24,7 +24,7 @@
 
   <!-- TIÊU ĐỀ -->
   <TextView
-      android:text="Chào mừng bạn tới với CineStream"
+      android:text="Chào mừng bạn tới với TOTO CINEMA"
       android:textSize="22sp"
       android:textStyle="bold"
       android:textColor="#FFFFFF"
