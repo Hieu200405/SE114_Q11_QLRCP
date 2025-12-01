@@ -87,6 +87,7 @@ Then import data from the provided backup_data.sql file.
 
 ```bash
 cd backend_python
+.\venv\Scripts\activate
 python run.py
 ```
 
