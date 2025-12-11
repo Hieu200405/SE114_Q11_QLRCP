@@ -1,0 +1,14 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- MoMo pink background circle -->
+    <path
+        android:fillColor="#D82D8B"
+        android:pathData="M24,24m-22,0a22,22 0,1 1,44 0a22,22 0,1 1,-44 0"/>
+    <!-- M letter -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M14,32V16h4l6,9 6,-9h4v16h-4V22l-6,9 -6,-9v10z"/>
+</vector>

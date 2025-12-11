@@ -8,6 +8,10 @@
 
     <!-- Quyền truy cập Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
+    
+    <!-- Quyền query packages để mở apps ngân hàng (Android 11+) -->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
 
     <!--
       Quyền truy cập bộ nhớ cho các phiên bản Android khác nhau:
@@ -23,6 +27,43 @@
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
+        
+    <!-- Khai báo các packages cần query (thay thế cho QUERY_ALL_PACKAGES) -->
+    <queries>
+        <!-- Banking apps -->
+        <package android:name="com.mservice.momotransfer" />
+        <package android:name="vn.com.vng.zalopay" />
+        <package android:name="com.viettel.viettelpost" />
+        <package android:name="com.vnpay.ebanking" />
+        <package android:name="com.VCB" />
+        <package android:name="com.mbmobile" />
+        
+        <!-- Intent schemes -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="momo" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="zalopay" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="viettelmoney" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="vnpayapp" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="vcbdigibank" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="mbmobile" />
+        </intent>
+    </queries>
 
     <application
         android:allowBackup="true"
@@ -63,6 +104,11 @@
         <activity
             android:name=".activities.UserShowSeatsActivity"
             android:exported="false" />
+        <activity
+            android:name=".activities.PaymentActivity"
+            android:exported="false"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.UserMainActivity"
             android:exported="false" />

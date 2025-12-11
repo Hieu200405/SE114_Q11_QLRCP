@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -23,13 +25,17 @@ import com.example.myapplication.adapters.SeatAdapter;
 import com.example.myapplication.models.BookingTicketRequest;
 import com.example.myapplication.models.BookingTicketResponse;
 import com.example.myapplication.models.BroadcastFirm;
+import com.example.myapplication.models.CreatePaymentRequest;
+import com.example.myapplication.models.CreatePaymentResponse;
 import com.example.myapplication.models.Seat;
 import com.example.myapplication.network.ApiBroadcastService;
 import com.example.myapplication.network.ApiClient;
+import com.example.myapplication.network.ApiPaymentService;
 import com.example.myapplication.network.ApiTicketService;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -38,14 +44,22 @@ import retrofit2.Response;
 
 public class UserShowSeatsActivity extends AppCompatActivity {
 
+    private static final String TAG = "UserShowSeatsActivity";
+    
     private String accessToken;
     private RecyclerView recyclerViewSeats;
     private SeatAdapter seatAdapter;
     private List<Seat> seatList;
-    private BookingTicketRequest bookingTicketRequest; // Assuming you have a BookingTicketRequest model
+    private BookingTicketRequest bookingTicketRequest;
+    
+    // Thêm biến để lưu giá vé (có thể lấy từ API hoặc Intent)
+    private int ticketPrice = 75000; // Giá vé mặc định 75,000 VND
 
-    Button continueButton; // Assuming you have a continue button in your layout
-    Button CancelButton; // Assuming you have a cancel button in your layout
+    Button continueButton;
+    Button CancelButton;
+    
+    // ActivityResultLauncher để nhận kết quả từ PaymentActivity
+    private ActivityResultLauncher<Intent> paymentLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +71,8 @@ public class UserShowSeatsActivity extends AppCompatActivity {
         accessToken =  prefs.getString("access_token", null);
         Log.d("TOKEN", "Token: " + accessToken);
 
-
+        // Khởi tạo payment launcher
+        initPaymentLauncher();
 
         CancelButton = findViewById(R.id.btnCancel);
         Seat selectedSeat = null; // Initialize the selected seat object
@@ -73,8 +88,13 @@ public class UserShowSeatsActivity extends AppCompatActivity {
         seatAdapter = new SeatAdapter(seatList, selectedSeat);
         recyclerViewSeats.setAdapter(seatAdapter);
 
-//  2. Load seats from api
+        //  2. Load seats from api
         int BroadcastId = getIntent().getIntExtra("broadcastId", -1);
+        // Try to get firmId (passed from UserShowListBroadcast) so we can fetch broadcast price
+        int firmId = getIntent().getIntExtra("firmId", -1);
+        if (firmId != -1) {
+            loadBroadcastPrice(firmId, BroadcastId);
+        }
         Log.e("UserShowSeatsActivity", "Received broadcast ID: " + BroadcastId);
         if (BroadcastId == -1) {
             Toast.makeText(this, "Lỗi mã lịch chiếu", Toast.LENGTH_SHORT).show();
@@ -126,6 +146,41 @@ public class UserShowSeatsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Load broadcasts for a firm and extract the price for the given broadcastId.
+     * If found, sets `ticketPrice` to the broadcast price (rounded to int).
+     */
+    private void loadBroadcastPrice(int firmId, int broadcastId) {
+        ApiBroadcastService apiBroadcastService = ApiClient.getRetrofit().create(ApiBroadcastService.class);
+        Call<List<BroadcastFirm>> call = apiBroadcastService.getBroadcastsByFirmId(firmId);
+
+        call.enqueue(new Callback<List<BroadcastFirm>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<BroadcastFirm>> call, @NonNull Response<List<BroadcastFirm>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<BroadcastFirm> broadcasts = response.body();
+                    for (BroadcastFirm b : broadcasts) {
+                        if (b != null && b.getID() == broadcastId) {
+                            // Use the Price field from the broadcast
+                            double price = b.getPrice();
+                            ticketPrice = (int) Math.round(price);
+                            Log.d(TAG, "Ticket price set from broadcast: " + ticketPrice);
+                            return;
+                        }
+                    }
+                    Log.w(TAG, "Broadcast with id " + broadcastId + " not found in firm list; using default price " + ticketPrice);
+                } else {
+                    Log.e(TAG, "Failed to load broadcasts to get price: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<BroadcastFirm>> call, Throwable t) {
+                Log.e(TAG, "Error loading broadcasts for price: " + t.getMessage());
+            }
+        });
+    }
+
 
     void setCancelButton(){
         CancelButton.setOnClickListener(v -> {
@@ -145,18 +200,129 @@ public class UserShowSeatsActivity extends AppCompatActivity {
             }
             Seat seatSelected = seatAdapter.getSelectedSeat();
 
-            // Assuming you have a method to handle booking logic
+            // Lưu tạm thông tin đặt vé
             bookingTicketRequest = new BookingTicketRequest(broadcastId, seatSelected.getId());
             bookingTicketRequest.setSeatId(seatAdapter.getSelectedSeat().getId());
-            // Add other necessary fields to bookingTicketRequest
 
-            // Call your booking API here
-            bookTicketByApi(bookingTicketRequest);
-
+            // Bắt đầu luồng thanh toán PayOS thay vì đặt vé trực tiếp
+            initiatePayment(broadcastId, seatSelected);
         });
     }
 
+    /**
+     * Khởi tạo ActivityResultLauncher để nhận kết quả từ PaymentActivity
+     */
+    private void initPaymentLauncher() {
+        paymentLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == PaymentActivity.RESULT_PAYMENT_SUCCESS) {
+                    // Thanh toán thành công - vé đã được tạo trong PaymentActivity
+                    Log.d(TAG, "Payment successful");
+                    loadSeatsFromApi(bookingTicketRequest.getBroadcastId());
+                    // Có thể đóng activity hoặc cập nhật UI
+                } else if (result.getResultCode() == PaymentActivity.RESULT_PAYMENT_CANCELLED) {
+                    Log.d(TAG, "Payment cancelled");
+                    Toast.makeText(this, "Thanh toán đã bị hủy", Toast.LENGTH_SHORT).show();
+                } else if (result.getResultCode() == PaymentActivity.RESULT_PAYMENT_FAILED) {
+                    Log.d(TAG, "Payment failed");
+                    String errorMessage = "Thanh toán thất bại";
+                    if (result.getData() != null) {
+                        errorMessage = result.getData().getStringExtra("error_message");
+                    }
+                    Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+                }
+            }
+        );
+    }
 
+    /**
+     * Bắt đầu luồng thanh toán PayOS
+     * @param broadcastId ID lịch chiếu
+     * @param seat Ghế đã chọn
+     */
+    private void initiatePayment(int broadcastId, Seat seat) {
+        // Hiển thị loading
+        continueButton.setEnabled(false);
+        continueButton.setText("Đang xử lý...");
+
+        // Tạo request thanh toán
+        CreatePaymentRequest paymentRequest = new CreatePaymentRequest.Builder()
+                .amount(ticketPrice)
+                .description("VE" + broadcastId)
+                .broadcastId(broadcastId)
+                .seatId(seat.getId())
+                .items(Collections.singletonList(
+                    new CreatePaymentRequest.PaymentItem("Ve xem phim", 1, ticketPrice)
+                ))
+                .build();
+
+        // Gọi API tạo link thanh toán
+        ApiPaymentService apiPaymentService = ApiClient.getRetrofit().create(ApiPaymentService.class);
+        Call<CreatePaymentResponse> call = apiPaymentService.createPayment(
+                "Bearer " + accessToken, paymentRequest);
+
+        call.enqueue(new Callback<CreatePaymentResponse>() {
+            @Override
+            public void onResponse(Call<CreatePaymentResponse> call, Response<CreatePaymentResponse> response) {
+                continueButton.setEnabled(true);
+                continueButton.setText("Tiếp tục");
+
+                if (response.isSuccessful() && response.body() != null) {
+                    CreatePaymentResponse paymentResponse = response.body();
+                    
+                    if (paymentResponse.isSuccess() && paymentResponse.getData() != null) {
+                        String checkoutUrl = paymentResponse.getData().getCheckoutUrl();
+                        long orderCode = paymentResponse.getData().getOrderCode();
+                        int amount = paymentResponse.getData().getAmount();
+
+                        Log.d(TAG, "Payment link created: " + checkoutUrl);
+                        Log.d(TAG, "Order code: " + orderCode);
+
+                        // Mở PaymentActivity với WebView
+                        Intent paymentIntent = new Intent(UserShowSeatsActivity.this, PaymentActivity.class);
+                        paymentIntent.putExtra(PaymentActivity.EXTRA_CHECKOUT_URL, checkoutUrl);
+                        paymentIntent.putExtra(PaymentActivity.EXTRA_ORDER_CODE, orderCode);
+                        paymentIntent.putExtra(PaymentActivity.EXTRA_AMOUNT, amount);
+                        paymentIntent.putExtra(PaymentActivity.EXTRA_BROADCAST_ID, broadcastId);
+                        paymentIntent.putExtra(PaymentActivity.EXTRA_SEAT_ID, seat.getId());
+                        
+                        paymentLauncher.launch(paymentIntent);
+                    } else {
+                        String error = paymentResponse.getDesc() != null ? 
+                                paymentResponse.getDesc() : "Không thể tạo link thanh toán";
+                        Toast.makeText(UserShowSeatsActivity.this, error, Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "Payment creation failed: " + error);
+                    }
+                } else {
+                    try {
+                        String errorBody = response.errorBody() != null ? 
+                                response.errorBody().string() : "Unknown error";
+                        Log.e(TAG, "Payment API error: " + errorBody);
+                        Toast.makeText(UserShowSeatsActivity.this, 
+                                "Lỗi tạo thanh toán: " + response.code(), Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreatePaymentResponse> call, Throwable t) {
+                continueButton.setEnabled(true);
+                continueButton.setText("Tiếp tục");
+                Log.e(TAG, "Payment API call failed: " + t.getMessage());
+                Toast.makeText(UserShowSeatsActivity.this, 
+                        "Lỗi kết nối. Vui lòng thử lại.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * Phương thức đặt vé trực tiếp (giữ lại cho trường hợp không dùng PayOS)
+     * @deprecated Sử dụng initiatePayment() thay thế để thanh toán qua PayOS
+     */
+    @Deprecated
     private void bookTicketByApi(BookingTicketRequest bookingTicketRequest) {
 
         ApiTicketService apiTicketService = ApiClient.getRetrofit().create(ApiTicketService.class);

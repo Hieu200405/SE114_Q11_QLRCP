@@ -1,0 +1,14 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- VNPay red background circle -->
+    <path
+        android:fillColor="#E31837"
+        android:pathData="M24,24m-22,0a22,22 0,1 1,44 0a22,22 0,1 1,-44 0"/>
+    <!-- VN text -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M10,16l5,12 5,-12h3l-6.5,16h-3L7,16zM26,16h3l4,10V16h3v16h-3l-4,-10v10h-3z"/>
+</vector>

@@ -1,0 +1,14 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- ZaloPay blue background circle -->
+    <path
+        android:fillColor="#0068FF"
+        android:pathData="M24,24m-22,0a22,22 0,1 1,44 0a22,22 0,1 1,-44 0"/>
+    <!-- Z letter -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M14,16h16v4l-10,8h10v4H14v-4l10,-8H14z"/>
+</vector>

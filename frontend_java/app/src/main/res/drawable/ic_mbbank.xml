@@ -1,0 +1,14 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- MB Bank blue/purple background circle -->
+    <path
+        android:fillColor="#1E4388"
+        android:pathData="M24,24m-22,0a22,22 0,1 1,44 0a22,22 0,1 1,-44 0"/>
+    <!-- MB text -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M8,32V16h4l4,8 4,-8h4v16h-3V22l-5,10h-0l-5,-10v10zM27,16h6c2,0 3.5,1.5 3.5,3.5v0c0,1.5-0.8,2.5-2,3 1.5,0.5 2.5,1.8 2.5,3.5v0c0,2-1.5,4-4,4h-6zM30,22h2c0.8,0 1.3,-0.5 1.3,-1.5S32.8,19 32,19h-2zM30,28h2.5c1,0 1.5,-0.7 1.5,-1.5s-0.5,-1.5-1.5,-1.5H30z"/>
+</vector>
