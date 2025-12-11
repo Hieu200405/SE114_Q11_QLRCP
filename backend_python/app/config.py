@@ -8,7 +8,7 @@ print("DB_NAME =", os.getenv("DB_NAME"))
 
 password = quote_plus(os.getenv("DB_PASSWORD"))
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-SQLALCHEMY_DATABASE_URI = f'mysql+pymysql://{os.getenv("DB_USER")}:{password}@{os.getenv("DB_HOST")}:{os.getenv("DB_PORT", "3306")}/{os.getenv("DB_NAME")}?charset=utf8mb4'
+SQLALCHEMY_DATABASE_URI = f'mysql+pymysql://{os.getenv("DB_USER")}:{password}@{os.getenv("DB_HOST")}:{os.getenv("DB_PORT", "3306")}/{os.getenv("DB_NAME")}?charset=utf8mb4&ssl_ca=&ssl_verify_cert=false&ssl_verify_identity=false'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 JWT_SECRET_KEY = os.environ.get('KEY')  # Khóa bí mật của JWT
 JWT_ACCESS_TOKEN_EXPIRES = 360000  # Thời gian sống của access token (100 giờ)
