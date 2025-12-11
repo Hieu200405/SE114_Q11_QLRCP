@@ -1,7 +1,7 @@
-# CINESTREAM - App booking cinema ticket
+# TOTO CINEMA - App booking cinema ticket
 *A cross-platform cinema-ticket booking system*
 
-CINESTREAM lets moviegoers browse showtimes, choose seats and pay securely from an Android app while cinema staff manage films, schedules and sales via an admin portal.  
+TOTO CINEMA lets moviegoers browse showtimes, choose seats and pay securely from an Android app while cinema staff manage films, schedules and sales via an admin portal.  
 The solution is split into a **Python + Flask REST API** (with MySQL) and a **native Android (Java)** client, so you can run the server anywhere and point multiple apps to it.
 
 ---
@@ -87,6 +87,7 @@ Then import data from the provided backup_data.sql file.
 
 ```bash
 cd backend_python
+.\venv\Scripts\activate
 python run.py
 ```
 

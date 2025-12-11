@@ -29,7 +29,7 @@
             android:fontFamily="@font/ubuntu_bold"
             android:gravity="center_vertical"
             android:maxLines="1"
-            android:text="  CineStream"
+            android:text="  TOTO CINEMA"
             android:textColor="@color/colorTextIcons"
             android:textSize="@dimen/_14sdp"
             app:drawableStartCompat="@drawable/ic_movie"

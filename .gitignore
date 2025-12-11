@@ -1,0 +1,32 @@
+-# Global
+.DS_Store
+Thumbs.db
+
+# Python backend
+backend_python/venv/
+venv/
+__pycache__/
+*.pyc
+.env
+
+# Flask / migrations artifacts
+instance/
+migrations/
+
+# Android / Gradle
+frontend_java/.gradle/
+frontend_java/.idea/
+frontend_java/local.properties
+frontend_java/app/build/
+frontend_java/build/
+frontend_java/*.iml
+
+# IDEs / tooling
+.vscode/
+.idea/
+*.iml
+
+# Logs & reports
+*.log
+frontend_java/app/build/reports/
+
