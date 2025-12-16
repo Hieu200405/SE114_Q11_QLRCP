@@ -48,7 +48,7 @@ public class UserDetailFirm extends  AppCompatActivity {
     @Override
     protected void onCreate(android.os.Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.user_detail_firm); // Ensure you have a layout file named user_detail_firm.xml
+        setContentView(R.layout.user_detail_film); // Ensure you have a layout file named user_detail_film.xml
         accessToken = getSharedPreferences("MyAppPrefs", MODE_PRIVATE).getString("access_token", null);
         if (accessToken == null) {
             Toast.makeText(this, "Access token not found", Toast.LENGTH_SHORT).show();
@@ -58,7 +58,7 @@ public class UserDetailFirm extends  AppCompatActivity {
 
         viewPager = findViewById(R.id.sliderViewPager); // Initialize your ViewPager2 here
         imageBack = findViewById(R.id.imageBack); // Initialize your back button here
-        imageFirmShow = findViewById(R.id.imageFirmShow); // Initialize your firm image view here
+        imageFirmShow = findViewById(R.id.imageFilmShow); // Initialize your firm image view here
         nameFirmTextView = findViewById(R.id.textName); // Initialize your firm name TextView here
         descriptionFirmTextView = findViewById(R.id.textDescription); // Initialize your firm description TextView here
         startedFirmTextView = findViewById(R.id.textStarted); // Initialize your firm start date TextView here
@@ -97,7 +97,7 @@ public class UserDetailFirm extends  AppCompatActivity {
         // This could involve making a network request to fetch firm data
         // and then updating the UI with that data.
         ApiFilmService apiFilmService = ApiClient.getRetrofit().create(ApiFilmService.class);
-        Call<DetailFilm> call = apiFilmService.getFirmById("Bearer "+ accessToken, id); // Replace 1 with the actual firm ID you want to fetch
+        Call<DetailFilm> call = apiFilmService.getFilmById("Bearer "+ accessToken, id); // Replace 1 with the actual firm ID you want to fetch
 
         call.enqueue(new Callback<DetailFilm>() {
             @SuppressLint("SetTextI18n")

@@ -329,7 +329,7 @@ public class AdminActivityCreateNewFirm extends AppCompatActivity {
 
     private void callApiCreateFirm(FilmRequest filmRequest) {
         ApiFilmService apiFilmService = ApiClient.getRetrofit().create(ApiFilmService.class);
-        retrofit2.Call<FilmShow> call = apiFilmService.createFirm("Bearer " + accessToken, filmRequest);
+        retrofit2.Call<FilmShow> call = apiFilmService.createFilm("Bearer " + accessToken, filmRequest);
         call.enqueue(new retrofit2.Callback<FilmShow>() {
             @Override
             public void onResponse(retrofit2.Call<FilmShow> call, retrofit2.Response<FilmShow> response) {
