@@ -28,18 +28,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserDetailFirm extends  AppCompatActivity {
+public class UserDetailFilm extends  AppCompatActivity {
     // This class is currently empty, but you can add methods and properties as needed
-    // to handle user details related to firms.
+    // to handle user details related to films.
     String accessToken;
     private DetailFilm detailFilm;
     private ImageFilmAdapter imageAdapter;
     private ViewPager2 viewPager;
     ImageView imageBack; // Assuming you have a back button in your layout
-    ImageView imageFirmShow;
-    TextView nameFirmTextView;
-    TextView descriptionFirmTextView;
-    TextView startedFirmTextView;
+    ImageView imageFilmShow;
+    TextView nameFilmTextView;
+    TextView descriptionFilmTextView;
+    TextView startedFilmTextView;
     TextView textRating;
     TextView textReadMore;
     TextView textRuntime;
@@ -58,46 +58,46 @@ public class UserDetailFirm extends  AppCompatActivity {
 
         viewPager = findViewById(R.id.sliderViewPager); // Initialize your ViewPager2 here
         imageBack = findViewById(R.id.imageBack); // Initialize your back button here
-        imageFirmShow = findViewById(R.id.imageFilmShow); // Initialize your firm image view here
-        nameFirmTextView = findViewById(R.id.textName); // Initialize your firm name TextView here
-        descriptionFirmTextView = findViewById(R.id.textDescription); // Initialize your firm description TextView here
-        startedFirmTextView = findViewById(R.id.textStarted); // Initialize your firm start date TextView here
+        imageFilmShow = findViewById(R.id.imageFilmShow); // Initialize your film image view here
+        nameFilmTextView = findViewById(R.id.textName); // Initialize your film name TextView here
+        descriptionFilmTextView = findViewById(R.id.textDescription); // Initialize your film description TextView here
+        startedFilmTextView = findViewById(R.id.textStarted); // Initialize your film start date TextView here
         textRating = findViewById(R.id.textRating);
         textReadMore = findViewById(R.id.textReadMore); // Initialize your read more TextView here
         textRuntime = findViewById(R.id.textRuntime); // Initialize your runtime TextView here
         btnBookTicket = findViewById(R.id.btnBookTicket); // Initialize your book ticket button here
 
-        // get the firm ID from the intent
-        int firmId = getIntent().getIntExtra("firm_id", -1);
+        // get the film ID from the intent
+        int filmId = getIntent().getIntExtra("film_id", -1);
 
 
         // Set up listeners for the back button and read more description
         ListenerSetupBackButton();
         ListenerReadMoreDescription();
-        ListenerBookTicket(firmId); // Set up listener for booking ticket
+        ListenerBookTicket(filmId); // Set up listener for booking ticket
 
-         // Log the received firm ID for debugging
+         // Log the received film ID for debugging
 
 
 
         // Initialize your views and set up any necessary data binding or listeners here
-         // Get the firm ID from the intent
-        if (firmId != -1) {
-            loadFirmDetail(String.valueOf(firmId)); // Load firm details using the ID
+         // Get the film ID from the intent
+        if (filmId != -1) {
+            loadFilmDetail(String.valueOf(filmId)); // Load film details using the ID
         } else {
             Toast.makeText(this, "Lỗi Mã Phim", Toast.LENGTH_SHORT).show();
-            Log.e("UserDetailFirm", "Invalid firm ID received");
+            Log.e("UserDetailFilm", "Invalid film ID received");
             finish();
         }
 
     }
 
-    private void loadFirmDetail(String id) {
-        // Implement the logic to load firm details here
-        // This could involve making a network request to fetch firm data
+    private void loadFilmDetail(String id) {
+        // Implement the logic to load film details here
+        // This could involve making a network request to fetch film data
         // and then updating the UI with that data.
         ApiFilmService apiFilmService = ApiClient.getRetrofit().create(ApiFilmService.class);
-        Call<DetailFilm> call = apiFilmService.getFilmById("Bearer "+ accessToken, id); // Replace 1 with the actual firm ID you want to fetch
+        Call<DetailFilm> call = apiFilmService.getFilmById("Bearer "+ accessToken, id); // Replace 1 with the actual film ID you want to fetch
 
         call.enqueue(new Callback<DetailFilm>() {
             @SuppressLint("SetTextI18n")
@@ -109,24 +109,24 @@ public class UserDetailFirm extends  AppCompatActivity {
                     List<ImageFilm> imageArray = detailFilm.getImages();
                     imageAdapter = new ImageFilmAdapter(imageArray);
                     viewPager.setAdapter(imageAdapter);
-                    Glide.with(imageFirmShow)
+                    Glide.with(imageFilmShow)
                             .load(detailFilm.getThumbnailPath())
                             .error(R.drawable.default_img) // Replace with your default image resource
-                            .into(imageFirmShow);
-                    nameFirmTextView.setText(detailFilm.getName());
-                    descriptionFirmTextView.setText(detailFilm.getDescription());
-                    startedFirmTextView.setText("Date on: "+ detailFilm.getStartDate());
+                            .into(imageFilmShow);
+                    nameFilmTextView.setText(detailFilm.getName());
+                    descriptionFilmTextView.setText(detailFilm.getDescription());
+                    startedFilmTextView.setText("Date on: "+ detailFilm.getStartDate());
                     textRating.setText("Rating: " + detailFilm.getRating());
                     textRuntime.setText(detailFilm.getRuntime() + " min");
                     Log.e("API_RESPONSE", "Response code: " + response.code());
                 } else {
-                    Toast.makeText(UserDetailFirm.this, "Không lấy được dữ liệu", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserDetailFilm.this, "Không lấy được dữ liệu", Toast.LENGTH_SHORT).show();
                 }
 
             }
 
             public void onFailure(Call<DetailFilm> call, Throwable t) {
-                Toast.makeText(UserDetailFirm.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserDetailFilm.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("API_ERROR", Objects.requireNonNull(t.getMessage()));
             }
         });
@@ -141,7 +141,7 @@ public class UserDetailFirm extends  AppCompatActivity {
     }
 
     private void ListenerReadMoreDescription() {
-        // Implement the logic to show more description or details about the firm
+        // Implement the logic to show more description or details about the film
         // This could involve expanding a TextView or navigating to another screen
         Toast.makeText(this, "Read more clicked", Toast.LENGTH_SHORT).show();
         textReadMore.setOnClickListener(new View.OnClickListener() {
@@ -151,11 +151,11 @@ public class UserDetailFirm extends  AppCompatActivity {
             public void onClick(View v) {
                 if (isExpanded) {
                     // Thu gọn lại
-                    descriptionFirmTextView.setMaxLines(4);
+                    descriptionFilmTextView.setMaxLines(4);
                     textReadMore.setText(R.string.read_more);
                 } else {
                     // Mở rộng
-                    descriptionFirmTextView.setMaxLines(Integer.MAX_VALUE);
+                    descriptionFilmTextView.setMaxLines(Integer.MAX_VALUE);
                     textReadMore.setText(R.string.read_less); // Thêm string này trong strings.xml
                 }
                 isExpanded = !isExpanded;
@@ -164,14 +164,14 @@ public class UserDetailFirm extends  AppCompatActivity {
     }
 
 
-    private void ListenerBookTicket(Integer firmId) {
-        // Implement the logic to handle booking tickets for the firm
+    private void ListenerBookTicket(Integer filmId) {
+        // Implement the logic to handle booking tickets for the film
         // This could involve navigating to a booking screen or showing a dialog
         btnBookTicket.setOnClickListener(v -> {
-            Toast.makeText(UserDetailFirm.this, "Đặt vé cho phim " + detailFilm.getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(UserDetailFilm.this, "Đặt vé cho phim " + detailFilm.getName(), Toast.LENGTH_SHORT).show();
             // Add your booking logic here
-            Intent intent = new Intent(UserDetailFirm.this, UserShowListBroadcast.class); // Replace with your actual Booking Activity
-            intent.putExtra("firmId", firmId);
+            Intent intent = new Intent(UserDetailFilm.this, UserShowListBroadcast.class); // Replace with your actual Booking Activity
+            intent.putExtra("filmId", filmId);
             startActivity(intent);
         });
     }

@@ -51,7 +51,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 
-public class AdminActivityCreateNewFirm extends AppCompatActivity {
+public class AdminActivityCreateNewFilm extends AppCompatActivity {
     String accessToken;
     private ActivityResultLauncher<String> pickImageLauncher;
     private ActivityResultLauncher<String> pickCoverImageLauncher;
@@ -61,19 +61,19 @@ public class AdminActivityCreateNewFirm extends AppCompatActivity {
     private String ThumbnailImageUrl;
     private List<String> coverImageUrls = new ArrayList<>();
     ImageView imageThumbnail, imageBack;
-    Button buttonPickThumbnail, buttonCreateFirm;
+    Button buttonPickThumbnail, buttonCreateFilm;
     RecyclerView recyclerCoverImages;
     CoverImageAdapter coverImageAdapter;
     ArrayList<Uri> coverImageUris = new ArrayList<>();
-    EditText editFirmName, editDescription, editRunningTime, editRating, editRatingCount, editStartDate, editEndDate;
+    EditText editFilmName, editDescription, editRunningTime, editRating, editRatingCount, editStartDate, editEndDate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_activity_create_firm);
+        setContentView(R.layout.admin_activity_create_film);
         accessToken = getSharedPreferences("MyAppPrefs", MODE_PRIVATE).getString("access_token", null);
         setElementById();
         // Initialize UI components and set up listeners here
-        // For example, you might want to set up a button to create a new firm
+        // For example, you might want to set up a button to create a new film
 
         pickImageLauncher = registerForActivityResult(
                 new ActivityResultContracts.GetContent(),
@@ -118,7 +118,7 @@ public class AdminActivityCreateNewFirm extends AppCompatActivity {
         imageThumbnail = findViewById(R.id.imageThumbnail);
         buttonPickThumbnail = findViewById(R.id.buttonPickThumbnail);
         recyclerCoverImages = findViewById(R.id.recyclerCoverImages);
-        editFirmName = findViewById(R.id.editFilmName);
+        editFilmName = findViewById(R.id.editFilmName);
         editDescription = findViewById(R.id.editDescription);
         editRunningTime = findViewById(R.id.editRunningTime);
         editRating = findViewById(R.id.editRating);
@@ -126,15 +126,15 @@ public class AdminActivityCreateNewFirm extends AppCompatActivity {
         editStartDate = findViewById(R.id.editStartDate);
         editEndDate = findViewById(R.id.editEndDate);
         imageBack = findViewById(R.id.imageBack);
-        buttonCreateFirm = findViewById(R.id.buttonCreateFirm);
+        buttonCreateFilm = findViewById(R.id.buttonCreateFilm);
 
         imageBack.setOnClickListener(v -> {
             finish();
          });
 
-        buttonCreateFirm.setOnClickListener(
+        buttonCreateFilm.setOnClickListener(
                 v -> {
-                    CreateFirm();
+                    CreateFilm();
                 }
         );
 
@@ -249,7 +249,7 @@ public class AdminActivityCreateNewFirm extends AppCompatActivity {
     }
 
 
-    void CreateFirm(){
+    void CreateFilm(){
         try {
             int totalUploads = coverImageUris.size() + 1; // +1 for thumbnail
             CountDownLatch latch = new CountDownLatch(totalUploads);
@@ -267,8 +267,8 @@ public class AdminActivityCreateNewFirm extends AppCompatActivity {
 
                     // Sau khi tất cả upload xong
                     runOnUiThread(() -> {
-                        // Tạo firm request
-                        String name = editFirmName.getText().toString();
+                        // Tạo film request
+                        String name = editFilmName.getText().toString();
                         String description = editDescription.getText().toString();
                         String startDate = editStartDate.getText().toString();
                         String endDate = editEndDate.getText().toString();
@@ -277,7 +277,7 @@ public class AdminActivityCreateNewFirm extends AppCompatActivity {
                         String ratingCountStr = (editRatingCount.getText().toString());
 
                         if (!checkValidInput(name, description, runningTimeStr, ratingStr, ratingCountStr, startDate, endDate)) {
-                            return; // nếu không hợp lệ thì không tạo firm
+                            return; // nếu không hợp lệ thì không tạo film
                         }
 
                         int runningTime = Integer.parseInt(runningTimeStr);
@@ -307,7 +307,7 @@ public class AdminActivityCreateNewFirm extends AppCompatActivity {
                                 runningTime,
                                 coverImageUrls
                         );
-                        callApiCreateFirm(
+                        callApiCreateFilm(
                                 filmRequest
                         );
 
@@ -327,7 +327,7 @@ public class AdminActivityCreateNewFirm extends AppCompatActivity {
     }
 
 
-    private void callApiCreateFirm(FilmRequest filmRequest) {
+    private void callApiCreateFilm(FilmRequest filmRequest) {
         ApiFilmService apiFilmService = ApiClient.getRetrofit().create(ApiFilmService.class);
         retrofit2.Call<FilmShow> call = apiFilmService.createFilm("Bearer " + accessToken, filmRequest);
         call.enqueue(new retrofit2.Callback<FilmShow>() {
@@ -335,19 +335,19 @@ public class AdminActivityCreateNewFirm extends AppCompatActivity {
             public void onResponse(retrofit2.Call<FilmShow> call, retrofit2.Response<FilmShow> response) {
                 if (response.isSuccessful()) {
                     FilmShow filmShow = response.body();
-                    Toast.makeText(AdminActivityCreateNewFirm.this, "Tạo Phim Thành Công!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminActivityCreateNewFilm.this, "Tạo Phim Thành Công!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
-                    intent.putExtra("new_firm", filmShow);
+                    intent.putExtra("new_film", filmShow);
                     setResult(4, intent);
                     finish(); // Close the activity after successful creation
                 } else {
-                    Toast.makeText(AdminActivityCreateNewFirm.this, "Tạo Phim Thất Bại: " + response.message(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminActivityCreateNewFilm.this, "Tạo Phim Thất Bại: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(retrofit2.Call<FilmShow> call, Throwable t) {
-                Toast.makeText(AdminActivityCreateNewFirm.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AdminActivityCreateNewFilm.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

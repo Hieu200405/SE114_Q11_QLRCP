@@ -2,7 +2,6 @@ package com.example.myapplication.network;
 
 import com.example.myapplication.models.BroadcastFilm;
 import com.example.myapplication.models.BroadcastFilmRequest;
-import com.example.myapplication.models.BroadcastFilmRequest;
 import com.example.myapplication.models.Seat;
 import com.example.myapplication.models.StatusMessage;
 
@@ -18,14 +17,14 @@ import retrofit2.http.Path;
 
 public interface ApiBroadcastService {
 
-    @GET("broadcasts/firm/{id}")
-    Call<List<BroadcastFilm>> getBroadcastsByFirmId(@Path("id") int firmId);
+    @GET("broadcasts/film/{id}")
+    Call<List<BroadcastFilm>> getBroadcastsByFilmId(@Path("id") int filmId);
 
     @GET("broadcasts/seats/{id}")
     Call<List<Seat>> getSeatsByBroadcastId(@Path("id") int broadcastId);
 
     @POST("broadcasts/create")
-    Call<BroadcastFilm> createBroadcast(@Header("Authorization") String accessToken, @Body BroadcastFilmRequest broadcastFirmRequest);
+    Call<BroadcastFilm> createBroadcast(@Header("Authorization") String accessToken, @Body BroadcastFilmRequest broadcastFilmRequest);
 
 
     @DELETE("broadcasts/delete/{id}")

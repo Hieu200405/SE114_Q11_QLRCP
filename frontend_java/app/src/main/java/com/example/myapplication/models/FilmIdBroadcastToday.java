@@ -7,14 +7,14 @@ import java.util.List;
 
 /*
     {
-  "firm_ids": [
+  "film_ids": [
     10
   ]
 }
 
  */
 public class FilmIdBroadcastToday {
-    @SerializedName("firm_ids")
+    @SerializedName("film_ids")
     private List<Integer> filmIds;
     public FilmIdBroadcastToday(List<Integer> filmIds) {
         this.filmIds = filmIds;

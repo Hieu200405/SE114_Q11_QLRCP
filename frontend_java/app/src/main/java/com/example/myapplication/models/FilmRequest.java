@@ -5,8 +5,8 @@ import java.util.List;
 /*
 
 {
-    "name": "New Firm",
-    "description": "This is a new firm.",
+    "name": "New Film",
+    "description": "This is a new film.",
     "thumbnail": "http://example.com/thumbnail.jpg",
     "start_date": "2023-01-01",
     "end_date": "2023-12-31",

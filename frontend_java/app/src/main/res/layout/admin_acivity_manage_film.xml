@@ -76,7 +76,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/firmShowsRecyclerView"
+        android:id="@+id/filmShowsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
@@ -112,12 +112,12 @@
             app:tint="#888888" />
 
         <ImageView
-            android:id="@+id/imageManageFirm"
+            android:id="@+id/imageManageFilm"
             android:layout_width="0dp"
             android:layout_height="@dimen/_32sdp"
             android:layout_weight="1"
             android:padding="@dimen/_2sdp"
-            android:src="@drawable/ic_manage_firm"
+            android:src="@drawable/ic_manage_film"
             app:tint="@color/colorTextIcons" />
 
         <ImageView
@@ -152,7 +152,7 @@
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/buttonAddFirm"
+        android:id="@+id/buttonAddFilm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_16sdp"

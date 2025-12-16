@@ -38,7 +38,7 @@ public class AdminActivityManageUser extends AppCompatActivity {
 
     int EDIT_USER_REQUEST_CODE = 1;
     String accessToken;
-    ImageView imageHome, imageManageFirm, imageManageUser, imageManageRoom, imageUser;
+    ImageView imageHome, imageManageFilm, imageManageUser, imageManageRoom, imageUser;
     FloatingActionButton fabAddUser;
     RecyclerView recyclerViewUser;
     UserAdapter userAdapter;
@@ -80,7 +80,7 @@ public class AdminActivityManageUser extends AppCompatActivity {
 
     private void setElemntById(){
         imageHome = findViewById(R.id.imageHome);
-        imageManageFirm = findViewById(R.id.imageManageFirm);
+        imageManageFilm = findViewById(R.id.imageManageFilm);
         imageManageUser = findViewById(R.id.imageManageUser);
         imageManageRoom = findViewById(R.id.imageManageRoom);
         imageUser = findViewById(R.id.imageProfile);
@@ -90,7 +90,7 @@ public class AdminActivityManageUser extends AppCompatActivity {
         imageHome.setOnClickListener(v -> {
             startActivity(new Intent(AdminActivityManageUser.this, AdminMainActivity.class));
         });
-        imageManageFirm.setOnClickListener(v -> {
+        imageManageFilm.setOnClickListener(v -> {
             startActivity(new Intent(AdminActivityManageUser.this, AdminActivityManageFilm.class));
         });
         imageManageRoom.setOnClickListener(v -> {

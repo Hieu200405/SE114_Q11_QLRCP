@@ -9,8 +9,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class BroadcastFilm implements Parcelable {
 
-    @SerializedName("FirmID")
-    private int FirmID;
+    @SerializedName("FilmID")
+    private int FilmID;
 
     @SerializedName("ID")
     private int ID;
@@ -31,7 +31,7 @@ public class BroadcastFilm implements Parcelable {
     private double Price;
 
     protected BroadcastFilm(Parcel in) {
-        FirmID = in.readInt();
+        FilmID = in.readInt();
         ID = in.readInt();
         DateBroadcast = in.readString();
         TimeBroadcast = in.readString();
@@ -52,7 +52,7 @@ public class BroadcastFilm implements Parcelable {
     };
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeInt(FirmID);
+        dest.writeInt(FilmID);
         dest.writeInt(ID);
         dest.writeString(DateBroadcast);
         dest.writeString(TimeBroadcast);
@@ -62,8 +62,8 @@ public class BroadcastFilm implements Parcelable {
     }
 
 //    getters
-    public int getFirmID() {
-        return FirmID;
+    public int getFilmID() {
+        return FilmID;
     }
 
     public int getID() {

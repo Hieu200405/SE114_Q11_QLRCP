@@ -104,7 +104,7 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:padding="12dp"
                 android:background="@drawable/bg_item_dark_cart">
-                <!-- Thông tin Firm -->
+                <!-- Thông tin Film -->
                 <EditText
                     android:id="@+id/editFilmName"
                     android:layout_width="match_parent"
@@ -172,7 +172,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Update Firm"
+                android:text="Update Film"
                 android:textColor="@color/white"
                 app:backgroundTint="@color/colorAccent"
                 app:cornerRadius="8dp"

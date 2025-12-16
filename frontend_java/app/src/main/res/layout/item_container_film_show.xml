@@ -15,7 +15,7 @@
         android:id="@+id/viewBackground"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/background_firm_show"
+        android:background="@drawable/background_film_show"
         android:paddingBottom="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="@id/textName" />
@@ -55,7 +55,7 @@
         android:layout_marginTop="@dimen/_3sdp"
         android:fontFamily="@font/ubuntu_regular"
         android:includeFontPadding="false"
-        android:text="Firm"
+        android:text="Film"
         android:textColor="@color/colorTextPrimary"
         android:textSize="@dimen/_12sdp"
         app:layout_constraintEnd_toEndOf="@id/textName"

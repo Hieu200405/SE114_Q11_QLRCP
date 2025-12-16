@@ -40,9 +40,9 @@ public class AdminActivityUpdateFilm extends AppCompatActivity {
     String accessToken;
     ImageView imageThumbnail, imageBack;
     private ActivityResultLauncher<String> pickImageLauncher;
-    int firmId;
-    Button buttonPickThumbnail, buttonUpdateFirm;
-    EditText editFirmName, editDescription, editRunningTime, editRating, editRatingCount;
+    int filmId;
+    Button buttonPickThumbnail, buttonUpdateFilm;
+    EditText editFilmName, editDescription, editRunningTime, editRating, editRatingCount;
     Uri thumbnailImageUri;
     String thumbnailImageUrl;
 
@@ -53,15 +53,15 @@ public class AdminActivityUpdateFilm extends AppCompatActivity {
         accessToken = getSharedPreferences("MyAppPrefs", MODE_PRIVATE).getString("access_token", null);
         setElementById();
         setPickImageLauncher();
-        firmId = getIntent().getIntExtra("firm_id", -1);
+        filmId = getIntent().getIntExtra("film_id", -1);
         String thumbnailUrl = getIntent().getStringExtra("thumbnail_url");
 
         /*
-        intent.putExtra("name", detailFirm.getName());
-            intent.putExtra("description", detailFirm.getDescription());
-            intent.putExtra("rating", detailFirm.getRating());
-            intent.putExtra("rating_count", detailFirm.getRatingCount());
-            intent.putExtra("runtime", detailFirm.getRuntime());
+        intent.putExtra("name", detailFilm.getName());
+            intent.putExtra("description", detailFilm.getDescription());
+            intent.putExtra("rating", detailFilm.getRating());
+            intent.putExtra("rating_count", detailFilm.getRatingCount());
+            intent.putExtra("runtime", detailFilm.getRuntime());
          */
         String name = getIntent().getStringExtra("name");
         String description = getIntent().getStringExtra("description");
@@ -75,7 +75,7 @@ public class AdminActivityUpdateFilm extends AppCompatActivity {
                         .load(thumbnailUrl)
                         .error(R.drawable.default_img)
                         .into(imageThumbnail);
-        editFirmName.setText(name);
+        editFilmName.setText(name);
         editDescription.setText(description);
         editRunningTime.setText(String.valueOf(runningTime));
         editRating.setText(String.valueOf(rating));
@@ -89,7 +89,7 @@ public class AdminActivityUpdateFilm extends AppCompatActivity {
             pickImageLauncher.launch("image/*");
         });
 
-        ListenUpdateFirmButton();
+        ListenUpdateFilmButton();
     }
 
 
@@ -97,8 +97,8 @@ public class AdminActivityUpdateFilm extends AppCompatActivity {
         imageThumbnail = findViewById(R.id.imageThumbnail);
         imageBack = findViewById(R.id.imageBack);
         buttonPickThumbnail = findViewById(R.id.buttonPickThumbnail);
-        buttonUpdateFirm = findViewById(R.id.buttonUpdateFilm);
-        editFirmName = findViewById(R.id.editFilmName);
+        buttonUpdateFilm = findViewById(R.id.buttonUpdateFilm);
+        editFilmName = findViewById(R.id.editFilmName);
         editDescription = findViewById(R.id.editDescription);
         editRunningTime = findViewById(R.id.editRunningTime);
         editRating = findViewById(R.id.editRating);
@@ -237,37 +237,37 @@ public class AdminActivityUpdateFilm extends AppCompatActivity {
         return  true;
     }
 
-    private void updateFirmByApi(FilmUpdateRequest filmUpdateRequest) {
+    private void updateFilmByApi(FilmUpdateRequest filmUpdateRequest) {
         ApiFilmService apiFilmService = ApiClient.getRetrofit().create(ApiFilmService.class);
-        retrofit2.Call<FilmShow> call = apiFilmService.updateFirm(accessToken, firmId, filmUpdateRequest);
+        retrofit2.Call<FilmShow> call = apiFilmService.updateFilm(accessToken, filmId, filmUpdateRequest);
         call.enqueue(
                 new retrofit2.Callback<FilmShow>() {
                     @Override
                     public void onResponse(retrofit2.Call<FilmShow> call, retrofit2.Response<FilmShow> response) {
                         if (response.isSuccessful()) {
-                            FilmShow updatedFirm = response.body();
+                            FilmShow updatedFilm = response.body();
                             Intent intent = new Intent();
-                            intent.putExtra("firmId", firmId);
+                            intent.putExtra("filmId", filmId);
                             setResult(RESULT_OK, intent);
                             finish();
                         } else {
                             Toast.makeText(AdminActivityUpdateFilm.this, "Cập nhật phim thất bại", Toast.LENGTH_SHORT).show();
-                            Log.e("UPDATE_FIRM", "Error: " + response.errorBody());
+                            Log.e("UPDATE_FILM", "Error: " + response.errorBody());
                         }
                     }
 
                     @Override
                     public void onFailure(retrofit2.Call<FilmShow> call, Throwable t) {
                         Toast.makeText(AdminActivityUpdateFilm.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.e("UPDATE_FIRM", "Failure: ", t);
+                        Log.e("UPDATE_FILM", "Failure: ", t);
                     }
                 }
         );
     }
 
-    private void ListenUpdateFirmButton(){
-        buttonUpdateFirm.setOnClickListener(v -> {
-            String name = editFirmName.getText().toString().trim();
+    private void ListenUpdateFilmButton(){
+        buttonUpdateFilm.setOnClickListener(v -> {
+            String name = editFilmName.getText().toString().trim();
             String description = editDescription.getText().toString().trim();
             String runningTime = editRunningTime.getText().toString().trim();
             String rating = editRating.getText().toString().trim();
@@ -289,7 +289,7 @@ public class AdminActivityUpdateFilm extends AppCompatActivity {
                             Integer.parseInt(ratingCount),
                             Integer.parseInt(runningTime)
                     );
-                    runOnUiThread(() -> updateFirmByApi(filmUpdateRequest));
+                    runOnUiThread(() -> updateFilmByApi(filmUpdateRequest));
                 }
 
                 @Override

@@ -36,7 +36,7 @@ import retrofit2.Response;
 public class UserMainActivity extends AppCompatActivity {
 
     String accessToken;
-    private RecyclerView FirmShowsRecyclerView;
+    private RecyclerView FilmShowsRecyclerView;
     private List <FilmShow> mListFilmShows;
     private FilmShowAdapter filmShowAdapter;
     ImageView imageHome;
@@ -49,7 +49,7 @@ public class UserMainActivity extends AppCompatActivity {
     EditText editSearch;
     ImageView imageBack;
     MaterialAutoCompleteTextView spinnerSort;
-    FilmIdBroadcastToday firmIdBroadcastToday = new FilmIdBroadcastToday(new ArrayList<>());
+    FilmIdBroadcastToday filmIdBroadcastToday = new FilmIdBroadcastToday(new ArrayList<>());
 
 
     @SuppressLint("MissingInflatedId")
@@ -68,22 +68,22 @@ public class UserMainActivity extends AppCompatActivity {
 
         accessToken = getSharedPreferences("MyAppPrefs", MODE_PRIVATE).getString("access_token", null);
 
-        FirmShowsRecyclerView = findViewById(R.id.firmShowsRecyclerView);
-        FirmShowsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        FilmShowsRecyclerView = findViewById(R.id.filmShowsRecyclerView);
+        FilmShowsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         mListFilmShows = new ArrayList<>();
         filmShowAdapter = new FilmShowAdapter(mListFilmShows);
 
-        FirmShowsRecyclerView.setAdapter(filmShowAdapter);
-        loadFirmsFromApi();
-        loadFirmIdsBroadcastToday();
+        FilmShowsRecyclerView.setAdapter(filmShowAdapter);
+        loadFilmsFromApi();
+        loadFilmIdsBroadcastToday();
 
 //        thiết  lập sự kiện adapter
         filmShowAdapter.setOnItemClickListener(new FilmShowAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(FilmShow filmShow, int position) {
-                Intent intent = new Intent(UserMainActivity.this, UserDetailFirm.class);
-                intent.putExtra("firm_id", filmShow.getId());
+                Intent intent = new Intent(UserMainActivity.this, UserDetailFilm.class);
+                intent.putExtra("film_id", filmShow.getId());
                 startActivity(intent);
             }
         });
@@ -97,7 +97,7 @@ public class UserMainActivity extends AppCompatActivity {
         ListenerSpinnerClick();
 
     }
-    private void loadFirmsFromApi() {
+    private void loadFilmsFromApi() {
         ApiFilmService apiFilmService = ApiClient.getRetrofit().create(ApiFilmService.class);
         Call<List<FilmShow>> call = apiFilmService.getAllFilms();
 
@@ -132,20 +132,20 @@ public class UserMainActivity extends AppCompatActivity {
         });
     }
 
-    private void loadFirmIdsBroadcastToday() {
+    private void loadFilmIdsBroadcastToday() {
         ApiFilmService apiFilmService = ApiClient.getRetrofit().create(ApiFilmService.class);
-        Call<FilmIdBroadcastToday> call = apiFilmService.getFirmIdsBroadcastToday("Bearer " + accessToken);
+        Call<FilmIdBroadcastToday> call = apiFilmService.getFilmIdsBroadcastToday("Bearer " + accessToken);
 
         call.enqueue(new Callback<FilmIdBroadcastToday>() {
             @Override
             public void onResponse(Call<FilmIdBroadcastToday> call, Response<FilmIdBroadcastToday> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    firmIdBroadcastToday = response.body();
-                    List<Integer> firmIds = firmIdBroadcastToday.getFilmIds();
-                    Log.d("UserMainActivity", "Firm IDs for today: " + firmIds);
+                    filmIdBroadcastToday = response.body();
+                    List<Integer> filmIds = filmIdBroadcastToday.getFilmIds();
+                    Log.d("UserMainActivity", "Film IDs for today: " + filmIds);
 
                 } else {
-                    Log.e("UserMainActivity List id", "Failed to get firm IDs for today");
+                    Log.e("UserMainActivity List id", "Failed to get film IDs for today");
                 }
             }
 
@@ -200,7 +200,7 @@ public class UserMainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                searchFirms(s.toString()); // Tự động gọi tìm kiếm
+                searchFilms(s.toString()); // Tự động gọi tìm kiếm
             }
 
             @Override
@@ -209,13 +209,13 @@ public class UserMainActivity extends AppCompatActivity {
 
     }
 
-    private void searchFirms(String query) {
-        Log.d("SearchFirms", "Searching for: " + query);
+    private void searchFilms(String query) {
+        Log.d("Searchls", "Searching for: " + query);
         List<FilmShow> filteredList = new ArrayList<>();
         if(cacheFilmShows != null) {
-            for (FilmShow firm : cacheFilmShows) {
-                if (firm.getName().toLowerCase().contains(query.toLowerCase())) {
-                    filteredList.add(firm);
+            for (FilmShow film : cacheFilmShows) {
+                if (film.getName().toLowerCase().contains(query.toLowerCase())) {
+                    filteredList.add(film);
                 }
             }
         }
@@ -281,9 +281,9 @@ public class UserMainActivity extends AppCompatActivity {
 
     void  loadTodayShows() {
         List<FilmShow> todayShows = new ArrayList<>();
-        for (FilmShow firm : cacheFilmShows) {
-            if (firmIdBroadcastToday.getFilmIds().contains(firm.getId())) {
-                todayShows.add(firm);
+        for (FilmShow film : cacheFilmShows) {
+            if (filmIdBroadcastToday.getFilmIds().contains(film.getId())) {
+                todayShows.add(film);
             }
         }
         mListFilmShows.clear();
@@ -293,19 +293,19 @@ public class UserMainActivity extends AppCompatActivity {
     void sortByRatingAsc() {
         mListFilmShows.clear();
         mListFilmShows.addAll(cacheFilmShows);
-        mListFilmShows.sort((firm1, firm2) -> Double.compare(firm1.getRating(), firm2.getRating()));
+        mListFilmShows.sort((film1, film2) -> Double.compare(film1.getRating(), film2.getRating()));
         filmShowAdapter.notifyDataSetChanged();
     }
     void sortByRatingDesc() {
         mListFilmShows.clear();
         mListFilmShows.addAll(cacheFilmShows);
-        mListFilmShows.sort((firm1, firm2) -> Double.compare(firm2.getRating(), firm1.getRating()));
+        mListFilmShows.sort((film1, film2) -> Double.compare(film2.getRating(), film1.getRating()));
         filmShowAdapter.notifyDataSetChanged();
     }
     void sortByName() {
         mListFilmShows.clear();
         mListFilmShows.addAll(cacheFilmShows);
-        mListFilmShows.sort((firm1, firm2) -> firm1.getName().compareToIgnoreCase(firm2.getName()));
+        mListFilmShows.sort((filmShow, filmShow1) -> filmShow.getName().compareToIgnoreCase(filmShow1.getName()));
         filmShowAdapter.notifyDataSetChanged();
     }
 

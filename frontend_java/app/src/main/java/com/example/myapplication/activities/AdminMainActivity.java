@@ -48,7 +48,7 @@ public class AdminMainActivity extends AppCompatActivity {
     LineChart lineChart;
     TextView tvRevenueToday, tvDateRange, tvTotalTickets;
     Button btnStartDate, btnEndDate;
-    ImageView imageHistory, imageHome, imageManageUser, imageManageFirm, imageProfile, imageRefresh, imageManageRoom;
+    ImageView imageHistory, imageHome, imageManageUser, imageManageFilm, imageProfile, imageRefresh, imageManageRoom;
 
 
 
@@ -97,7 +97,7 @@ public class AdminMainActivity extends AppCompatActivity {
                 }
         );
 
-        imageManageFirm.setOnClickListener(
+        imageManageFilm.setOnClickListener(
                 v -> {
                     startActivity(new android.content.Intent(AdminMainActivity.this, AdminActivityManageFilm.class));
                 }
@@ -149,7 +149,7 @@ public class AdminMainActivity extends AppCompatActivity {
     void setFindIdElement() {
         imageHistory = findViewById(R.id.imageHistory);
         imageHome = findViewById(R.id.imageHome);
-        imageManageFirm = findViewById(R.id.imageManageFirm);
+        imageManageFilm = findViewById(R.id.imageManageFilm);
         imageManageUser = findViewById(R.id.imageManageUser);
         imageProfile = findViewById(R.id.imageProfile);
         lineChart = findViewById(R.id.lineChart);

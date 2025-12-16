@@ -86,10 +86,10 @@ public class UserShowSeatsActivity extends AppCompatActivity {
 
         //  2. Load seats from api
         int BroadcastId = getIntent().getIntExtra("broadcastId", -1);
-        // Try to get firmId (passed from UserShowListBroadcast) so we can fetch broadcast price
-        int firmId = getIntent().getIntExtra("firmId", -1);
-        if (firmId != -1) {
-            loadBroadcastPrice(firmId, BroadcastId);
+        // Try to get filmId (passed from UserShowListBroadcast) so we can fetch broadcast price
+        int filmId = getIntent().getIntExtra("filmId", -1);
+        if (filmId != -1) {
+            loadBroadcastPrice(filmId, BroadcastId);
         }
         Log.e("UserShowSeatsActivity", "Received broadcast ID: " + BroadcastId);
         if (BroadcastId == -1) {
@@ -108,7 +108,7 @@ public class UserShowSeatsActivity extends AppCompatActivity {
 
     private void loadSeatsFromApi(int broadcastId) {
         ApiBroadcastService apiBroadcastService = ApiClient.getRetrofit().create(ApiBroadcastService.class);
-        Call<List<Seat>> call = apiBroadcastService.getSeatsByBroadcastId(broadcastId); // Replace 1 with the actual firm ID you want to fetch
+        Call<List<Seat>> call = apiBroadcastService.getSeatsByBroadcastId(broadcastId); // Replace 1 with the actual film ID you want to fetch
 
         call.enqueue(new Callback<List<Seat>>() {
             @SuppressLint("SetTextI18n")
@@ -143,12 +143,12 @@ public class UserShowSeatsActivity extends AppCompatActivity {
     }
 
     /**
-     * Load broadcasts for a firm and extract the price for the given broadcastId.
+     * Load broadcasts for a film and extract the price for the given broadcastId.
      * If found, sets `ticketPrice` to the broadcast price (rounded to int).
      */
-    private void loadBroadcastPrice(int firmId, int broadcastId) {
+    private void loadBroadcastPrice(int filmId, int broadcastId) {
         ApiBroadcastService apiBroadcastService = ApiClient.getRetrofit().create(ApiBroadcastService.class);
-        Call<List<BroadcastFilm>> call = apiBroadcastService.getBroadcastsByFirmId(firmId);
+        Call<List<BroadcastFilm>> call = apiBroadcastService.getBroadcastsByFilmId(filmId);
 
         call.enqueue(new Callback<List<BroadcastFilm>>() {
             @Override
@@ -164,7 +164,7 @@ public class UserShowSeatsActivity extends AppCompatActivity {
                             return;
                         }
                     }
-                    Log.w(TAG, "Broadcast with id " + broadcastId + " not found in firm list; using default price " + ticketPrice);
+                    Log.w(TAG, "Broadcast with id " + broadcastId + " not found in film list; using default price " + ticketPrice);
                 } else {
                     Log.e(TAG, "Failed to load broadcasts to get price: " + response.message());
                 }

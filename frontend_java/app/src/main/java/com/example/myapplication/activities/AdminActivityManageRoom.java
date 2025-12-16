@@ -39,7 +39,7 @@ public class AdminActivityManageRoom extends AppCompatActivity {
     ActivityResultLauncher<Intent> launcherEditRoom;
     ActivityResultLauncher<Intent> launcherAddRoom;
     ImageView imageHome;
-    ImageView imageManageFirm;
+    ImageView imageManageFilm;
     ImageView imageManageUser;
     ImageView imageManageRoom;
     ImageView imageUser;
@@ -74,7 +74,7 @@ public class AdminActivityManageRoom extends AppCompatActivity {
 
     void  setElementsByID() {
         imageHome = findViewById(R.id.imageHome);
-        imageManageFirm = findViewById(R.id.imageManageFirm);
+        imageManageFilm = findViewById(R.id.imageManageFilm);
         imageManageUser = findViewById(R.id.imageManageUser);
         imageManageRoom = findViewById(R.id.imageManageRoom);
         imageUser = findViewById(R.id.imageProfile);
@@ -86,7 +86,7 @@ public class AdminActivityManageRoom extends AppCompatActivity {
             startActivity(intent);
         });
 
-        imageManageFirm.setOnClickListener(v -> {
+        imageManageFilm.setOnClickListener(v -> {
             Intent intent = new Intent(AdminActivityManageRoom.this, AdminActivityManageFilm.class);
             startActivity(intent);
         });

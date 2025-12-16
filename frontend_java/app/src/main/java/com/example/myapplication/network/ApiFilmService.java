@@ -20,26 +20,26 @@ import retrofit2.http.Path;
 
 public interface ApiFilmService {
 
-    @GET("firms/get_all")
+    @GET("films/get_all")
     Call<List<FilmShow>> getAllFilms();
 
-    @GET("firms/get/{id}")
-    Call<DetailFilm> getFirmById(@Header("Authorization") String token, @Path("id") String id);
+    @GET("films/get/{id}")
+    Call<DetailFilm> getFilmById(@Header("Authorization") String token, @Path("id") String id);
 
 
-    @GET("firms/list_firmIds_broadcast_today")
-    Call<FilmIdBroadcastToday> getFirmIdsBroadcastToday(@Header("Authorization") String token);
+    @GET("films/list_filmIds_broadcast_today")
+    Call<FilmIdBroadcastToday> getFilmIdsBroadcastToday(@Header("Authorization") String token);
 
 
-    @POST("firms/create")
-    Call<FilmShow> createFirm(@Header("Authorization") String token, @Body FilmRequest filmRequest);
+    @POST("films/create")
+    Call<FilmShow> createFilm(@Header("Authorization") String token, @Body FilmRequest filmRequest);
 
-    @PUT("firms/update/{firmId}")
-    Call<FilmShow> updateFirm(@Header("Authorization") String token, @Path("firmId") int firmId, @Body FilmUpdateRequest filmUpdateRequest);
+    @PUT("films/update/{filmId}")
+    Call<FilmShow> updateFilm(@Header("Authorization") String token, @Path("filmId") int filmId, @Body FilmUpdateRequest filmUpdateRequest);
 
 
-    @DELETE("firms/delete/{id}")
-    Call<StatusMessage> deleteFirm(@Header("Authorization") String token, @Path("id") int id);
+    @DELETE("films/delete/{id}")
+    Call<StatusMessage> deleteFilm(@Header("Authorization") String token, @Path("id") int id);
 
 
 

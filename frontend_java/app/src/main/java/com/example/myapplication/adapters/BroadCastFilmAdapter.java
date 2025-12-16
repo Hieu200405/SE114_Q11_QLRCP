@@ -15,7 +15,7 @@ import com.example.myapplication.models.BroadcastFilm;
 
 import java.util.List;
 
-public class BroadCastFilmAdapter extends RecyclerView.Adapter<BroadCastFilmAdapter.BroadcastFirmHolder> {
+public class BroadCastFilmAdapter extends RecyclerView.Adapter<BroadCastFilmAdapter.BroadcastFilmHolder> {
 
     private List<BroadcastFilm> broadcastFilmList;
     private String role = "user"; // Default role
@@ -43,14 +43,14 @@ public class BroadCastFilmAdapter extends RecyclerView.Adapter<BroadCastFilmAdap
 
     @NonNull
     @Override
-    public BroadcastFirmHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_broadcast_firm, parent, false);
-        return new BroadcastFirmHolder(view);
+    public BroadcastFilmHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_broadcast_film, parent, false);
+        return new BroadcastFilmHolder(view);
     }
 
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override
-    public void onBindViewHolder(@NonNull BroadcastFirmHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BroadcastFilmHolder holder, int position) {
         BroadcastFilm broadcast = broadcastFilmList.get(position);
         holder.textTime.setText(broadcast.getTimeBroadcast().substring(0, 5)); // Giờ:Phút
         holder.textDate.setText(broadcast.getDateBroadcast());
@@ -88,11 +88,11 @@ public class BroadCastFilmAdapter extends RecyclerView.Adapter<BroadCastFilmAdap
         return broadcastFilmList.size();
     }
 
-    public static class BroadcastFirmHolder extends RecyclerView.ViewHolder {
+    public static class BroadcastFilmHolder extends RecyclerView.ViewHolder {
         TextView textTime, textDate, textRoomSeats, textPrice;
         ImageButton buttonDelete;
 
-        public BroadcastFirmHolder(@NonNull View itemView) {
+        public BroadcastFilmHolder(@NonNull View itemView) {
             super(itemView);
             textTime = itemView.findViewById(R.id.textTime);
             textDate = itemView.findViewById(R.id.textDate);

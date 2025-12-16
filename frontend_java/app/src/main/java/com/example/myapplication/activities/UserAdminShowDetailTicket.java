@@ -33,7 +33,7 @@ public class UserAdminShowDetailTicket extends AppCompatActivity {
 
     private ImageView imageThumbnail;
     private TextView tvTicketID;
-    private TextView tvFirmName;
+    private TextView tvFilmName;
     private TextView tvDate;
     private TextView tvTime;
     private TextView tvRuntime;
@@ -86,7 +86,7 @@ public class UserAdminShowDetailTicket extends AppCompatActivity {
             ticketId = String.valueOf(bookingTicketResponse.getID());
 
 
-            tvFirmName.setText(broadcast.getFirmName());
+            tvFilmName.setText(broadcast.getFilmName());
             tvDate.setText("Ngày chiếu: "+ broadcast.getDateBroadcast());
             tvTime.setText("Thời gian: " + broadcast.getTimeBroadcast());
             tvRuntime.setText("Runtime: " + broadcast.getRuntime() + " phút");
@@ -100,7 +100,7 @@ public class UserAdminShowDetailTicket extends AppCompatActivity {
         } else {
             // Handle the case where bookingTicketResponse is null
 
-            tvFirmName.setText("No booking details available");
+            tvFilmName.setText("No booking details available");
         }
 
 
@@ -163,7 +163,7 @@ public class UserAdminShowDetailTicket extends AppCompatActivity {
 
     void setElementsByID(){
         imageThumbnail = findViewById(R.id.imgThumbnail);
-        tvFirmName = findViewById(R.id.tvFirmName);
+        tvFilmName = findViewById(R.id.tvFilmName);
         tvDate = findViewById(R.id.tvDate);
         tvTime = findViewById(R.id.tvTime);
         tvRuntime = findViewById(R.id.tvRuntime);

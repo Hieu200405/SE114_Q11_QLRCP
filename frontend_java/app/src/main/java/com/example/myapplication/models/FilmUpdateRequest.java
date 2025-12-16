@@ -4,8 +4,8 @@ package com.example.myapplication.models;
 
 /*
 {
-    "name": "Updated Firm",
-    "description": "This is an updated firm.",
+    "name": "Updated Film",
+    "description": "This is an updated film.",
     "thumbnail": "http://example.com/updated_thumbnail.jpg",
     "rating": 4.8,
     "rating_count": 150,

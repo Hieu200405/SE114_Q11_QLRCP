@@ -96,7 +96,7 @@
 
         <!-- ========== User ========== -->
         <activity
-            android:name=".activities.UserDetailFirm"
+            android:name=".activities.UserDetailFilm"
             android:exported="false" />
         <activity
             android:name=".activities.UserShowListBroadcast"
@@ -169,7 +169,7 @@
             android:name=".activities.AdminActivityCreateBroadcast"
             android:exported="false" />
         <activity
-            android:name=".activities.AdminActivityCreateNewFirm"
+            android:name=".activities.AdminActivityCreateNewFilm"
             android:exported="false" />
         <activity
             android:name=".activities.AdminActivityUpdateFilm"

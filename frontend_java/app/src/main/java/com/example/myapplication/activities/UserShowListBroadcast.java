@@ -36,7 +36,7 @@ public class UserShowListBroadcast extends AppCompatActivity {
     private BroadCastFilmAdapter broadCastFilmAdapter;
     private List<BroadcastFilm> cacheBroadcastFilmList;
     private List<BroadcastFilm> broadcastFilmList;
-    private RecyclerView broadcastFirmRecyclerView;
+    private RecyclerView broadcastFilmRecyclerView;
     private ImageButton btnSearchCalendar;
     private ImageView imageBack;
 
@@ -48,23 +48,23 @@ public class UserShowListBroadcast extends AppCompatActivity {
         setContentView(R.layout.user_list_broadcast);
 
         // Initialize your views and set up any necessary listeners here
-        int firmId = getIntent().getIntExtra("firmId", -1);
-        Log.e("UserDetailFirm", "Received firm ID: " + firmId);
+        int filmId = getIntent().getIntExtra("filmId", -1);
+        Log.e("UserDetailFilm", "Received film ID: " + filmId);
         textSelectedDate = findViewById(R.id.textSelectedDate);
         btnSearchCalendar = findViewById(R.id.btnSearch);
         imageBack = findViewById(R.id.imageBack);
 
 
 
-        broadcastFirmRecyclerView = findViewById(R.id.broadcastRecyclerView);
-        broadcastFirmRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        broadcastFilmRecyclerView = findViewById(R.id.broadcastRecyclerView);
+        broadcastFilmRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Load the list of broadcasts for the firm
+        // Load the list of broadcasts for the film
         broadcastFilmList = new ArrayList<>();
         broadCastFilmAdapter = new BroadCastFilmAdapter(broadcastFilmList);
 
-        broadcastFirmRecyclerView.setAdapter(broadCastFilmAdapter);
-        loadListBroadcast(firmId);
+        broadcastFilmRecyclerView.setAdapter(broadCastFilmAdapter);
+        loadListBroadcast(filmId);
 
         // Thiết lập adapter click listener
 
@@ -75,7 +75,7 @@ public class UserShowListBroadcast extends AppCompatActivity {
                         // Handle item click, e.g., navigate to a detailed view
                         Intent intent = new Intent(UserShowListBroadcast.this, UserShowSeatsActivity.class);
                         intent.putExtra("broadcastId", broadcastFilm.getID());
-                        intent.putExtra("firmId", firmId);
+                        intent.putExtra("filmId", filmId);
                         startActivity(intent);
                     }
 
@@ -117,12 +117,12 @@ public class UserShowListBroadcast extends AppCompatActivity {
     }
 
 
-    private void loadListBroadcast(int firmID) {
-        // Implement the logic to load firm details here
-        // This could involve making a network request to fetch firm data
+    private void loadListBroadcast(int filmID) {
+        // Implement the logic to load film details here
+        // This could involve making a network request to fetch film data
         // and then updating the UI with that data.
         ApiBroadcastService apiBroadcastService = ApiClient.getRetrofit().create(ApiBroadcastService.class);
-        Call<List<BroadcastFilm>> call = apiBroadcastService.getBroadcastsByFirmId(firmID); // Replace 1 with the actual firm ID you want to fetch
+        Call<List<BroadcastFilm>> call = apiBroadcastService.getBroadcastsByFilmId(filmID); // Replace 1 with the actual film ID you want to fetch
 
         call.enqueue(new Callback<List<BroadcastFilm>>() {
             @SuppressLint("SetTextI18n")

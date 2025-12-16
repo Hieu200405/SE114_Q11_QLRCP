@@ -53,11 +53,11 @@ public class AdminActivityCreateBroadcast extends AppCompatActivity {
             return;
         }
 
-        int firmId = getIntent().getIntExtra("firmId", -1);
+        int filmId = getIntent().getIntExtra("filmId", -1);
         loadRoomsByApi();
         setElementsByID();
         setOnclickSpinnerRoom();
-        setButtonListeners(firmId);
+        setButtonListeners(filmId);
     }
 
     @SuppressLint("WrongViewCast")
@@ -157,7 +157,7 @@ public class AdminActivityCreateBroadcast extends AppCompatActivity {
     }
 
 
-    void setButtonListeners(int firmId) {
+    void setButtonListeners(int filmId) {
         btnCancel.setOnClickListener(v -> finish());
         btnCreate.setOnClickListener(
             v -> {
@@ -195,7 +195,7 @@ public class AdminActivityCreateBroadcast extends AppCompatActivity {
                     Toast.makeText(this, "Số ghế vượt quá số ghế tối đa của phòng!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                BroadcastFilmRequest broadcastFilmRequest = new BroadcastFilmRequest(room_id, firmId, time, date, price, seats);
+                BroadcastFilmRequest broadcastFilmRequest = new BroadcastFilmRequest(room_id, filmId, time, date, price, seats);
                 createBroadcastApi(broadcastFilmRequest);
             }
         );

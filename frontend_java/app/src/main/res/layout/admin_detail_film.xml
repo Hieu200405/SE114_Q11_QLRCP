@@ -46,7 +46,7 @@
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@+id/viewFadingEdge"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/imageFirmShow" />
+                    app:layout_constraintStart_toEndOf="@id/imageFilmShow" />
 
                 <ImageView
                     android:id="@+id/imageBack"
@@ -62,7 +62,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/imageFirmShow"
+                    android:id="@+id/imageFilmShow"
                     android:layout_width="@dimen/_100sdp"
                     android:layout_height="@dimen/_150sdp"
                     android:layout_marginStart="@dimen/_10sdp"
@@ -87,7 +87,7 @@
                     android:textColor="@color/colorTextIcons"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imageFirmShow"
+                    app:layout_constraintStart_toEndOf="@+id/imageFilmShow"
                     app:layout_constraintTop_toBottomOf="@+id/sliderViewPager" />
 
                 <TextView
@@ -153,7 +153,7 @@
                     android:text="description"
                     android:textColor="@color/colorTextIcons"
                     android:textSize="@dimen/_11sdp"
-                    app:layout_constraintTop_toBottomOf="@+id/imageFirmShow" />
+                    app:layout_constraintTop_toBottomOf="@+id/imageFilmShow" />
 
                 <TextView
                     android:id="@+id/textReadMore"

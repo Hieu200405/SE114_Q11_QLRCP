@@ -15,7 +15,7 @@ import com.example.myapplication.models.FilmShow;
 
 import java.util.List;
 
-public class FilmShowAdapter extends RecyclerView.Adapter<FilmShowAdapter.FirmShowViewHolder> {
+public class FilmShowAdapter extends RecyclerView.Adapter<FilmShowAdapter.FilmShowViewHolder> {
     private List <FilmShow> filmShowList;
     private OnItemClickListener listener;
 
@@ -28,9 +28,9 @@ public class FilmShowAdapter extends RecyclerView.Adapter<FilmShowAdapter.FirmSh
     }
     @NonNull
     @Override
-    public FirmShowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_container_firm_show, parent, false);
-        return new FirmShowViewHolder(view);
+    public FilmShowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_container_film_show, parent, false);
+        return new FilmShowViewHolder(view);
     }
 
 
@@ -39,7 +39,7 @@ public class FilmShowAdapter extends RecyclerView.Adapter<FilmShowAdapter.FirmSh
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FirmShowViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FilmShowViewHolder holder, int position) {
         FilmShow filmShow = filmShowList.get(position);
         if( filmShow == null){
             return;
@@ -48,15 +48,15 @@ public class FilmShowAdapter extends RecyclerView.Adapter<FilmShowAdapter.FirmSh
                 .load(filmShow.getThumbnailPath())
                 .error(R.drawable.default_img)
                 .into(holder.thumbnailImageView);
-        holder.nameFirmTextView.setText("Name: "+ filmShow.getName());
-        holder.startedFirmTextView.setText("Started on: " + filmShow.getStartDate());
+        holder.nameFilmTextView.setText("Name: "+ filmShow.getName());
+        holder.startedFilmTextView.setText("Started on: " + filmShow.getStartDate());
 
 
 
         // ✅ Handle click to go to detail activity
         holder.itemView.setOnClickListener(v -> {
-//            Intent intent = new Intent(v.getContext(), UserDetailFirm.class); // Change to your actual Detail Activity
-//            intent.putExtra("firm_id", firmShow.getId());
+//            Intent intent = new Intent(v.getContext(), UserDetailFilm.class); // Change to your actual Detail Activity
+//            intent.putExtra("film_id", filmShow.getId());
 //            v.getContext().startActivity(intent);
 
             if (listener != null) {
@@ -74,17 +74,17 @@ public class FilmShowAdapter extends RecyclerView.Adapter<FilmShowAdapter.FirmSh
         return 0;
     }
 
-    public static class FirmShowViewHolder extends RecyclerView.ViewHolder {
+    public static class FilmShowViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView thumbnailImageView;
-        private TextView nameFirmTextView;
-        private TextView startedFirmTextView;
+        private TextView nameFilmTextView;
+        private TextView startedFilmTextView;
 
-        public FirmShowViewHolder(@NonNull View itemView) {
+        public FilmShowViewHolder(@NonNull View itemView) {
             super(itemView);
             thumbnailImageView = itemView.findViewById(R.id.imageThumbnail);
-            nameFirmTextView = itemView.findViewById(R.id.textName);
-            startedFirmTextView = itemView.findViewById(R.id.textStarted);
+            nameFilmTextView = itemView.findViewById(R.id.textName);
+            startedFilmTextView = itemView.findViewById(R.id.textStarted);
 
         }
     }

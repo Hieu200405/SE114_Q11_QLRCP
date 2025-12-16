@@ -33,15 +33,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AdminDetailFilm extends AppCompatActivity {
-    private final int DELETE_FIRM_REQUEST_CODE = 6;
+    private final int DELETE_FILM_REQUEST_CODE = 6;
     String accessToken;
     int position = 0; // Current position in the ViewPager
-    ActivityResultLauncher<Intent> updateFirmLauncher;
+    ActivityResultLauncher<Intent> updateFiLmLauncher;
     private DetailFilm detailFilm;
     private ImageFilmAdapter imageAdapter;
     private ViewPager2 viewPager;
-    ImageView imageBack, imageFirmShow;
-    TextView nameFirmTextView, descriptionFirmTextView, startedFirmTextView;
+    ImageView imageBack, imageFilmShow;
+    TextView nameFilmTextView, descriptionFilmTextView, startedFilmTextView;
     TextView textRating;
     TextView textReadMore;
     TextView textRuntime;
@@ -51,9 +51,9 @@ public class AdminDetailFilm extends AppCompatActivity {
     @Override
     protected void onCreate(android.os.Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_detail_firm);
+        setContentView(R.layout.admin_detail_film);
         accessToken = getSharedPreferences("MyAppPrefs", MODE_PRIVATE).getString("access_token", null);
-        Log.d("AdminDetailFirm", "Access Token in detail firm: " + accessToken);
+        Log.d("AdminDetailFilm", "Access Token in detail film: " + accessToken);
         if(accessToken == null) {
             Toast.makeText(this, "Access token not found", Toast.LENGTH_SHORT).show();
             finish();
@@ -61,10 +61,10 @@ public class AdminDetailFilm extends AppCompatActivity {
         }
 
         setElementsByID();
-        setUpdateFirmLauncher();
+        setUpdateFilmLauncher();
 
-        // get the firm ID from the intent
-        int firmId = getIntent().getIntExtra("firm_id", -1);
+        // get the film ID from the intent
+        int filmId = getIntent().getIntExtra("film_id", -1);
         position = getIntent().getIntExtra("position", -1); // Get the position if needed
 
 
@@ -73,20 +73,20 @@ public class AdminDetailFilm extends AppCompatActivity {
         ListenerReadMoreDescription();
         ListenerDeleteButton();
 
-        // Log the received firm ID for debugging
+        // Log the received film ID for debugging
 
 
 
         // Initialize your views and set up any necessary data binding or listeners here
-        // Get the firm ID from the intent
-        if (firmId != -1) {
-            loadFirmDetail(String.valueOf(firmId)); // Load firm details using the ID
+        // Get the film ID from the intent
+        if (filmId != -1) {
+            loadFilmDetail(String.valueOf(filmId)); // Load film details using the ID
         } else {
             Toast.makeText(this, "Lỗi mã phim", Toast.LENGTH_SHORT).show();
-            Log.e("UserDetailFirm", "Invalid film ID received");
+            Log.e("UserDetailFilm", "Invalid film ID received");
             finish();
         }
-        ListenerBoadcast(firmId); // Set up listener for booking tickets
+        ListenerBoadcast(filmId); // Set up listener for booking tickets
 
     }
 
@@ -94,10 +94,10 @@ public class AdminDetailFilm extends AppCompatActivity {
         // Initialize your views here
         viewPager = findViewById(R.id.sliderViewPager);
         imageBack = findViewById(R.id.imageBack);
-        imageFirmShow = findViewById(R.id.imageFirmShow);
-        nameFirmTextView = findViewById(R.id.textName);
-        descriptionFirmTextView = findViewById(R.id.textDescription);
-        startedFirmTextView = findViewById(R.id.textStarted);
+        imageFilmShow = findViewById(R.id.imageFilmShow);
+        nameFilmTextView = findViewById(R.id.textName);
+        descriptionFilmTextView = findViewById(R.id.textDescription);
+        startedFilmTextView = findViewById(R.id.textStarted);
         textRating = findViewById(R.id.textRating);
         textReadMore = findViewById(R.id.textReadMore);
         textRuntime = findViewById(R.id.textRuntime);
@@ -108,12 +108,12 @@ public class AdminDetailFilm extends AppCompatActivity {
         ListenerUpdateButton();
     }
 
-    private void loadFirmDetail(String id) {
-        // Implement the logic to load firm details here
-        // This could involve making a network request to fetch firm data
+    private void loadFilmDetail(String id) {
+        // Implement the logic to load film details here
+        // This could involve making a network request to fetch film data
         // and then updating the UI with that data.
         ApiFilmService apiFilmService = ApiClient.getRetrofit().create(ApiFilmService.class);
-        Call<DetailFilm> call = apiFilmService.getFirmById("Bearer "+ accessToken, id); // Replace 1 with the actual firm ID you want to fetch
+        Call<DetailFilm> call = apiFilmService.getFilmById("Bearer "+ accessToken, id); // Replace 1 with the actual film ID you want to fetch
 
         call.enqueue(new Callback<DetailFilm>() {
             @SuppressLint("SetTextI18n")
@@ -125,13 +125,13 @@ public class AdminDetailFilm extends AppCompatActivity {
                     List<ImageFilm> imageArray = detailFilm.getImages();
                     imageAdapter = new ImageFilmAdapter(imageArray);
                     viewPager.setAdapter(imageAdapter);
-                    Glide.with(imageFirmShow)
+                    Glide.with(imageFilmShow)
                             .load(detailFilm.getThumbnailPath())
                             .error(R.drawable.default_img) // Replace with your default image resource
-                            .into(imageFirmShow);
-                    nameFirmTextView.setText(detailFilm.getName());
-                    descriptionFirmTextView.setText(detailFilm.getDescription());
-                    startedFirmTextView.setText("Started on: "+ detailFilm.getStartDate());
+                            .into(imageFilmShow);
+                    nameFilmTextView.setText(detailFilm.getName());
+                    descriptionFilmTextView.setText(detailFilm.getDescription());
+                    startedFilmTextView.setText("Started on: "+ detailFilm.getStartDate());
                     textRating.setText("Rating: " + detailFilm.getRating());
                     textRuntime.setText(detailFilm.getRuntime() + " min");
                     Log.e("API_RESPONSE", "Response code: " + response.code());
@@ -157,7 +157,7 @@ public class AdminDetailFilm extends AppCompatActivity {
     }
 
     private void ListenerReadMoreDescription() {
-        // Implement the logic to show more description or details about the firm
+        // Implement the logic to show more description or details about the film
         // This could involve expanding a TextView or navigating to another screen
         Toast.makeText(this, "Read more clicked", Toast.LENGTH_SHORT).show();
         textReadMore.setOnClickListener(new View.OnClickListener() {
@@ -167,11 +167,11 @@ public class AdminDetailFilm extends AppCompatActivity {
             public void onClick(View v) {
                 if (isExpanded) {
                     // Thu gọn lại
-                    descriptionFirmTextView.setMaxLines(4);
+                    descriptionFilmTextView.setMaxLines(4);
                     textReadMore.setText(R.string.read_more);
                 } else {
                     // Mở rộng
-                    descriptionFirmTextView.setMaxLines(Integer.MAX_VALUE);
+                    descriptionFilmTextView.setMaxLines(Integer.MAX_VALUE);
                     textReadMore.setText(R.string.read_less); // Thêm string này trong strings.xml
                 }
                 isExpanded = !isExpanded;
@@ -180,14 +180,14 @@ public class AdminDetailFilm extends AppCompatActivity {
     }
 
 
-    private void ListenerBoadcast(Integer firmId) {
-        // Implement the logic to handle booking tickets for the firm
+    private void ListenerBoadcast(Integer filmId) {
+        // Implement the logic to handle booking tickets for the film
         // This could involve navigating to a booking screen or showing a dialog
         btnBroadcast.setOnClickListener(v -> {
             Toast.makeText(AdminDetailFilm.this, "Booking ticket for " + detailFilm.getName(), Toast.LENGTH_SHORT).show();
             // Add your booking logic here
             Intent intent = new Intent(AdminDetailFilm.this, AdminActivityListBroadcast.class); // Replace with your actual Booking Activity
-            intent.putExtra("firmId", firmId);
+            intent.putExtra("filmId", filmId);
             startActivity(intent);
         });
     }
@@ -198,19 +198,19 @@ public class AdminDetailFilm extends AppCompatActivity {
 
 //    Listeners for update and delete buttons
 
-    private void setUpdateFirmLauncher(){
-        updateFirmLauncher = registerForActivityResult(
+    private void setUpdateFilmLauncher(){
+        updateFiLmLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result ->{
                     if (result.getResultCode() == RESULT_OK) {
                         // Handle the result from the update activity
                         Intent data = result.getData();
                         if (data != null) {
-                            int firmId = data.getIntExtra("firm_id", -1);
+                            int filmId = data.getIntExtra("film_id", -1);
                             String status = data.getStringExtra("status");
-                            if (firmId != -1 && status != null) {
-                                // Reload the firm details after update
-                                loadFirmDetail(String.valueOf(firmId));
+                            if (filmId != -1 && status != null) {
+                                // Reload the film details after update
+                                loadFilmDetail(String.valueOf(filmId));
                                 Toast.makeText(AdminDetailFilm.this, "Cập nhật thành công: " + status, Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(AdminDetailFilm.this, "Cập nhật không thành công", Toast.LENGTH_SHORT).show();
@@ -225,7 +225,7 @@ public class AdminDetailFilm extends AppCompatActivity {
     public void ListenerUpdateButton() {
         btnUpdate.setOnClickListener(v -> {
             Intent intent = new Intent(AdminDetailFilm.this, AdminActivityUpdateFilm.class);
-            intent.putExtra("firm_id", detailFilm.getId());
+            intent.putExtra("film_id", detailFilm.getId());
             intent.putExtra("thumbnail_url", detailFilm.getThumbnailPath());
             intent.putExtra("name", detailFilm.getName());
             intent.putExtra("description", detailFilm.getDescription());
@@ -234,22 +234,22 @@ public class AdminDetailFilm extends AppCompatActivity {
             intent.putExtra("runtime", detailFilm.getRuntime());
 
 
-            updateFirmLauncher.launch(intent);
+            updateFiLmLauncher.launch(intent);
         });
     }
 
     public void ListenerDeleteButton() {
         btnDelete.setOnClickListener(v -> {
-            AlertDeleteFirm();
+            AlertDeleteFilm();
         });
     }
-    void AlertDeleteFirm() {
+    void AlertDeleteFilm() {
         new AlertDialog.Builder(AdminDetailFilm.this)
                 .setTitle("Xác nhận Xóa phim")
                 .setMessage("Bạn có chắc chắn muốn xóa không?")
                 .setPositiveButton("Chắc chắn", (dialog, which) -> {
                     // Xử lý xóa phòng
-                    DeleteFirmByApi();
+                    DeleteFilmByApi();
                 })
                 .setNegativeButton("Hủy", (dialog, which) -> {
                     dialog.dismiss(); // Đóng dialog nếu chọn Cancel
@@ -257,9 +257,9 @@ public class AdminDetailFilm extends AppCompatActivity {
                 .show();
     }
 
-    void DeleteFirmByApi(){
+    void DeleteFilmByApi(){
             ApiFilmService apiFilmService = ApiClient.getRetrofit().create(ApiFilmService.class);
-            Call<StatusMessage> call = apiFilmService.deleteFirm("Bearer " + accessToken, detailFilm.getId());
+            Call<StatusMessage> call = apiFilmService.deleteFilm("Bearer " + accessToken, detailFilm.getId());
             call.enqueue(
                     new Callback<StatusMessage>() {
                         @Override
@@ -269,7 +269,7 @@ public class AdminDetailFilm extends AppCompatActivity {
                                 Intent intent = new Intent();
                                 intent.putExtra("position", position);
                                 intent.putExtra("status", statusMessage.getMessage());
-                                setResult(DELETE_FIRM_REQUEST_CODE, intent);
+                                setResult(DELETE_FILM_REQUEST_CODE, intent);
                                 finish();
 
                             } else {

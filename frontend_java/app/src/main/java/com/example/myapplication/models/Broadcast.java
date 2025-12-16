@@ -8,10 +8,10 @@ import com.google.gson.annotations.SerializedName;
 public class Broadcast implements Parcelable {
     @SerializedName("ID")
     private int ID;
-    @SerializedName("FirmID")
-    private int FirmID;
-    @SerializedName("FirmName")
-    private String FirmName;
+    @SerializedName("FilmID")
+    private int FilmID;
+    @SerializedName("FilmName")
+    private String FilmName;
     @SerializedName("DateBroadcast")
     private String DateBroadcast;
     @SerializedName("TimeBroadcast")
@@ -23,8 +23,8 @@ public class Broadcast implements Parcelable {
 
     protected Broadcast(Parcel in) {
         ID = in.readInt();
-        FirmID = in.readInt();
-        FirmName = in.readString();
+        FilmID = in.readInt();
+        FilmName = in.readString();
         DateBroadcast = in.readString();
         TimeBroadcast = in.readString();
         Runtime = in.readInt();
@@ -46,8 +46,8 @@ public class Broadcast implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(ID);
-        dest.writeInt(FirmID);
-        dest.writeString(FirmName);
+        dest.writeInt(FilmID);
+        dest.writeString(FilmName);
         dest.writeString(DateBroadcast);
         dest.writeString(TimeBroadcast);
         dest.writeInt(Runtime);
@@ -63,11 +63,11 @@ public class Broadcast implements Parcelable {
     public int getID() {
         return ID;
     }
-    public int getFirmID() {
-        return FirmID;
+    public int getFilmID() {
+        return FilmID;
     }
-    public String getFirmName() {
-        return FirmName;
+    public String getFilmName() {
+        return FilmName;
     }
     public String getDateBroadcast() {
         return DateBroadcast;

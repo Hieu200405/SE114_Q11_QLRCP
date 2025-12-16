@@ -34,21 +34,21 @@ import retrofit2.Response;
 
 public class AdminActivityManageFilm extends AppCompatActivity {
     String accessToken;
-    private final int ADD_FIRM_REQUEST_CODE = 4; // Assuming this is the code for adding a firm
-    private final int UPDATE_FIRM_REQUEST_CODE = 5; // Assuming this is the code for updating a firm
-    private final int DELETE_FIRM_REQUEST_CODE = 6; // Assuming this is the code for deleting a firm
+    private final int ADD_FILM_REQUEST_CODE = 4; // Assuming this is the code for adding a film
+    private final int UPDATE_FILM_REQUEST_CODE = 5; // Assuming this is the code for updating a film
+    private final int DELETE_FILM_REQUEST_CODE = 6; // Assuming this is the code for deleting a film
 
-    ImageView imageHome, imageManageFirm, imageManageUser, imageManageRoom, imageUser;
+    ImageView imageHome, imageManageFilm, imageManageUser, imageManageRoom, imageUser;
     ImageView imageSearch;
     TextView textAppName;
     EditText editSearch;
     ImageView imageBack;
 
-    FloatingActionButton fabAddFirm;
-    RecyclerView recyclerViewFirm;
+    FloatingActionButton fabAddFilm;
+    RecyclerView recyclerViewFilm;
     FilmShowAdapter filmShowAdapter;
-    ActivityResultLauncher<Intent> launcherDetailFirm;
-    ActivityResultLauncher<Intent> launcherAddFirm;
+    ActivityResultLauncher<Intent> launcherDetailFilm;
+    ActivityResultLauncher<Intent> launcherAddFilm;
     List<FilmShow> mListFilmShows;
     List<FilmShow> cacheFilmShows = new ArrayList<>();
 
@@ -57,21 +57,21 @@ public class AdminActivityManageFilm extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_acivity_manage_firm);
+        setContentView(R.layout.admin_acivity_manage_film);
         setElementsByID();
         accessToken = getSharedPreferences("MyAppPrefs", MODE_PRIVATE).getString("access_token", null);
-        setLauncherAddFirm();
-        setLauncherDetailFirm();
+        setLauncherAddFilm();
+        setLauncherDetailFilm();
 
         mListFilmShows = new ArrayList<>();
         // Set up the RecyclerView and Adapter
         filmShowAdapter = new FilmShowAdapter(mListFilmShows);
 
-        recyclerViewFirm.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewFirm.setAdapter(filmShowAdapter);
+        recyclerViewFilm.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewFilm.setAdapter(filmShowAdapter);
 
-        // Load firms from API
-        loadFirmsFromApi();
+        // Load films from API
+        loadFilmsFromApi();
 
         // Set up click listeners for menu buttons
         listenMenuButtons();
@@ -80,14 +80,14 @@ public class AdminActivityManageFilm extends AppCompatActivity {
         ListenerSetupSearchButton();
 
 
-        // Set up click listener for firm items
+        // Set up click listener for film items
         filmShowAdapter.setOnItemClickListener(new FilmShowAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(FilmShow filmShow, int position) {
                 Intent intent = new Intent(AdminActivityManageFilm.this, AdminDetailFilm.class);
-                intent.putExtra("firm_id", filmShow.getId());
+                intent.putExtra("film_id", filmShow.getId());
                 intent.putExtra("position", position); // Pass the position for updates/deletes
-                launcherDetailFirm.launch(intent);
+                launcherDetailFilm.launch(intent);
             }
         });
 
@@ -95,12 +95,12 @@ public class AdminActivityManageFilm extends AppCompatActivity {
 
     void setElementsByID(){
         imageHome = findViewById(R.id.imageHome);
-        imageManageFirm = findViewById(R.id.imageManageFirm);
+        imageManageFilm = findViewById(R.id.imageManageFilm);
         imageManageUser = findViewById(R.id.imageManageUser);
         imageManageRoom = findViewById(R.id.imageManageRoom);
         imageUser = findViewById(R.id.imageProfile);
-        fabAddFirm = findViewById(R.id.buttonAddFirm);
-        recyclerViewFirm = findViewById(R.id.firmShowsRecyclerView);
+        fabAddFilm = findViewById(R.id.buttonAddFilm);
+        recyclerViewFilm = findViewById(R.id.filmShowsRecyclerView);
         imageSearch = findViewById(R.id.imageSearch);
         textAppName = findViewById(R.id.textAppName);
         editSearch = findViewById(R.id.editSearch);
@@ -130,11 +130,11 @@ public class AdminActivityManageFilm extends AppCompatActivity {
             startActivity(intent);
         });
 
-        ListenerAddFirm();
+        ListenerAddFilm();
     }
 
 
-    private void loadFirmsFromApi() {
+    private void loadFilmsFromApi() {
         ApiFilmService apiFilmService = ApiClient.getRetrofit().create(ApiFilmService.class);
         Call<List<FilmShow>> call = apiFilmService.getAllFilms();
 
@@ -200,7 +200,7 @@ public class AdminActivityManageFilm extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                searchFirms(s.toString()); // Tự động gọi tìm kiếm
+                searchFilms(s.toString()); // Tự động gọi tìm kiếm
             }
 
             @Override
@@ -209,13 +209,13 @@ public class AdminActivityManageFilm extends AppCompatActivity {
 
     }
 
-    private void searchFirms(String query) {
-        Log.d("SearchFirms", "Searching for: " + query);
+    private void searchFilms(String query) {
+        Log.d("SearchFilms", "Searching for: " + query);
         List<FilmShow> filteredList = new ArrayList<>();
         if(cacheFilmShows != null) {
-            for (FilmShow firm : cacheFilmShows) {
-                if (firm.getName().toLowerCase().contains(query.toLowerCase())) {
-                    filteredList.add(firm);
+            for (FilmShow film : cacheFilmShows) {
+                if (film.getName().toLowerCase().contains(query.toLowerCase())) {
+                    filteredList.add(film);
                 }
             }
         }
@@ -230,25 +230,25 @@ public class AdminActivityManageFilm extends AppCompatActivity {
     }
 
 
-//    Set up the ActivityResultLauncher for detail firm activity
-    private void setLauncherDetailFirm(){
-        launcherDetailFirm = registerForActivityResult(
+//    Set up the ActivityResultLauncher for detail film activity
+    private void setLauncherDetailFilm(){
+        launcherDetailFilm = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    if (result.getResultCode() == UPDATE_FIRM_REQUEST_CODE) { // Assuming 5 is the code for successful update
+                    if (result.getResultCode() == UPDATE_FILM_REQUEST_CODE) { // Assuming 5 is the code for successful update
                         Intent data = result.getData();
                         if (data != null) {
-                            FilmShow updatedFirm = (FilmShow) data.getSerializableExtra("updated_firm");
-                            if (updatedFirm != null) {
+                            FilmShow updatedFilm = (FilmShow) data.getSerializableExtra("updated_film");
+                            if (updatedFilm != null) {
                                 int position = data.getIntExtra("position", -1);
                                 if (position >= 0 && position < mListFilmShows.size()) {
-                                    mListFilmShows.set(position, updatedFirm);
+                                    mListFilmShows.set(position, updatedFilm);
                                     filmShowAdapter.notifyItemChanged(position);
                                     Toast.makeText(AdminActivityManageFilm.this, "Cập nhật phim thành công", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
-                    } else if (result.getResultCode() == DELETE_FIRM_REQUEST_CODE) { // Assuming 6 is the code for successful deletion
+                    } else if (result.getResultCode() == DELETE_FILM_REQUEST_CODE) { // Assuming 6 is the code for successful deletion
                         Intent data = result.getData();
                         int position = data != null ? data.getIntExtra("position", -1) : -1;
                         String message = data != null ? data.getStringExtra("status") : null;
@@ -263,17 +263,17 @@ public class AdminActivityManageFilm extends AppCompatActivity {
 
 
 
-    // Listener for adding a new firm
-    private void setLauncherAddFirm(){
-        launcherAddFirm = registerForActivityResult(
+    // Listener for adding a new film
+    private void setLauncherAddFilm(){
+        launcherAddFilm = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    if (result.getResultCode() == ADD_FIRM_REQUEST_CODE) { // Assuming 4 is the code for successful addition
+                    if (result.getResultCode() == ADD_FILM_REQUEST_CODE) { // Assuming 4 is the code for successful addition
                         Intent data = result.getData();
                         if (data != null) {
-                            FilmShow newFirm = (FilmShow) data.getSerializableExtra("new_firm");
-                            if (newFirm != null) {
-                                mListFilmShows.add(newFirm);
+                            FilmShow newFilm = (FilmShow) data.getSerializableExtra("new_film");
+                            if (newFilm != null) {
+                                mListFilmShows.add(newFilm);
                                 filmShowAdapter.notifyItemInserted(mListFilmShows.size() - 1);
                                 Toast.makeText(AdminActivityManageFilm.this, "Thêm phim mới thành công", Toast.LENGTH_SHORT).show();
                             }
@@ -281,10 +281,10 @@ public class AdminActivityManageFilm extends AppCompatActivity {
                     }
                 });
     }
-    private void ListenerAddFirm(){
-        fabAddFirm.setOnClickListener(v -> {
-           Intent intent = new Intent(AdminActivityManageFilm.this, AdminActivityCreateNewFirm.class);
-            launcherAddFirm.launch(intent);
+    private void ListenerAddFilm(){
+        fabAddFilm.setOnClickListener(v -> {
+           Intent intent = new Intent(AdminActivityManageFilm.this, AdminActivityCreateNewFilm.class);
+            launcherAddFilm.launch(intent);
         });
     }
 
