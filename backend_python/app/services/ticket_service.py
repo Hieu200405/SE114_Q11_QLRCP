@@ -104,9 +104,9 @@ def get_ticket_detail_by_id_service(ticket_id):
             raise ValueError("Ticket not found")
         
         broadcast = get_broadcast_by_id(ticket.BroadcastID)
-        firm = broadcast.firm if broadcast else None
-        if not firm:
-            raise ValueError("Firm not found")
+        film = broadcast.film if broadcast else None
+        if not film:
+            raise ValueError("Film not found")
         
         if not broadcast or not ticket.SeatID:
             raise ValueError("Broadcast or Seat not found")
@@ -121,10 +121,10 @@ def get_ticket_detail_by_id_service(ticket_id):
             'ID': broadcast.ID,
             'TimeBroadcast': str(broadcast.timeBroadcast),
             'DateBroadcast': str(broadcast.dateBroadcast),
-            'FirmID': broadcast.FirmID,
-            'FirmName': firm.name,
-            'Thumbnail': firm.thumbnail_path,
-            'Runtime': firm.runtime
+            'FilmID': broadcast.FilmID,
+            'FilmName': film.name,
+            'Thumbnail': film.thumbnail_path,
+            'Runtime': film.runtime
         }
         res['SeatID'] = ticket.SeatID
         return res

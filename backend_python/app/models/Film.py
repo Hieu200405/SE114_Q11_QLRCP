@@ -2,8 +2,8 @@ from app import db
 
 
 
-class Firm(db.Model):
-    __tablename__ = 'firm'
+class Film(db.Model):
+    __tablename__ = 'film'
     ID = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
     description = db.Column(db.Text)
@@ -16,8 +16,8 @@ class Firm(db.Model):
     is_delete = db.Column(db.Boolean, default=False)
     
 
-    images = db.relationship('ImageFirm', backref='firm', lazy=True)
-    broadcasts = db.relationship('Broadcast', backref='firm', lazy=True)
+    images = db.relationship('ImageFilm', backref='film', lazy=True)
+    broadcasts = db.relationship('Broadcast', backref='film', lazy=True)
 
 
     def __init__(self, name, description, thumbnail, start_date, end_date: None, rating_count=0, rating=0.0, runtime=60):

@@ -1,7 +1,7 @@
 from app.models.BroadCast import Broadcast
 from app.models.Room import Room
 from app.models.Seat import Seat
-from app.models.Firm import Firm
+from app.models.Film import Film
 from app import db
 from app.utils.helper import format_date, format_time, format_datetime
 from datetime import timedelta, datetime
@@ -46,7 +46,7 @@ def create_seats_for_broadcast(broadcast_id, seats, room_id):
 
 
 # Create a new broadcast
-def create_broadcast(room_id, firm_id, time_broadcast, date_broadcast, price, seats):
+def create_broadcast(room_id, film_id, time_broadcast, date_broadcast, price, seats):
     """Create a new broadcast."""
 
     if not Room.query.filter_by(ID=room_id, is_delete=False).first():
@@ -57,15 +57,15 @@ def create_broadcast(room_id, firm_id, time_broadcast, date_broadcast, price, se
     time_broadcast = format_time(time_broadcast)
     date_broadcast = format_date(date_broadcast)
 
-    firm = Firm.query.filter_by(ID=firm_id, is_delete=False).first()
-    if not firm:
-        raise ValueError("Firm not found or is deleted")
-    if firm.start_date > date_broadcast:
-        raise ValueError("Broadcast date is outside the firm's active period")
+    film = Film.query.filter_by(ID=film_id, is_delete=False).first()
+    if not film:
+        raise ValueError("Film not found or is deleted")
+    if film.start_date > date_broadcast:
+        raise ValueError("Broadcast date is outside the film's active period")
 
-    if firm.end_date != None and firm.end_date < date_broadcast:
-        raise ValueError("Broadcast date is outside the firm's active period")
-    running_time = firm.runtime if firm.runtime else 0
+    if film.end_date != None and film.end_date < date_broadcast:
+        raise ValueError("Broadcast date is outside the film's active period")
+    running_time = film.runtime if film.runtime else 0
 
     print(f"Formatted time: {time_broadcast}, Formatted date: {date_broadcast}")
     if is_broadcast_time_conflict(room_id, time_broadcast, date_broadcast, running_time):
@@ -78,7 +78,7 @@ def create_broadcast(room_id, firm_id, time_broadcast, date_broadcast, price, se
         print(f"Creating broadcast for room {room_id} at {time_broadcast} on {date_broadcast} with price {price} and seats {seats}")
         new_broadcast = Broadcast(
             RoomID=room_id,
-            FirmID=firm_id,
+            FilmID=film_id,
             timeBroadcast=time_broadcast,
             dateBroadcast=date_broadcast,
             price=price,
@@ -123,11 +123,11 @@ def get_all_broadcasts_for_room(room_id):
     return broadcasts
 
 
-def get_all_broadcasts_for_firm(firm_id, date_broadcast=None):
-    """Retrieve all broadcasts for a specific firm."""
+def get_all_broadcasts_for_film(film_id, date_broadcast=None):
+    """Retrieve all broadcasts for a specific film."""
     broadcasts = Broadcast.query.filter(
         and_(
-            Broadcast.FirmID == firm_id,
+            Broadcast.FilmID == film_id,
             Broadcast.is_delete == False,
             Broadcast.dateBroadcast >= datetime.now().date()
         )
@@ -155,15 +155,15 @@ def get_all_broadcasts_on_date(date_broadcast):
 
 
 # UPDATE
-def update_broadcast(broadcast_id, room_id=None, firm_id=None, time_broadcast=None, date_broadcast=None, price=None, seats=None):
+def update_broadcast(broadcast_id, room_id=None, film_id=None, time_broadcast=None, date_broadcast=None, price=None, seats=None):
     """Update an existing broadcast."""
     broadcast = get_broadcast_by_id(broadcast_id)
 
     
     if room_id:
         broadcast.RoomID = room_id
-    if firm_id:
-        broadcast.FirmID = firm_id
+    if film_id:
+        broadcast.FilmID = film_id
     if time_broadcast:
         broadcast.timeBroadcast = time_broadcast
     if date_broadcast:
