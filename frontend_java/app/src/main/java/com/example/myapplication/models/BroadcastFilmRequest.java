@@ -13,7 +13,7 @@ package com.example.myapplication.models;
 }
 
  */
-public class BroadcastFirmRequest {
+public class BroadcastFilmRequest {
     private int room_id;
     private int firm_id;
     private String time_broadcast;
@@ -21,7 +21,7 @@ public class BroadcastFirmRequest {
     private double price;
     private int seats;
 
-    public BroadcastFirmRequest(int room_id, int firm_id, String time_broadcast, String date_broadcast, double price, int seats) {
+    public BroadcastFilmRequest(int room_id, int firm_id, String time_broadcast, String date_broadcast, double price, int seats) {
         this.room_id = room_id;
         this.firm_id = firm_id;
         this.time_broadcast = time_broadcast;

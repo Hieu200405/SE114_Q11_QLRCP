@@ -19,10 +19,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.adapters.FirmShowAdapter;
-import com.example.myapplication.models.FirmShow;
+import com.example.myapplication.adapters.FilmShowAdapter;
+import com.example.myapplication.models.FilmShow;
 import com.example.myapplication.network.ApiClient;
-import com.example.myapplication.network.ApiFirmService;
+import com.example.myapplication.network.ApiFilmService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -46,11 +46,11 @@ public class AdminActivityManageFirm extends AppCompatActivity {
 
     FloatingActionButton fabAddFirm;
     RecyclerView recyclerViewFirm;
-    FirmShowAdapter firmShowAdapter;
+    FilmShowAdapter filmShowAdapter;
     ActivityResultLauncher<Intent> launcherDetailFirm;
     ActivityResultLauncher<Intent> launcherAddFirm;
-    List<FirmShow> mListFirmShows;
-    List<FirmShow> cacheFirmShows = new ArrayList<>();
+    List<FilmShow> mListFilmShows;
+    List<FilmShow> cacheFilmShows = new ArrayList<>();
 
 
 
@@ -63,12 +63,12 @@ public class AdminActivityManageFirm extends AppCompatActivity {
         setLauncherAddFirm();
         setLauncherDetailFirm();
 
-        mListFirmShows = new ArrayList<>();
+        mListFilmShows = new ArrayList<>();
         // Set up the RecyclerView and Adapter
-        firmShowAdapter = new FirmShowAdapter(mListFirmShows);
+        filmShowAdapter = new FilmShowAdapter(mListFilmShows);
 
         recyclerViewFirm.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewFirm.setAdapter(firmShowAdapter);
+        recyclerViewFirm.setAdapter(filmShowAdapter);
 
         // Load firms from API
         loadFirmsFromApi();
@@ -81,11 +81,11 @@ public class AdminActivityManageFirm extends AppCompatActivity {
 
 
         // Set up click listener for firm items
-        firmShowAdapter.setOnItemClickListener(new FirmShowAdapter.OnItemClickListener() {
+        filmShowAdapter.setOnItemClickListener(new FilmShowAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(FirmShow firmShow, int position) {
+            public void onItemClick(FilmShow filmShow, int position) {
                 Intent intent = new Intent(AdminActivityManageFirm.this, AdminDetailFirm.class);
-                intent.putExtra("firm_id", firmShow.getId());
+                intent.putExtra("firm_id", filmShow.getId());
                 intent.putExtra("position", position); // Pass the position for updates/deletes
                 launcherDetailFirm.launch(intent);
             }
@@ -135,20 +135,20 @@ public class AdminActivityManageFirm extends AppCompatActivity {
 
 
     private void loadFirmsFromApi() {
-        ApiFirmService apiFirmService = ApiClient.getRetrofit().create(ApiFirmService.class);
-        Call<List<FirmShow>> call = apiFirmService.getAllFirms();
+        ApiFilmService apiFilmService = ApiClient.getRetrofit().create(ApiFilmService.class);
+        Call<List<FilmShow>> call = apiFilmService.getAllFilms();
 
-        call.enqueue(new Callback<List<FirmShow>>() {
+        call.enqueue(new Callback<List<FilmShow>>() {
             @Override
-            public void onResponse(Call<List<FirmShow>> call, Response<List<FirmShow>> response) {
+            public void onResponse(Call<List<FilmShow>> call, Response<List<FilmShow>> response) {
                 try {
                     Log.e("API_RESPONSE", "Response code: " + response.message());
-                    List<FirmShow> firmShows = response.body();
-                    if (firmShows != null) {
-                        cacheFirmShows = new ArrayList<>(firmShows);  // cache data
-                        mListFirmShows.clear();
-                        mListFirmShows.addAll(firmShows);
-                        firmShowAdapter.notifyDataSetChanged();
+                    List<FilmShow> filmShows = response.body();
+                    if (filmShows != null) {
+                        cacheFilmShows = new ArrayList<>(filmShows);  // cache data
+                        mListFilmShows.clear();
+                        mListFilmShows.addAll(filmShows);
+                        filmShowAdapter.notifyDataSetChanged();
                     } else {
                         throw new NullPointerException("Dữ liệu trả về là null");
                     }
@@ -162,7 +162,7 @@ public class AdminActivityManageFirm extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<FirmShow>> call, Throwable t) {
+            public void onFailure(Call<List<FilmShow>> call, Throwable t) {
                 Toast.makeText(AdminActivityManageFirm.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("API_ERROR", t.getMessage());
             }
@@ -184,9 +184,9 @@ public class AdminActivityManageFirm extends AppCompatActivity {
             editSearch.setText("");
 
             // Quay về danh sách gốc
-            mListFirmShows.clear();
-            mListFirmShows.addAll(cacheFirmShows);
-            firmShowAdapter.notifyDataSetChanged();
+            mListFilmShows.clear();
+            mListFilmShows.addAll(cacheFilmShows);
+            filmShowAdapter.notifyDataSetChanged();
 
             // Ẩn bàn phím
             InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
@@ -211,18 +211,18 @@ public class AdminActivityManageFirm extends AppCompatActivity {
 
     private void searchFirms(String query) {
         Log.d("SearchFirms", "Searching for: " + query);
-        List<FirmShow> filteredList = new ArrayList<>();
-        if(cacheFirmShows != null) {
-            for (FirmShow firm : cacheFirmShows) {
+        List<FilmShow> filteredList = new ArrayList<>();
+        if(cacheFilmShows != null) {
+            for (FilmShow firm : cacheFilmShows) {
                 if (firm.getName().toLowerCase().contains(query.toLowerCase())) {
                     filteredList.add(firm);
                 }
             }
         }
 
-        mListFirmShows.clear();
-        mListFirmShows.addAll(filteredList);
-        firmShowAdapter.notifyDataSetChanged();
+        mListFilmShows.clear();
+        mListFilmShows.addAll(filteredList);
+        filmShowAdapter.notifyDataSetChanged();
 
         if (filteredList.isEmpty()) {
             Toast.makeText(this, "Không tìm thấy kết quả", Toast.LENGTH_SHORT).show();
@@ -238,12 +238,12 @@ public class AdminActivityManageFirm extends AppCompatActivity {
                     if (result.getResultCode() == UPDATE_FIRM_REQUEST_CODE) { // Assuming 5 is the code for successful update
                         Intent data = result.getData();
                         if (data != null) {
-                            FirmShow updatedFirm = (FirmShow) data.getSerializableExtra("updated_firm");
+                            FilmShow updatedFirm = (FilmShow) data.getSerializableExtra("updated_firm");
                             if (updatedFirm != null) {
                                 int position = data.getIntExtra("position", -1);
-                                if (position >= 0 && position < mListFirmShows.size()) {
-                                    mListFirmShows.set(position, updatedFirm);
-                                    firmShowAdapter.notifyItemChanged(position);
+                                if (position >= 0 && position < mListFilmShows.size()) {
+                                    mListFilmShows.set(position, updatedFirm);
+                                    filmShowAdapter.notifyItemChanged(position);
                                     Toast.makeText(AdminActivityManageFirm.this, "Cập nhật phim thành công", Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -252,9 +252,9 @@ public class AdminActivityManageFirm extends AppCompatActivity {
                         Intent data = result.getData();
                         int position = data != null ? data.getIntExtra("position", -1) : -1;
                         String message = data != null ? data.getStringExtra("status") : null;
-                        if (position >= 0 && position < mListFirmShows.size()) {
-                            mListFirmShows.remove(position);
-                            firmShowAdapter.notifyItemRemoved(position);
+                        if (position >= 0 && position < mListFilmShows.size()) {
+                            mListFilmShows.remove(position);
+                            filmShowAdapter.notifyItemRemoved(position);
                             Toast.makeText(AdminActivityManageFirm.this, message, Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -271,10 +271,10 @@ public class AdminActivityManageFirm extends AppCompatActivity {
                     if (result.getResultCode() == ADD_FIRM_REQUEST_CODE) { // Assuming 4 is the code for successful addition
                         Intent data = result.getData();
                         if (data != null) {
-                            FirmShow newFirm = (FirmShow) data.getSerializableExtra("new_firm");
+                            FilmShow newFirm = (FilmShow) data.getSerializableExtra("new_firm");
                             if (newFirm != null) {
-                                mListFirmShows.add(newFirm);
-                                firmShowAdapter.notifyItemInserted(mListFirmShows.size() - 1);
+                                mListFilmShows.add(newFirm);
+                                filmShowAdapter.notifyItemInserted(mListFilmShows.size() - 1);
                                 Toast.makeText(AdminActivityManageFirm.this, "Thêm phim mới thành công", Toast.LENGTH_SHORT).show();
                             }
                         }

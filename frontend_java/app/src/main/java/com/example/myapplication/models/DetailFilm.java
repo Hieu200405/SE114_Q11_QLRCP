@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class DetailFirm implements Parcelable {
+public class DetailFilm implements Parcelable {
 
     @SerializedName("ID")
     private int id;
@@ -41,7 +41,7 @@ public class DetailFirm implements Parcelable {
     private Integer runtime;
 // Getters
 
-    protected DetailFirm(Parcel in) {
+    protected DetailFilm(Parcel in) {
         id = in.readInt();
         name = in.readString();
         startDate = in.readString();
@@ -98,15 +98,15 @@ public class DetailFirm implements Parcelable {
         return 0;
     }
 
-    public static final Creator<DetailFirm> CREATOR = new Creator<DetailFirm>() {
+    public static final Creator<DetailFilm> CREATOR = new Creator<DetailFilm>() {
         @Override
-        public DetailFirm createFromParcel(Parcel in) {
-            return new DetailFirm(in);
+        public DetailFilm createFromParcel(Parcel in) {
+            return new DetailFilm(in);
         }
 
         @Override
-        public DetailFirm[] newArray(int size) {
-            return new DetailFirm[size];
+        public DetailFilm[] newArray(int size) {
+            return new DetailFilm[size];
         }
     };
 

@@ -1,6 +1,5 @@
 package com.example.myapplication.adapters;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,17 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
-import com.example.myapplication.activities.UserDetailFirm;
-import com.example.myapplication.models.FirmShow;
+import com.example.myapplication.models.FilmShow;
 
 import java.util.List;
 
 public class FirmShowAdapter extends RecyclerView.Adapter<FirmShowAdapter.FirmShowViewHolder> {
-    private List <FirmShow> firmShowList;
+    private List <FilmShow> filmShowList;
     private OnItemClickListener listener;
 
-    public FirmShowAdapter(List<FirmShow> firmShowList) {
-        this.firmShowList = firmShowList;
+    public FirmShowAdapter(List<FilmShow> filmShowList) {
+        this.filmShowList = filmShowList;
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -37,21 +35,21 @@ public class FirmShowAdapter extends RecyclerView.Adapter<FirmShowAdapter.FirmSh
 
 
     public interface OnItemClickListener {
-        void onItemClick(FirmShow firmShow, int position);
+        void onItemClick(FilmShow filmShow, int position);
     }
 
     @Override
     public void onBindViewHolder(@NonNull FirmShowViewHolder holder, int position) {
-        FirmShow firmShow = firmShowList.get(position);
-        if( firmShow == null){
+        FilmShow filmShow = filmShowList.get(position);
+        if( filmShow == null){
             return;
         }
         Glide.with(holder.itemView.getContext())
-                .load(firmShow.getThumbnailPath())
+                .load(filmShow.getThumbnailPath())
                 .error(R.drawable.default_img)
                 .into(holder.thumbnailImageView);
-        holder.nameFirmTextView.setText("Name: "+ firmShow.getName());
-        holder.startedFirmTextView.setText("Started on: " +firmShow.getStartDate());
+        holder.nameFirmTextView.setText("Name: "+ filmShow.getName());
+        holder.startedFirmTextView.setText("Started on: " + filmShow.getStartDate());
 
 
 
@@ -62,7 +60,7 @@ public class FirmShowAdapter extends RecyclerView.Adapter<FirmShowAdapter.FirmSh
 //            v.getContext().startActivity(intent);
 
             if (listener != null) {
-                listener.onItemClick(firmShow, position);
+                listener.onItemClick(filmShow, position);
             }
         });
 
@@ -70,8 +68,8 @@ public class FirmShowAdapter extends RecyclerView.Adapter<FirmShowAdapter.FirmSh
 
     @Override
     public int getItemCount() {
-        if (firmShowList != null) {
-            return firmShowList.size();
+        if (filmShowList != null) {
+            return filmShowList.size();
         }
         return 0;
     }

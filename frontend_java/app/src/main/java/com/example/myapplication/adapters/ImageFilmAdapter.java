@@ -10,15 +10,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
-import com.example.myapplication.models.ImageFirm;
+import com.example.myapplication.models.ImageFilm;
 
 import java.util.List;
 
 public class ImageFirmAdapter extends RecyclerView.Adapter<ImageFirmAdapter.ImageFirmViewHolder> {
 
-    private List<ImageFirm> imageFirmList;
-    public ImageFirmAdapter(List<ImageFirm> imageFirms){
-        this.imageFirmList = imageFirms;
+    private List<ImageFilm> imageFilmList;
+    public ImageFirmAdapter(List<ImageFilm> imageFilms){
+        this.imageFilmList = imageFilms;
     }
 
 
@@ -31,17 +31,17 @@ public class ImageFirmAdapter extends RecyclerView.Adapter<ImageFirmAdapter.Imag
 
     @Override
     public void onBindViewHolder(@NonNull ImageFirmViewHolder holder, int position) {
-        ImageFirm imageFirm = imageFirmList.get(position);
+        ImageFilm imageFilm = imageFilmList.get(position);
         Glide.with(holder.itemView.getContext())
-                .load(imageFirm.getImageUrl())
+                .load(imageFilm.getImageUrl())
                 .error(R.drawable.default_img) // Replace with your default image resource
                 .into(((ImageFirmViewHolder) holder).imageView);
     }
 
     @Override
     public int getItemCount() {
-        if (imageFirmList != null) {
-            return imageFirmList.size();
+        if (imageFilmList != null) {
+            return imageFilmList.size();
         } else {
             return 0; // Return 0 if the list is null to avoid NullPointerException
         }

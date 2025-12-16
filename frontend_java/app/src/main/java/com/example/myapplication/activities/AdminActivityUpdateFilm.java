@@ -15,10 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
-import com.example.myapplication.models.FirmShow;
-import com.example.myapplication.models.FirmUpdateRequest;
+import com.example.myapplication.models.FilmShow;
+import com.example.myapplication.models.FilmUpdateRequest;
 import com.example.myapplication.network.ApiClient;
-import com.example.myapplication.network.ApiFirmService;
+import com.example.myapplication.network.ApiFilmService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +26,6 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.concurrent.CountDownLatch;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -238,15 +237,15 @@ public class AdminActivityUpdateFirm extends AppCompatActivity {
         return  true;
     }
 
-    private void updateFirmByApi(FirmUpdateRequest firmUpdateRequest) {
-        ApiFirmService apiFirmService = ApiClient.getRetrofit().create(ApiFirmService.class);
-        retrofit2.Call<FirmShow> call = apiFirmService.updateFirm(accessToken, firmId, firmUpdateRequest);
+    private void updateFirmByApi(FilmUpdateRequest filmUpdateRequest) {
+        ApiFilmService apiFilmService = ApiClient.getRetrofit().create(ApiFilmService.class);
+        retrofit2.Call<FilmShow> call = apiFilmService.updateFirm(accessToken, firmId, filmUpdateRequest);
         call.enqueue(
-                new retrofit2.Callback<FirmShow>() {
+                new retrofit2.Callback<FilmShow>() {
                     @Override
-                    public void onResponse(retrofit2.Call<FirmShow> call, retrofit2.Response<FirmShow> response) {
+                    public void onResponse(retrofit2.Call<FilmShow> call, retrofit2.Response<FilmShow> response) {
                         if (response.isSuccessful()) {
-                            FirmShow updatedFirm = response.body();
+                            FilmShow updatedFirm = response.body();
                             Intent intent = new Intent();
                             intent.putExtra("firmId", firmId);
                             setResult(RESULT_OK, intent);
@@ -258,7 +257,7 @@ public class AdminActivityUpdateFirm extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(retrofit2.Call<FirmShow> call, Throwable t) {
+                    public void onFailure(retrofit2.Call<FilmShow> call, Throwable t) {
                         Toast.makeText(AdminActivityUpdateFirm.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                         Log.e("UPDATE_FIRM", "Failure: ", t);
                     }
@@ -282,7 +281,7 @@ public class AdminActivityUpdateFirm extends AppCompatActivity {
 
                 @Override
                 public void onSuccess(String imageUrl) {
-                    FirmUpdateRequest firmUpdateRequest = new FirmUpdateRequest(
+                    FilmUpdateRequest filmUpdateRequest = new FilmUpdateRequest(
                             name,
                             description,
                             imageUrl,
@@ -290,7 +289,7 @@ public class AdminActivityUpdateFirm extends AppCompatActivity {
                             Integer.parseInt(ratingCount),
                             Integer.parseInt(runningTime)
                     );
-                    runOnUiThread(() -> updateFirmByApi(firmUpdateRequest));
+                    runOnUiThread(() -> updateFirmByApi(filmUpdateRequest));
                 }
 
                 @Override
