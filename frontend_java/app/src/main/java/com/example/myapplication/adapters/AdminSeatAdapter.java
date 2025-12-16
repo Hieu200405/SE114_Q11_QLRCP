@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.models.FirmShow;
 import com.example.myapplication.models.Seat;
 
 import java.util.List;

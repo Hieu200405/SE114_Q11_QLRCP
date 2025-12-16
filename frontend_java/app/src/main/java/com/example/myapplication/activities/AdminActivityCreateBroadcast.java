@@ -17,9 +17,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
-import com.example.myapplication.models.Broadcast;
-import com.example.myapplication.models.BroadcastFirm;
-import com.example.myapplication.models.BroadcastFirmRequest;
+import com.example.myapplication.models.BroadcastFilm;
+import com.example.myapplication.models.BroadcastFilmRequest;
 import com.example.myapplication.models.RoomResponse;
 import com.example.myapplication.network.ApiBroadcastService;
 import com.example.myapplication.network.ApiClient;
@@ -196,24 +195,24 @@ public class AdminActivityCreateBroadcast extends AppCompatActivity {
                     Toast.makeText(this, "Số ghế vượt quá số ghế tối đa của phòng!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                BroadcastFirmRequest broadcastFirmRequest = new BroadcastFirmRequest(room_id, firmId, time, date, price, seats);
-                createBroadcastApi(broadcastFirmRequest);
+                BroadcastFilmRequest broadcastFilmRequest = new BroadcastFilmRequest(room_id, firmId, time, date, price, seats);
+                createBroadcastApi(broadcastFilmRequest);
             }
         );
 
     }
 
 
-    void  createBroadcastApi(BroadcastFirmRequest broadcastFirmRequest){
+    void  createBroadcastApi(BroadcastFilmRequest broadcastFilmRequest){
         ApiBroadcastService apiBroadcastService = ApiClient.getRetrofit().create(ApiBroadcastService.class);
-        Call<BroadcastFirm> call = apiBroadcastService.createBroadcast("Bearer " + accessToken, broadcastFirmRequest);
+        Call<BroadcastFilm> call = apiBroadcastService.createBroadcast("Bearer " + accessToken, broadcastFilmRequest);
         call.enqueue(
-            new retrofit2.Callback<BroadcastFirm>() {
+            new retrofit2.Callback<BroadcastFilm>() {
                 @Override
-                public void onResponse(Call<BroadcastFirm> call, retrofit2.Response<BroadcastFirm> response) {
+                public void onResponse(Call<BroadcastFilm> call, retrofit2.Response<BroadcastFilm> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         // Handle successful creation of broadcast
-                        BroadcastFirm createdBroadcast = response.body();
+                        BroadcastFilm createdBroadcast = response.body();
                         Toast.makeText(AdminActivityCreateBroadcast.this, "Tạo buổi chiếu thành công!", Toast.LENGTH_SHORT).show();
                         Intent resultIntent = new Intent();
                         resultIntent.putExtra("newBroadcast", createdBroadcast);
@@ -226,7 +225,7 @@ public class AdminActivityCreateBroadcast extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<BroadcastFirm> call, Throwable t) {
+                public void onFailure(Call<BroadcastFilm> call, Throwable t) {
                     // Handle the failure case
                     Toast.makeText(AdminActivityCreateBroadcast.this, "Gọi API lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }

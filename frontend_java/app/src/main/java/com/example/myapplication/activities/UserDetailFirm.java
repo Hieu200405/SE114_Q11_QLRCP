@@ -15,14 +15,12 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
-import com.example.myapplication.adapters.ImageFirmAdapter;
-import com.example.myapplication.models.DetailFirm;
-import com.example.myapplication.models.FirmShow;
-import com.example.myapplication.models.ImageFirm;
+import com.example.myapplication.adapters.ImageFilmAdapter;
+import com.example.myapplication.models.DetailFilm;
+import com.example.myapplication.models.ImageFilm;
 import com.example.myapplication.network.ApiClient;
-import com.example.myapplication.network.ApiFirmService;
+import com.example.myapplication.network.ApiFilmService;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,8 +32,8 @@ public class UserDetailFirm extends  AppCompatActivity {
     // This class is currently empty, but you can add methods and properties as needed
     // to handle user details related to firms.
     String accessToken;
-    private DetailFirm detailFirm;
-    private ImageFirmAdapter imageAdapter;
+    private DetailFilm detailFilm;
+    private ImageFilmAdapter imageAdapter;
     private ViewPager2 viewPager;
     ImageView imageBack; // Assuming you have a back button in your layout
     ImageView imageFirmShow;
@@ -98,28 +96,28 @@ public class UserDetailFirm extends  AppCompatActivity {
         // Implement the logic to load firm details here
         // This could involve making a network request to fetch firm data
         // and then updating the UI with that data.
-        ApiFirmService apiFirmService = ApiClient.getRetrofit().create(ApiFirmService.class);
-        Call<DetailFirm> call = apiFirmService.getFirmById("Bearer "+ accessToken, id); // Replace 1 with the actual firm ID you want to fetch
+        ApiFilmService apiFilmService = ApiClient.getRetrofit().create(ApiFilmService.class);
+        Call<DetailFilm> call = apiFilmService.getFirmById("Bearer "+ accessToken, id); // Replace 1 with the actual firm ID you want to fetch
 
-        call.enqueue(new Callback<DetailFirm>() {
+        call.enqueue(new Callback<DetailFilm>() {
             @SuppressLint("SetTextI18n")
             @Override
-            public void onResponse(@NonNull Call<DetailFirm> call, @NonNull Response<DetailFirm> response) {
+            public void onResponse(@NonNull Call<DetailFilm> call, @NonNull Response<DetailFilm> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    detailFirm = response.body();
-                    Log.e("API_RESPONSE", "Response body: " + detailFirm.getImages().size());
-                    List<ImageFirm> imageArray = detailFirm.getImages();
-                    imageAdapter = new ImageFirmAdapter(imageArray);
+                    detailFilm = response.body();
+                    Log.e("API_RESPONSE", "Response body: " + detailFilm.getImages().size());
+                    List<ImageFilm> imageArray = detailFilm.getImages();
+                    imageAdapter = new ImageFilmAdapter(imageArray);
                     viewPager.setAdapter(imageAdapter);
                     Glide.with(imageFirmShow)
-                            .load(detailFirm.getThumbnailPath())
+                            .load(detailFilm.getThumbnailPath())
                             .error(R.drawable.default_img) // Replace with your default image resource
                             .into(imageFirmShow);
-                    nameFirmTextView.setText(detailFirm.getName());
-                    descriptionFirmTextView.setText(detailFirm.getDescription());
-                    startedFirmTextView.setText("Date on: "+ detailFirm.getStartDate());
-                    textRating.setText("Rating: " + detailFirm.getRating());
-                    textRuntime.setText(detailFirm.getRuntime() + " min");
+                    nameFirmTextView.setText(detailFilm.getName());
+                    descriptionFirmTextView.setText(detailFilm.getDescription());
+                    startedFirmTextView.setText("Date on: "+ detailFilm.getStartDate());
+                    textRating.setText("Rating: " + detailFilm.getRating());
+                    textRuntime.setText(detailFilm.getRuntime() + " min");
                     Log.e("API_RESPONSE", "Response code: " + response.code());
                 } else {
                     Toast.makeText(UserDetailFirm.this, "Không lấy được dữ liệu", Toast.LENGTH_SHORT).show();
@@ -127,7 +125,7 @@ public class UserDetailFirm extends  AppCompatActivity {
 
             }
 
-            public void onFailure(Call<DetailFirm> call, Throwable t) {
+            public void onFailure(Call<DetailFilm> call, Throwable t) {
                 Toast.makeText(UserDetailFirm.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("API_ERROR", Objects.requireNonNull(t.getMessage()));
             }
@@ -170,7 +168,7 @@ public class UserDetailFirm extends  AppCompatActivity {
         // Implement the logic to handle booking tickets for the firm
         // This could involve navigating to a booking screen or showing a dialog
         btnBookTicket.setOnClickListener(v -> {
-            Toast.makeText(UserDetailFirm.this, "Đặt vé cho phim " + detailFirm.getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(UserDetailFirm.this, "Đặt vé cho phim " + detailFilm.getName(), Toast.LENGTH_SHORT).show();
             // Add your booking logic here
             Intent intent = new Intent(UserDetailFirm.this, UserShowListBroadcast.class); // Replace with your actual Booking Activity
             intent.putExtra("firmId", firmId);

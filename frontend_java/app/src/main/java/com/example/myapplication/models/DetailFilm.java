@@ -34,7 +34,7 @@ public class DetailFilm implements Parcelable {
     private String thumbnailPath;
 
     @SerializedName("Images")
-    private List<ImageFirm> images;
+    private List<ImageFilm> images;
 
 
     @SerializedName("Runtime")
@@ -147,7 +147,7 @@ public class DetailFilm implements Parcelable {
         return thumbnailPath;
     }
 
-    public List<ImageFirm> getImages() {
+    public List<ImageFilm> getImages() {
         return images;
     }
 
@@ -184,7 +184,7 @@ public class DetailFilm implements Parcelable {
         this.description = description;
     }
 
-    public void setImages(List<ImageFirm> images) {
+    public void setImages(List<ImageFilm> images) {
         this.images = images;
     }
 }

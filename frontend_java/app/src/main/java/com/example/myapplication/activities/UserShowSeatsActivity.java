@@ -13,18 +13,14 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.adapters.SeatAdapter;
 import com.example.myapplication.models.BookingTicketRequest;
 import com.example.myapplication.models.BookingTicketResponse;
-import com.example.myapplication.models.BroadcastFirm;
+import com.example.myapplication.models.BroadcastFilm;
 import com.example.myapplication.models.CreatePaymentRequest;
 import com.example.myapplication.models.CreatePaymentResponse;
 import com.example.myapplication.models.Seat;
@@ -152,14 +148,14 @@ public class UserShowSeatsActivity extends AppCompatActivity {
      */
     private void loadBroadcastPrice(int firmId, int broadcastId) {
         ApiBroadcastService apiBroadcastService = ApiClient.getRetrofit().create(ApiBroadcastService.class);
-        Call<List<BroadcastFirm>> call = apiBroadcastService.getBroadcastsByFirmId(firmId);
+        Call<List<BroadcastFilm>> call = apiBroadcastService.getBroadcastsByFirmId(firmId);
 
-        call.enqueue(new Callback<List<BroadcastFirm>>() {
+        call.enqueue(new Callback<List<BroadcastFilm>>() {
             @Override
-            public void onResponse(@NonNull Call<List<BroadcastFirm>> call, @NonNull Response<List<BroadcastFirm>> response) {
+            public void onResponse(@NonNull Call<List<BroadcastFilm>> call, @NonNull Response<List<BroadcastFilm>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<BroadcastFirm> broadcasts = response.body();
-                    for (BroadcastFirm b : broadcasts) {
+                    List<BroadcastFilm> broadcasts = response.body();
+                    for (BroadcastFilm b : broadcasts) {
                         if (b != null && b.getID() == broadcastId) {
                             // Use the Price field from the broadcast
                             double price = b.getPrice();
@@ -175,7 +171,7 @@ public class UserShowSeatsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<BroadcastFirm>> call, Throwable t) {
+            public void onFailure(Call<List<BroadcastFilm>> call, Throwable t) {
                 Log.e(TAG, "Error loading broadcasts for price: " + t.getMessage());
             }
         });

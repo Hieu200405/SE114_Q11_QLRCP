@@ -32,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AdminActivityManageFirm extends AppCompatActivity {
+public class AdminActivityManageFilm extends AppCompatActivity {
     String accessToken;
     private final int ADD_FIRM_REQUEST_CODE = 4; // Assuming this is the code for adding a firm
     private final int UPDATE_FIRM_REQUEST_CODE = 5; // Assuming this is the code for updating a firm
@@ -84,7 +84,7 @@ public class AdminActivityManageFirm extends AppCompatActivity {
         filmShowAdapter.setOnItemClickListener(new FilmShowAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(FilmShow filmShow, int position) {
-                Intent intent = new Intent(AdminActivityManageFirm.this, AdminDetailFirm.class);
+                Intent intent = new Intent(AdminActivityManageFilm.this, AdminDetailFilm.class);
                 intent.putExtra("firm_id", filmShow.getId());
                 intent.putExtra("position", position); // Pass the position for updates/deletes
                 launcherDetailFirm.launch(intent);
@@ -110,23 +110,23 @@ public class AdminActivityManageFirm extends AppCompatActivity {
 
     void listenMenuButtons() {
         imageHome.setOnClickListener(v -> {
-            Intent intent = new Intent(AdminActivityManageFirm.this, AdminMainActivity.class);
+            Intent intent = new Intent(AdminActivityManageFilm.this, AdminMainActivity.class);
             startActivity(intent);
         });
 
 
         imageManageUser.setOnClickListener(v -> {
-            Intent intent = new Intent(AdminActivityManageFirm.this, AdminActivityManageUser.class);
+            Intent intent = new Intent(AdminActivityManageFilm.this, AdminActivityManageUser.class);
             startActivity(intent);
         });
 
         imageManageRoom.setOnClickListener(v -> {
-            Intent intent = new Intent(AdminActivityManageFirm.this, AdminActivityManageRoom.class);
+            Intent intent = new Intent(AdminActivityManageFilm.this, AdminActivityManageRoom.class);
             startActivity(intent);
         });
 
         imageUser.setOnClickListener(v -> {
-            Intent intent = new Intent(AdminActivityManageFirm.this, AdminActivityProfile.class);
+            Intent intent = new Intent(AdminActivityManageFilm.this, AdminActivityProfile.class);
             startActivity(intent);
         });
 
@@ -155,7 +155,7 @@ public class AdminActivityManageFirm extends AppCompatActivity {
 
                 } catch (NullPointerException e) {
                     Log.e("API_ERROR", "Response body is null: " + e.getMessage());
-                    Toast.makeText(AdminActivityManageFirm.this, "Lỗi: Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminActivityManageFilm.this, "Lỗi: Không có dữ liệu", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -163,7 +163,7 @@ public class AdminActivityManageFirm extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<FilmShow>> call, Throwable t) {
-                Toast.makeText(AdminActivityManageFirm.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AdminActivityManageFilm.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("API_ERROR", t.getMessage());
             }
         });
@@ -244,7 +244,7 @@ public class AdminActivityManageFirm extends AppCompatActivity {
                                 if (position >= 0 && position < mListFilmShows.size()) {
                                     mListFilmShows.set(position, updatedFirm);
                                     filmShowAdapter.notifyItemChanged(position);
-                                    Toast.makeText(AdminActivityManageFirm.this, "Cập nhật phim thành công", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AdminActivityManageFilm.this, "Cập nhật phim thành công", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
@@ -255,7 +255,7 @@ public class AdminActivityManageFirm extends AppCompatActivity {
                         if (position >= 0 && position < mListFilmShows.size()) {
                             mListFilmShows.remove(position);
                             filmShowAdapter.notifyItemRemoved(position);
-                            Toast.makeText(AdminActivityManageFirm.this, message, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AdminActivityManageFilm.this, message, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -275,7 +275,7 @@ public class AdminActivityManageFirm extends AppCompatActivity {
                             if (newFirm != null) {
                                 mListFilmShows.add(newFirm);
                                 filmShowAdapter.notifyItemInserted(mListFilmShows.size() - 1);
-                                Toast.makeText(AdminActivityManageFirm.this, "Thêm phim mới thành công", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AdminActivityManageFilm.this, "Thêm phim mới thành công", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -283,7 +283,7 @@ public class AdminActivityManageFirm extends AppCompatActivity {
     }
     private void ListenerAddFirm(){
         fabAddFirm.setOnClickListener(v -> {
-           Intent intent = new Intent(AdminActivityManageFirm.this, AdminActivityCreateNewFirm.class);
+           Intent intent = new Intent(AdminActivityManageFilm.this, AdminActivityCreateNewFirm.class);
             launcherAddFirm.launch(intent);
         });
     }

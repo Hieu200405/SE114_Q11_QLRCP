@@ -18,10 +18,10 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
-public interface ApiFirmService {
+public interface ApiFilmService {
 
     @GET("firms/get_all")
-    Call<List<FilmShow>> getAllFirms();
+    Call<List<FilmShow>> getAllFilms();
 
     @GET("firms/get/{id}")
     Call<DetailFilm> getFirmById(@Header("Authorization") String token, @Path("id") String id);

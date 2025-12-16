@@ -12,7 +12,7 @@ package com.example.myapplication.models;
     "runtime": 110
 }
  */
-public class FirmUpdateRequest {
+public class FilmUpdateRequest {
     private String name;
     private String description;
     private String thumbnail;
@@ -20,7 +20,7 @@ public class FirmUpdateRequest {
     private int rating_count;
     private int runtime;
 
-    public FirmUpdateRequest(String name, String description, String thumbnail, double rating, int rating_count, int runtime) {
+    public FilmUpdateRequest(String name, String description, String thumbnail, double rating, int rating_count, int runtime) {
         this.name = name;
         this.description = description;
         this.thumbnail = thumbnail;

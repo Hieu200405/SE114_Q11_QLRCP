@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
-public class BroadcastFirm implements Parcelable {
+public class BroadcastFilm implements Parcelable {
 
     @SerializedName("FirmID")
     private int FirmID;
@@ -30,7 +30,7 @@ public class BroadcastFirm implements Parcelable {
     @SerializedName("Price")
     private double Price;
 
-    protected BroadcastFirm(Parcel in) {
+    protected BroadcastFilm(Parcel in) {
         FirmID = in.readInt();
         ID = in.readInt();
         DateBroadcast = in.readString();
@@ -39,15 +39,15 @@ public class BroadcastFirm implements Parcelable {
         Seats = in.readInt();
         Price = in.readDouble();
     }
-    public static final Creator<BroadcastFirm> CREATOR = new Creator<BroadcastFirm>() {
+    public static final Creator<BroadcastFilm> CREATOR = new Creator<BroadcastFilm>() {
         @Override
-        public BroadcastFirm createFromParcel(Parcel in) {
-            return new BroadcastFirm(in);
+        public BroadcastFilm createFromParcel(Parcel in) {
+            return new BroadcastFilm(in);
         }
 
         @Override
-        public BroadcastFirm[] newArray(int size) {
-            return new BroadcastFirm[size];
+        public BroadcastFilm[] newArray(int size) {
+            return new BroadcastFilm[size];
         }
     };
     @Override

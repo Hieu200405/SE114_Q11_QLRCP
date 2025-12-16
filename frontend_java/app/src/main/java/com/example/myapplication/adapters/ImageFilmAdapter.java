@@ -14,28 +14,28 @@ import com.example.myapplication.models.ImageFilm;
 
 import java.util.List;
 
-public class ImageFirmAdapter extends RecyclerView.Adapter<ImageFirmAdapter.ImageFirmViewHolder> {
+public class ImageFilmAdapter extends RecyclerView.Adapter<ImageFilmAdapter.ImageFilmViewHolder> {
 
     private List<ImageFilm> imageFilmList;
-    public ImageFirmAdapter(List<ImageFilm> imageFilms){
+    public ImageFilmAdapter(List<ImageFilm> imageFilms){
         this.imageFilmList = imageFilms;
     }
 
 
     @NonNull
     @Override
-    public ImageFirmViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ImageFilmViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image, parent, false);
-        return new ImageFirmAdapter.ImageFirmViewHolder(view);
+        return new ImageFilmViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ImageFirmViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ImageFilmViewHolder holder, int position) {
         ImageFilm imageFilm = imageFilmList.get(position);
         Glide.with(holder.itemView.getContext())
                 .load(imageFilm.getImageUrl())
                 .error(R.drawable.default_img) // Replace with your default image resource
-                .into(((ImageFirmViewHolder) holder).imageView);
+                .into(((ImageFilmViewHolder) holder).imageView);
     }
 
     @Override
@@ -47,10 +47,10 @@ public class ImageFirmAdapter extends RecyclerView.Adapter<ImageFirmAdapter.Imag
         }
     }
 
-    public static class  ImageFirmViewHolder extends RecyclerView.ViewHolder {
+    public static class ImageFilmViewHolder extends RecyclerView.ViewHolder {
         // Define your ViewHolder here
         ImageView imageView;
-        public ImageFirmViewHolder(@NonNull View itemView) {
+        public ImageFilmViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView); // Replace with your actual ImageView ID
             // Initialize your views here

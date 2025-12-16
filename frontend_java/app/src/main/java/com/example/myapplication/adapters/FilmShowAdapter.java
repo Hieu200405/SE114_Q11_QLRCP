@@ -15,11 +15,11 @@ import com.example.myapplication.models.FilmShow;
 
 import java.util.List;
 
-public class FirmShowAdapter extends RecyclerView.Adapter<FirmShowAdapter.FirmShowViewHolder> {
+public class FilmShowAdapter extends RecyclerView.Adapter<FilmShowAdapter.FirmShowViewHolder> {
     private List <FilmShow> filmShowList;
     private OnItemClickListener listener;
 
-    public FirmShowAdapter(List<FilmShow> filmShowList) {
+    public FilmShowAdapter(List<FilmShow> filmShowList) {
         this.filmShowList = filmShowList;
     }
 

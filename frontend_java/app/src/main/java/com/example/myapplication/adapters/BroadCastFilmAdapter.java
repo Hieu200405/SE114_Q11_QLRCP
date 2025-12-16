@@ -1,9 +1,6 @@
 package com.example.myapplication.adapters;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,28 +11,27 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.activities.UserShowSeatsActivity;
-import com.example.myapplication.models.BroadcastFirm;
+import com.example.myapplication.models.BroadcastFilm;
 
 import java.util.List;
 
-public class BroadCastFirmAdapter extends RecyclerView.Adapter<BroadCastFirmAdapter.BroadcastFirmHolder> {
+public class BroadCastFilmAdapter extends RecyclerView.Adapter<BroadCastFilmAdapter.BroadcastFirmHolder> {
 
-    private List<BroadcastFirm> broadcastFirmList;
+    private List<BroadcastFilm> broadcastFilmList;
     private String role = "user"; // Default role
 
-    public BroadCastFirmAdapter(List<BroadcastFirm> broadcastFirmList) {
-        this.broadcastFirmList = broadcastFirmList;
+    public BroadCastFilmAdapter(List<BroadcastFilm> broadcastFilmList) {
+        this.broadcastFilmList = broadcastFilmList;
     }
 
-    public BroadCastFirmAdapter(List<BroadcastFirm> broadcastFirmList, String role) {
-        this.broadcastFirmList = broadcastFirmList;
+    public BroadCastFilmAdapter(List<BroadcastFilm> broadcastFilmList, String role) {
+        this.broadcastFilmList = broadcastFilmList;
         this.role = role;
     }
 
     public interface OnItemClickListener {
-        void onItemClick(BroadcastFirm broadcastFirm);
-        void onDeleteClick(BroadcastFirm broadcastFirm);
+        void onItemClick(BroadcastFilm broadcastFilm);
+        void onDeleteClick(BroadcastFilm broadcastFilm);
     }
 
     private OnItemClickListener listener;
@@ -55,7 +51,7 @@ public class BroadCastFirmAdapter extends RecyclerView.Adapter<BroadCastFirmAdap
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override
     public void onBindViewHolder(@NonNull BroadcastFirmHolder holder, int position) {
-        BroadcastFirm broadcast = broadcastFirmList.get(position);
+        BroadcastFilm broadcast = broadcastFilmList.get(position);
         holder.textTime.setText(broadcast.getTimeBroadcast().substring(0, 5)); // Giờ:Phút
         holder.textDate.setText(broadcast.getDateBroadcast());
         holder.textRoomSeats.setText("Phòng " + broadcast.getRoomID() + " • " + broadcast.getSeats() + " ghế");
@@ -89,7 +85,7 @@ public class BroadCastFirmAdapter extends RecyclerView.Adapter<BroadCastFirmAdap
 
     @Override
     public int getItemCount() {
-        return broadcastFirmList.size();
+        return broadcastFilmList.size();
     }
 
     public static class BroadcastFirmHolder extends RecyclerView.ViewHolder {

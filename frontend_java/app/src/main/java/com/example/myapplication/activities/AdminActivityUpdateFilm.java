@@ -36,7 +36,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class AdminActivityUpdateFirm extends AppCompatActivity {
+public class AdminActivityUpdateFilm extends AppCompatActivity {
     String accessToken;
     ImageView imageThumbnail, imageBack;
     private ActivityResultLauncher<String> pickImageLauncher;
@@ -49,7 +49,7 @@ public class AdminActivityUpdateFirm extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_activity_update_firm);
+        setContentView(R.layout.admin_activity_update_film);
         accessToken = getSharedPreferences("MyAppPrefs", MODE_PRIVATE).getString("access_token", null);
         setElementById();
         setPickImageLauncher();
@@ -97,8 +97,8 @@ public class AdminActivityUpdateFirm extends AppCompatActivity {
         imageThumbnail = findViewById(R.id.imageThumbnail);
         imageBack = findViewById(R.id.imageBack);
         buttonPickThumbnail = findViewById(R.id.buttonPickThumbnail);
-        buttonUpdateFirm = findViewById(R.id.buttonUpdateFirm);
-        editFirmName = findViewById(R.id.editFirmName);
+        buttonUpdateFirm = findViewById(R.id.buttonUpdateFilm);
+        editFirmName = findViewById(R.id.editFilmName);
         editDescription = findViewById(R.id.editDescription);
         editRunningTime = findViewById(R.id.editRunningTime);
         editRating = findViewById(R.id.editRating);
@@ -251,14 +251,14 @@ public class AdminActivityUpdateFirm extends AppCompatActivity {
                             setResult(RESULT_OK, intent);
                             finish();
                         } else {
-                            Toast.makeText(AdminActivityUpdateFirm.this, "Cập nhật phim thất bại", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AdminActivityUpdateFilm.this, "Cập nhật phim thất bại", Toast.LENGTH_SHORT).show();
                             Log.e("UPDATE_FIRM", "Error: " + response.errorBody());
                         }
                     }
 
                     @Override
                     public void onFailure(retrofit2.Call<FilmShow> call, Throwable t) {
-                        Toast.makeText(AdminActivityUpdateFirm.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AdminActivityUpdateFilm.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                         Log.e("UPDATE_FIRM", "Failure: ", t);
                     }
                 }
@@ -294,7 +294,7 @@ public class AdminActivityUpdateFirm extends AppCompatActivity {
 
                 @Override
                 public void onFailure() {
-                    runOnUiThread(() -> Toast.makeText(AdminActivityUpdateFirm.this, "Tải lên thất bại", Toast.LENGTH_SHORT).show());
+                    runOnUiThread(() -> Toast.makeText(AdminActivityUpdateFilm.this, "Tải lên thất bại", Toast.LENGTH_SHORT).show());
                 }
             });
 

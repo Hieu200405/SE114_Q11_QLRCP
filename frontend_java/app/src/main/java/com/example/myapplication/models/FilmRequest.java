@@ -1,10 +1,5 @@
 package com.example.myapplication.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
-
 import java.util.List;
 
 /*
@@ -26,7 +21,7 @@ import java.util.List;
 
  */
 
-public class FirmRequest{
+public class FilmRequest {
     private String name;
     private String description;
     private String thumbnail;
@@ -37,7 +32,7 @@ public class FirmRequest{
     private int runtime;
     private List<String> images;
 
-    public FirmRequest(String name, String description, String thumbnail, String start_date, String end_date, double rating, int rating_count, int runtime, List<String> images) {
+    public FilmRequest(String name, String description, String thumbnail, String start_date, String end_date, double rating, int rating_count, int runtime, List<String> images) {
         this.name = name;
         this.description = description;
         this.thumbnail = thumbnail;

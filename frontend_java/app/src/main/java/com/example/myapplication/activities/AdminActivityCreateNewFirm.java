@@ -1,11 +1,9 @@
 package com.example.myapplication.activities;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,12 +20,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.adapters.CoverImageAdapter;
-import com.example.myapplication.models.DetailFirm;
-import com.example.myapplication.models.FirmRequest;
-import com.example.myapplication.models.FirmShow;
+import com.example.myapplication.models.FilmRequest;
+import com.example.myapplication.models.FilmShow;
 
 import com.example.myapplication.network.ApiClient;
-import com.example.myapplication.network.ApiFirmService;
+import com.example.myapplication.network.ApiFilmService;
 
 
 import org.json.JSONException;
@@ -48,12 +45,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
-import retrofit2.Retrofit;
 
-import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -125,7 +118,7 @@ public class AdminActivityCreateNewFirm extends AppCompatActivity {
         imageThumbnail = findViewById(R.id.imageThumbnail);
         buttonPickThumbnail = findViewById(R.id.buttonPickThumbnail);
         recyclerCoverImages = findViewById(R.id.recyclerCoverImages);
-        editFirmName = findViewById(R.id.editFirmName);
+        editFirmName = findViewById(R.id.editFilmName);
         editDescription = findViewById(R.id.editDescription);
         editRunningTime = findViewById(R.id.editRunningTime);
         editRating = findViewById(R.id.editRating);
@@ -303,7 +296,7 @@ public class AdminActivityCreateNewFirm extends AppCompatActivity {
                             Log.d("UPLOAD_RESULT 1", "Ảnh bìa URL: " + coverImageUrl);
                         }
 
-                        FirmRequest firmRequest = new FirmRequest(
+                        FilmRequest filmRequest = new FilmRequest(
                                 name,
                                 description,
                                 ThumbnailImageUrl,
@@ -315,7 +308,7 @@ public class AdminActivityCreateNewFirm extends AppCompatActivity {
                                 coverImageUrls
                         );
                         callApiCreateFirm(
-                                firmRequest
+                                filmRequest
                         );
 
                     });
@@ -334,17 +327,17 @@ public class AdminActivityCreateNewFirm extends AppCompatActivity {
     }
 
 
-    private void callApiCreateFirm(FirmRequest firmRequest) {
-        ApiFirmService apiFirmService = ApiClient.getRetrofit().create(ApiFirmService.class);
-        retrofit2.Call<FirmShow> call = apiFirmService.createFirm("Bearer " + accessToken, firmRequest);
-        call.enqueue(new retrofit2.Callback<FirmShow>() {
+    private void callApiCreateFirm(FilmRequest filmRequest) {
+        ApiFilmService apiFilmService = ApiClient.getRetrofit().create(ApiFilmService.class);
+        retrofit2.Call<FilmShow> call = apiFilmService.createFirm("Bearer " + accessToken, filmRequest);
+        call.enqueue(new retrofit2.Callback<FilmShow>() {
             @Override
-            public void onResponse(retrofit2.Call<FirmShow> call, retrofit2.Response<FirmShow> response) {
+            public void onResponse(retrofit2.Call<FilmShow> call, retrofit2.Response<FilmShow> response) {
                 if (response.isSuccessful()) {
-                    FirmShow firmShow = response.body();
+                    FilmShow filmShow = response.body();
                     Toast.makeText(AdminActivityCreateNewFirm.this, "Tạo Phim Thành Công!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
-                    intent.putExtra("new_firm", firmShow);
+                    intent.putExtra("new_firm", filmShow);
                     setResult(4, intent);
                     finish(); // Close the activity after successful creation
                 } else {
@@ -353,7 +346,7 @@ public class AdminActivityCreateNewFirm extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(retrofit2.Call<FirmShow> call, Throwable t) {
+            public void onFailure(retrofit2.Call<FilmShow> call, Throwable t) {
                 Toast.makeText(AdminActivityCreateNewFirm.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

@@ -13,15 +13,15 @@ import java.util.List;
 }
 
  */
-public class FirmIdBroadcastToday {
+public class FilmIdBroadcastToday {
     @SerializedName("firm_ids")
-    private List<Integer> firmIds;
-    public FirmIdBroadcastToday(List<Integer> firmIds) {
-        this.firmIds = firmIds;
+    private List<Integer> filmIds;
+    public FilmIdBroadcastToday(List<Integer> filmIds) {
+        this.filmIds = filmIds;
     }
 
-    public List<Integer> getFirmIds() {
-        return firmIds;
+    public List<Integer> getFilmIds() {
+        return filmIds;
     }
 
 }

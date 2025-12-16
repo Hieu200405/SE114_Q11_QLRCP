@@ -32,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AdminDetailFirm extends AppCompatActivity {
+public class AdminDetailFilm extends AppCompatActivity {
     private final int DELETE_FIRM_REQUEST_CODE = 6;
     String accessToken;
     int position = 0; // Current position in the ViewPager
@@ -136,13 +136,13 @@ public class AdminDetailFirm extends AppCompatActivity {
                     textRuntime.setText(detailFilm.getRuntime() + " min");
                     Log.e("API_RESPONSE", "Response code: " + response.code());
                 } else {
-                    Toast.makeText(AdminDetailFirm.this, "Không lấy được dữ liệu", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminDetailFilm.this, "Không lấy được dữ liệu", Toast.LENGTH_SHORT).show();
                 }
 
             }
 
             public void onFailure(Call<DetailFilm> call, Throwable t) {
-                Toast.makeText(AdminDetailFirm.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AdminDetailFilm.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("API_ERROR", Objects.requireNonNull(t.getMessage()));
             }
         });
@@ -184,9 +184,9 @@ public class AdminDetailFirm extends AppCompatActivity {
         // Implement the logic to handle booking tickets for the firm
         // This could involve navigating to a booking screen or showing a dialog
         btnBroadcast.setOnClickListener(v -> {
-            Toast.makeText(AdminDetailFirm.this, "Booking ticket for " + detailFilm.getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(AdminDetailFilm.this, "Booking ticket for " + detailFilm.getName(), Toast.LENGTH_SHORT).show();
             // Add your booking logic here
-            Intent intent = new Intent(AdminDetailFirm.this, AdminActivityListBroadcast.class); // Replace with your actual Booking Activity
+            Intent intent = new Intent(AdminDetailFilm.this, AdminActivityListBroadcast.class); // Replace with your actual Booking Activity
             intent.putExtra("firmId", firmId);
             startActivity(intent);
         });
@@ -211,9 +211,9 @@ public class AdminDetailFirm extends AppCompatActivity {
                             if (firmId != -1 && status != null) {
                                 // Reload the firm details after update
                                 loadFirmDetail(String.valueOf(firmId));
-                                Toast.makeText(AdminDetailFirm.this, "Cập nhật thành công: " + status, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AdminDetailFilm.this, "Cập nhật thành công: " + status, Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(AdminDetailFirm.this, "Cập nhật không thành công", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AdminDetailFilm.this, "Cập nhật không thành công", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -224,7 +224,7 @@ public class AdminDetailFirm extends AppCompatActivity {
 
     public void ListenerUpdateButton() {
         btnUpdate.setOnClickListener(v -> {
-            Intent intent = new Intent(AdminDetailFirm.this, AdminActivityUpdateFirm.class);
+            Intent intent = new Intent(AdminDetailFilm.this, AdminActivityUpdateFilm.class);
             intent.putExtra("firm_id", detailFilm.getId());
             intent.putExtra("thumbnail_url", detailFilm.getThumbnailPath());
             intent.putExtra("name", detailFilm.getName());
@@ -244,7 +244,7 @@ public class AdminDetailFirm extends AppCompatActivity {
         });
     }
     void AlertDeleteFirm() {
-        new AlertDialog.Builder(AdminDetailFirm.this)
+        new AlertDialog.Builder(AdminDetailFilm.this)
                 .setTitle("Xác nhận Xóa phim")
                 .setMessage("Bạn có chắc chắn muốn xóa không?")
                 .setPositiveButton("Chắc chắn", (dialog, which) -> {
@@ -273,14 +273,14 @@ public class AdminDetailFirm extends AppCompatActivity {
                                 finish();
 
                             } else {
-                                Toast.makeText(AdminDetailFirm.this, "Phim có lịch chiếu không thể xóa", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AdminDetailFilm.this, "Phim có lịch chiếu không thể xóa", Toast.LENGTH_SHORT).show();
                                 Log.e("API_ERROR", "Response code: " + response.code() + ", message: " + response.message());
                             }
                         }
 
                         @Override
                         public void onFailure(@NonNull Call<StatusMessage> call, @NonNull Throwable t) {
-                            Toast.makeText(AdminDetailFirm.this, "Phim có lịch chiếu không thể xóa", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AdminDetailFilm.this, "Phim có lịch chiếu không thể xóa", Toast.LENGTH_SHORT).show();
                             Log.e("API_ERROR", Objects.requireNonNull(t.getMessage()));
                         }
                     }

@@ -6,12 +6,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,11 +19,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.adapters.FirmShowAdapter;
-import com.example.myapplication.models.FirmIdBroadcastToday;
-import com.example.myapplication.models.FirmShow;
+import com.example.myapplication.adapters.FilmShowAdapter;
+import com.example.myapplication.models.FilmIdBroadcastToday;
+import com.example.myapplication.models.FilmShow;
 import com.example.myapplication.network.ApiClient;
-import com.example.myapplication.network.ApiFirmService;
+import com.example.myapplication.network.ApiFilmService;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 
 import java.util.ArrayList;
@@ -40,19 +37,19 @@ public class UserMainActivity extends AppCompatActivity {
 
     String accessToken;
     private RecyclerView FirmShowsRecyclerView;
-    private List <FirmShow> mListFirmShows;
-    private FirmShowAdapter firmShowAdapter;
+    private List <FilmShow> mListFilmShows;
+    private FilmShowAdapter filmShowAdapter;
     ImageView imageHome;
     ImageView imageHistory;
     ImageView imageUser;
 
-    List <FirmShow> cacheFirmShows;
+    List <FilmShow> cacheFilmShows;
     ImageView imageSearch;
     TextView textAppName;
     EditText editSearch;
     ImageView imageBack;
     MaterialAutoCompleteTextView spinnerSort;
-    FirmIdBroadcastToday firmIdBroadcastToday = new FirmIdBroadcastToday(new ArrayList<>());
+    FilmIdBroadcastToday firmIdBroadcastToday = new FilmIdBroadcastToday(new ArrayList<>());
 
 
     @SuppressLint("MissingInflatedId")
@@ -74,19 +71,19 @@ public class UserMainActivity extends AppCompatActivity {
         FirmShowsRecyclerView = findViewById(R.id.firmShowsRecyclerView);
         FirmShowsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mListFirmShows = new ArrayList<>();
-        firmShowAdapter = new FirmShowAdapter(mListFirmShows);
+        mListFilmShows = new ArrayList<>();
+        filmShowAdapter = new FilmShowAdapter(mListFilmShows);
 
-        FirmShowsRecyclerView.setAdapter(firmShowAdapter);
+        FirmShowsRecyclerView.setAdapter(filmShowAdapter);
         loadFirmsFromApi();
         loadFirmIdsBroadcastToday();
 
 //        thiết  lập sự kiện adapter
-        firmShowAdapter.setOnItemClickListener(new FirmShowAdapter.OnItemClickListener() {
+        filmShowAdapter.setOnItemClickListener(new FilmShowAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(FirmShow firmShow, int position) {
+            public void onItemClick(FilmShow filmShow, int position) {
                 Intent intent = new Intent(UserMainActivity.this, UserDetailFirm.class);
-                intent.putExtra("firm_id", firmShow.getId());
+                intent.putExtra("firm_id", filmShow.getId());
                 startActivity(intent);
             }
         });
@@ -101,20 +98,20 @@ public class UserMainActivity extends AppCompatActivity {
 
     }
     private void loadFirmsFromApi() {
-        ApiFirmService apiFirmService = ApiClient.getRetrofit().create(ApiFirmService.class);
-        Call<List<FirmShow>> call = apiFirmService.getAllFirms();
+        ApiFilmService apiFilmService = ApiClient.getRetrofit().create(ApiFilmService.class);
+        Call<List<FilmShow>> call = apiFilmService.getAllFilms();
 
-        call.enqueue(new Callback<List<FirmShow>>() {
+        call.enqueue(new Callback<List<FilmShow>>() {
             @Override
-            public void onResponse(Call<List<FirmShow>> call, Response<List<FirmShow>> response) {
+            public void onResponse(Call<List<FilmShow>> call, Response<List<FilmShow>> response) {
                 try {
                     Log.e("API_RESPONSE", "Response code: " + response.message());
-                    List<FirmShow> firmShows = response.body();
-                    if (firmShows != null) {
-                        cacheFirmShows = new ArrayList<>(firmShows);  // cache data
-                        mListFirmShows.clear();
-                        mListFirmShows.addAll(firmShows);
-                        firmShowAdapter.notifyDataSetChanged();
+                    List<FilmShow> filmShows = response.body();
+                    if (filmShows != null) {
+                        cacheFilmShows = new ArrayList<>(filmShows);  // cache data
+                        mListFilmShows.clear();
+                        mListFilmShows.addAll(filmShows);
+                        filmShowAdapter.notifyDataSetChanged();
                     } else {
                         throw new NullPointerException("Dữ liệu trả về là null");
                     }
@@ -128,7 +125,7 @@ public class UserMainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<FirmShow>> call, Throwable t) {
+            public void onFailure(Call<List<FilmShow>> call, Throwable t) {
                 Toast.makeText(UserMainActivity.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("API_ERROR", t.getMessage());
             }
@@ -136,15 +133,15 @@ public class UserMainActivity extends AppCompatActivity {
     }
 
     private void loadFirmIdsBroadcastToday() {
-        ApiFirmService apiFirmService = ApiClient.getRetrofit().create(ApiFirmService.class);
-        Call<FirmIdBroadcastToday> call = apiFirmService.getFirmIdsBroadcastToday("Bearer " + accessToken);
+        ApiFilmService apiFilmService = ApiClient.getRetrofit().create(ApiFilmService.class);
+        Call<FilmIdBroadcastToday> call = apiFilmService.getFirmIdsBroadcastToday("Bearer " + accessToken);
 
-        call.enqueue(new Callback<FirmIdBroadcastToday>() {
+        call.enqueue(new Callback<FilmIdBroadcastToday>() {
             @Override
-            public void onResponse(Call<FirmIdBroadcastToday> call, Response<FirmIdBroadcastToday> response) {
+            public void onResponse(Call<FilmIdBroadcastToday> call, Response<FilmIdBroadcastToday> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     firmIdBroadcastToday = response.body();
-                    List<Integer> firmIds = firmIdBroadcastToday.getFirmIds();
+                    List<Integer> firmIds = firmIdBroadcastToday.getFilmIds();
                     Log.d("UserMainActivity", "Firm IDs for today: " + firmIds);
 
                 } else {
@@ -153,7 +150,7 @@ public class UserMainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<FirmIdBroadcastToday> call, Throwable t) {
+            public void onFailure(Call<FilmIdBroadcastToday> call, Throwable t) {
                 Log.e("UserMainActivity", "Error: " + t.getMessage());
             }
         });
@@ -187,9 +184,9 @@ public class UserMainActivity extends AppCompatActivity {
             editSearch.setText("");
 
             // Quay về danh sách gốc
-            mListFirmShows.clear();
-            mListFirmShows.addAll(cacheFirmShows);
-            firmShowAdapter.notifyDataSetChanged();
+            mListFilmShows.clear();
+            mListFilmShows.addAll(cacheFilmShows);
+            filmShowAdapter.notifyDataSetChanged();
 
             // Ẩn bàn phím
             InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
@@ -214,18 +211,18 @@ public class UserMainActivity extends AppCompatActivity {
 
     private void searchFirms(String query) {
         Log.d("SearchFirms", "Searching for: " + query);
-        List<FirmShow> filteredList = new ArrayList<>();
-        if(cacheFirmShows != null) {
-            for (FirmShow firm : cacheFirmShows) {
+        List<FilmShow> filteredList = new ArrayList<>();
+        if(cacheFilmShows != null) {
+            for (FilmShow firm : cacheFilmShows) {
                 if (firm.getName().toLowerCase().contains(query.toLowerCase())) {
                     filteredList.add(firm);
                 }
             }
         }
 
-        mListFirmShows.clear();
-        mListFirmShows.addAll(filteredList);
-        firmShowAdapter.notifyDataSetChanged();
+        mListFilmShows.clear();
+        mListFilmShows.addAll(filteredList);
+        filmShowAdapter.notifyDataSetChanged();
 
         if (filteredList.isEmpty()) {
             Toast.makeText(this, "Không tìm thấy kết quả", Toast.LENGTH_SHORT).show();
@@ -283,33 +280,33 @@ public class UserMainActivity extends AppCompatActivity {
     }
 
     void  loadTodayShows() {
-        List<FirmShow> todayShows = new ArrayList<>();
-        for (FirmShow firm : cacheFirmShows) {
-            if (firmIdBroadcastToday.getFirmIds().contains(firm.getId())) {
+        List<FilmShow> todayShows = new ArrayList<>();
+        for (FilmShow firm : cacheFilmShows) {
+            if (firmIdBroadcastToday.getFilmIds().contains(firm.getId())) {
                 todayShows.add(firm);
             }
         }
-        mListFirmShows.clear();
-        mListFirmShows.addAll(todayShows);
-        firmShowAdapter.notifyDataSetChanged();
+        mListFilmShows.clear();
+        mListFilmShows.addAll(todayShows);
+        filmShowAdapter.notifyDataSetChanged();
     }
     void sortByRatingAsc() {
-        mListFirmShows.clear();
-        mListFirmShows.addAll(cacheFirmShows);
-        mListFirmShows.sort((firm1, firm2) -> Double.compare(firm1.getRating(), firm2.getRating()));
-        firmShowAdapter.notifyDataSetChanged();
+        mListFilmShows.clear();
+        mListFilmShows.addAll(cacheFilmShows);
+        mListFilmShows.sort((firm1, firm2) -> Double.compare(firm1.getRating(), firm2.getRating()));
+        filmShowAdapter.notifyDataSetChanged();
     }
     void sortByRatingDesc() {
-        mListFirmShows.clear();
-        mListFirmShows.addAll(cacheFirmShows);
-        mListFirmShows.sort((firm1, firm2) -> Double.compare(firm2.getRating(), firm1.getRating()));
-        firmShowAdapter.notifyDataSetChanged();
+        mListFilmShows.clear();
+        mListFilmShows.addAll(cacheFilmShows);
+        mListFilmShows.sort((firm1, firm2) -> Double.compare(firm2.getRating(), firm1.getRating()));
+        filmShowAdapter.notifyDataSetChanged();
     }
     void sortByName() {
-        mListFirmShows.clear();
-        mListFirmShows.addAll(cacheFirmShows);
-        mListFirmShows.sort((firm1, firm2) -> firm1.getName().compareToIgnoreCase(firm2.getName()));
-        firmShowAdapter.notifyDataSetChanged();
+        mListFilmShows.clear();
+        mListFilmShows.addAll(cacheFilmShows);
+        mListFilmShows.sort((firm1, firm2) -> firm1.getName().compareToIgnoreCase(firm2.getName()));
+        filmShowAdapter.notifyDataSetChanged();
     }
 
 }

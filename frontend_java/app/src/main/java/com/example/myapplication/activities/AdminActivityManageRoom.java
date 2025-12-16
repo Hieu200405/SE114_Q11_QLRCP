@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -27,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Retrofit;
 
 public class AdminActivityManageRoom extends AppCompatActivity {
     private static final int REQUEST_CODE_EDIT_ROOM = 3;
@@ -89,7 +87,7 @@ public class AdminActivityManageRoom extends AppCompatActivity {
         });
 
         imageManageFirm.setOnClickListener(v -> {
-            Intent intent = new Intent(AdminActivityManageRoom.this, AdminActivityManageFirm.class);
+            Intent intent = new Intent(AdminActivityManageRoom.this, AdminActivityManageFilm.class);
             startActivity(intent);
         });
 

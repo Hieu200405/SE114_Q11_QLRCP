@@ -222,7 +222,7 @@ public class AdminActivityProfile extends AppCompatActivity {
 
         imageManageFirm.setOnClickListener(
                 v -> {
-                    Intent intent = new Intent(AdminActivityProfile.this, AdminActivityManageFirm.class);
+                    Intent intent = new Intent(AdminActivityProfile.this, AdminActivityManageFilm.class);
                     startActivity(intent);
                 }
         );

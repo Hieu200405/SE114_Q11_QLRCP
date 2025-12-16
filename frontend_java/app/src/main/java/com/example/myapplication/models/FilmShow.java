@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-    public class FirmShow implements Serializable {
+    public class FilmShow implements Serializable {
 
         @SerializedName("ID")
         private int id;

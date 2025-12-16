@@ -2,9 +2,9 @@ package com.example.myapplication.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ImageFirm {
+public class ImageFilm {
 
-    public ImageFirm(int id, String imageUrl) {
+    public ImageFilm(int id, String imageUrl) {
         this.id = id;
         this.imageUrl = imageUrl;
     }

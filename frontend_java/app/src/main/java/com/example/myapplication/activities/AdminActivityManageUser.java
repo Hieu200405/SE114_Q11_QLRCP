@@ -91,7 +91,7 @@ public class AdminActivityManageUser extends AppCompatActivity {
             startActivity(new Intent(AdminActivityManageUser.this, AdminMainActivity.class));
         });
         imageManageFirm.setOnClickListener(v -> {
-            startActivity(new Intent(AdminActivityManageUser.this, AdminActivityManageFirm.class));
+            startActivity(new Intent(AdminActivityManageUser.this, AdminActivityManageFilm.class));
         });
         imageManageRoom.setOnClickListener(v -> {
             startActivity(new Intent(AdminActivityManageUser.this, AdminActivityManageRoom.class));
