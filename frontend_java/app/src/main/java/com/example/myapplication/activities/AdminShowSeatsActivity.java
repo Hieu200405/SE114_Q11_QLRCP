@@ -98,7 +98,7 @@ public class AdminShowSeatsActivity extends AppCompatActivity {
 
     private void loadSeatsFromApi(int broadcastId) {
         ApiBroadcastService apiBroadcastService = ApiClient.getRetrofit().create(ApiBroadcastService.class);
-        Call<List<Seat>> call = apiBroadcastService.getSeatsByBroadcastId(broadcastId); // Replace 1 with the actual firm ID you want to fetch
+        Call<List<Seat>> call = apiBroadcastService.getSeatsByBroadcastId(broadcastId); // Replace 1 with the actual film ID you want to fetch
 
         call.enqueue(new Callback<List<Seat>>() {
             @SuppressLint("SetTextI18n")

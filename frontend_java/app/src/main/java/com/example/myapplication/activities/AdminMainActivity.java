@@ -1,18 +1,12 @@
 package com.example.myapplication.activities;
 
-import static android.graphics.Color.*;
-
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,41 +15,23 @@ import com.example.myapplication.R;
 import com.example.myapplication.helper.CustomMarkerView;
 import com.example.myapplication.models.RevenueDay;
 
-import com.example.myapplication.models.StatusMessage;
-import com.example.myapplication.models.UserInfo;
 import com.example.myapplication.network.ApiClient;
 import com.example.myapplication.network.ApiRevenueService;
 import com.github.mikephil.charting.animation.Easing;
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
-import com.google.gson.annotations.SerializedName;
 
-import java.io.IOException;
-import java.sql.DataTruncation;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -72,7 +48,7 @@ public class AdminMainActivity extends AppCompatActivity {
     LineChart lineChart;
     TextView tvRevenueToday, tvDateRange, tvTotalTickets;
     Button btnStartDate, btnEndDate;
-    ImageView imageHistory, imageHome, imageManageUser, imageManageFirm, imageProfile, imageRefresh, imageManageRoom;
+    ImageView imageHistory, imageHome, imageManageUser, imageManageFilm, imageProfile, imageRefresh, imageManageRoom;
 
 
 
@@ -121,9 +97,9 @@ public class AdminMainActivity extends AppCompatActivity {
                 }
         );
 
-        imageManageFirm.setOnClickListener(
+        imageManageFilm.setOnClickListener(
                 v -> {
-                    startActivity(new android.content.Intent(AdminMainActivity.this, AdminActivityManageFirm.class));
+                    startActivity(new android.content.Intent(AdminMainActivity.this, AdminActivityManageFilm.class));
                 }
         );
         imageManageUser.setOnClickListener(
@@ -173,7 +149,7 @@ public class AdminMainActivity extends AppCompatActivity {
     void setFindIdElement() {
         imageHistory = findViewById(R.id.imageHistory);
         imageHome = findViewById(R.id.imageHome);
-        imageManageFirm = findViewById(R.id.imageManageFirm);
+        imageManageFilm = findViewById(R.id.imageManageFilm);
         imageManageUser = findViewById(R.id.imageManageUser);
         imageProfile = findViewById(R.id.imageProfile);
         lineChart = findViewById(R.id.lineChart);

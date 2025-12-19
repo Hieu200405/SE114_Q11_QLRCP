@@ -172,12 +172,12 @@
             app:tint="#888888" />
 
         <ImageView
-            android:id="@+id/imageManageFirm"
+            android:id="@+id/imageManageFilm"
             android:layout_width="0dp"
             android:layout_height="@dimen/_32sdp"
             android:layout_weight="1"
             android:padding="@dimen/_2sdp"
-            android:src="@drawable/ic_manage_firm"
+            android:src="@drawable/ic_manage_film"
             app:tint="#888888" />
 
         <ImageView

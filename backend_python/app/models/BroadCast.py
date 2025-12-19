@@ -7,7 +7,7 @@ class Broadcast(db.Model):
     __tablename__ = 'broadcast'
     ID = db.Column(db.Integer, primary_key=True)
     RoomID = db.Column(db.Integer, db.ForeignKey('room.ID'))
-    FirmID = db.Column(db.Integer, db.ForeignKey('firm.ID'))
+    FilmID = db.Column(db.Integer, db.ForeignKey('film.ID'))
     timeBroadcast = db.Column(db.Time)
     dateBroadcast = db.Column(db.Date)
     price = db.Column(db.Float)
@@ -23,7 +23,7 @@ class Broadcast(db.Model):
         return {
             'ID': self.ID,
             'RoomID': self.RoomID,
-            'FirmID': self.FirmID,
+            'FilmID': self.FilmID,
             'TimeBroadcast': self.timeBroadcast.isoformat() if self.timeBroadcast else None,
             'DateBroadcast': self.dateBroadcast.isoformat() if self.dateBroadcast else None,
             'Price': self.price,    
@@ -34,7 +34,7 @@ class Broadcast(db.Model):
         return {
             'ID': self.ID,
             'RoomID': self.RoomID,
-            'FirmID': self.FirmID,
+            'FilmID': self.FilmID,
             'TimeBroadcast': self.timeBroadcast.isoformat() if self.timeBroadcast else None,
             'DateBroadcast': self.dateBroadcast.isoformat() if self.dateBroadcast else None,
             'Price': self.price,
@@ -47,7 +47,7 @@ class Broadcast(db.Model):
         return {
             'ID': self.ID,
             'RoomID': self.RoomID,
-            'FirmID': self.FirmID,
+            'FilmID': self.FilmID,
             'TimeBroadcast': self.timeBroadcast.isoformat() if self.timeBroadcast else None,
             'DateBroadcast': self.dateBroadcast.isoformat() if self.dateBroadcast else None,
             'Price': self.price,

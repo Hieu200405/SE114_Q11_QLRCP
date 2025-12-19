@@ -92,7 +92,7 @@
 
                     <!-- Tên phim -->
                     <TextView
-                        android:id="@+id/tvFirmName"
+                        android:id="@+id/tvFilmName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Arrow"

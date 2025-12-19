@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,21 +15,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
-import com.example.myapplication.adapters.BroadCastFirmAdapter;
-import com.example.myapplication.adapters.ImageFirmAdapter;
-import com.example.myapplication.models.BroadcastFirm;
-import com.example.myapplication.models.DetailFirm;
-import com.example.myapplication.models.ImageFirm;
+import com.example.myapplication.adapters.BroadCastFilmAdapter;
+import com.example.myapplication.models.BroadcastFilm;
 import com.example.myapplication.network.ApiBroadcastService;
 import com.example.myapplication.network.ApiClient;
-import com.example.myapplication.network.ApiFirmService;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,10 +33,10 @@ public class UserShowListBroadcast extends AppCompatActivity {
 
 
     private TextView textSelectedDate;
-    private BroadCastFirmAdapter broadCastFirmAdapter;
-    private List<BroadcastFirm> cacheBroadcastFirmList;
-    private List<BroadcastFirm> broadcastFirmList;
-    private RecyclerView broadcastFirmRecyclerView;
+    private BroadCastFilmAdapter broadCastFilmAdapter;
+    private List<BroadcastFilm> cacheBroadcastFilmList;
+    private List<BroadcastFilm> broadcastFilmList;
+    private RecyclerView broadcastFilmRecyclerView;
     private ImageButton btnSearchCalendar;
     private ImageView imageBack;
 
@@ -55,39 +48,39 @@ public class UserShowListBroadcast extends AppCompatActivity {
         setContentView(R.layout.user_list_broadcast);
 
         // Initialize your views and set up any necessary listeners here
-        int firmId = getIntent().getIntExtra("firmId", -1);
-        Log.e("UserDetailFirm", "Received firm ID: " + firmId);
+        int filmId = getIntent().getIntExtra("filmId", -1);
+        Log.e("UserDetailFilm", "Received film ID: " + filmId);
         textSelectedDate = findViewById(R.id.textSelectedDate);
         btnSearchCalendar = findViewById(R.id.btnSearch);
         imageBack = findViewById(R.id.imageBack);
 
 
 
-        broadcastFirmRecyclerView = findViewById(R.id.broadcastRecyclerView);
-        broadcastFirmRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        broadcastFilmRecyclerView = findViewById(R.id.broadcastRecyclerView);
+        broadcastFilmRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Load the list of broadcasts for the firm
-        broadcastFirmList = new ArrayList<>();
-        broadCastFirmAdapter = new BroadCastFirmAdapter(broadcastFirmList);
+        // Load the list of broadcasts for the film
+        broadcastFilmList = new ArrayList<>();
+        broadCastFilmAdapter = new BroadCastFilmAdapter(broadcastFilmList);
 
-        broadcastFirmRecyclerView.setAdapter(broadCastFirmAdapter);
-        loadListBroadcast(firmId);
+        broadcastFilmRecyclerView.setAdapter(broadCastFilmAdapter);
+        loadListBroadcast(filmId);
 
         // Thiết lập adapter click listener
 
-        broadCastFirmAdapter.setOnItemClickListener(
-                new BroadCastFirmAdapter.OnItemClickListener() {
+        broadCastFilmAdapter.setOnItemClickListener(
+                new BroadCastFilmAdapter.OnItemClickListener() {
                     @Override
-                    public void onItemClick(BroadcastFirm broadcastFirm) {
+                    public void onItemClick(BroadcastFilm broadcastFilm) {
                         // Handle item click, e.g., navigate to a detailed view
                         Intent intent = new Intent(UserShowListBroadcast.this, UserShowSeatsActivity.class);
-                        intent.putExtra("broadcastId", broadcastFirm.getID());
-                        intent.putExtra("firmId", firmId);
+                        intent.putExtra("broadcastId", broadcastFilm.getID());
+                        intent.putExtra("filmId", filmId);
                         startActivity(intent);
                     }
 
                     @Override
-                    public void onDeleteClick(BroadcastFirm broadcastFirm) {
+                    public void onDeleteClick(BroadcastFilm broadcastFilm) {
                         // Handle delete click if needed
                         Toast.makeText(UserShowListBroadcast.this, "Xóa lịch chiếu không được phép", Toast.LENGTH_SHORT).show();
                     }
@@ -124,23 +117,23 @@ public class UserShowListBroadcast extends AppCompatActivity {
     }
 
 
-    private void loadListBroadcast(int firmID) {
-        // Implement the logic to load firm details here
-        // This could involve making a network request to fetch firm data
+    private void loadListBroadcast(int filmID) {
+        // Implement the logic to load film details here
+        // This could involve making a network request to fetch film data
         // and then updating the UI with that data.
         ApiBroadcastService apiBroadcastService = ApiClient.getRetrofit().create(ApiBroadcastService.class);
-        Call<List<BroadcastFirm>> call = apiBroadcastService.getBroadcastsByFirmId(firmID); // Replace 1 with the actual firm ID you want to fetch
+        Call<List<BroadcastFilm>> call = apiBroadcastService.getBroadcastsByFilmId(filmID); // Replace 1 with the actual film ID you want to fetch
 
-        call.enqueue(new Callback<List<BroadcastFirm>>() {
+        call.enqueue(new Callback<List<BroadcastFilm>>() {
             @SuppressLint("SetTextI18n")
             @Override
-            public void onResponse(@NonNull Call<List<BroadcastFirm>> call, @NonNull Response<List<BroadcastFirm>> response) {
+            public void onResponse(@NonNull Call<List<BroadcastFilm>> call, @NonNull Response<List<BroadcastFilm>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    cacheBroadcastFirmList = response.body();
-                    broadcastFirmList.clear();
-                    broadcastFirmList.addAll(response.body());
+                    cacheBroadcastFilmList = response.body();
+                    broadcastFilmList.clear();
+                    broadcastFilmList.addAll(response.body());
                     Log.e("API_RESPONSE", "Response body: " + response.code());
-                    broadCastFirmAdapter.notifyDataSetChanged();
+                    broadCastFilmAdapter.notifyDataSetChanged();
 
                 } else {
                     Toast.makeText(UserShowListBroadcast.this, "Không lấy được dữ liệu", Toast.LENGTH_SHORT).show();
@@ -149,7 +142,7 @@ public class UserShowListBroadcast extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<BroadcastFirm>> call, Throwable t) {
+            public void onFailure(Call<List<BroadcastFilm>> call, Throwable t) {
 
             }
 
@@ -174,8 +167,8 @@ public class UserShowListBroadcast extends AppCompatActivity {
 
     private void filterBroadcastsByDate(String selectedDate) {
         Log.e("FilterBroadcasts", "Filtering broadcasts for date: " + selectedDate);
-        List<BroadcastFirm> filteredList = new ArrayList<>();
-        for (BroadcastFirm broadcast : cacheBroadcastFirmList) {
+        List<BroadcastFilm> filteredList = new ArrayList<>();
+        for (BroadcastFilm broadcast : cacheBroadcastFilmList) {
             if (broadcast.getDateBroadcast().equals(selectedDate)) {
                 filteredList.add(broadcast);
 
@@ -183,9 +176,9 @@ public class UserShowListBroadcast extends AppCompatActivity {
             Log.e("FilterBroadcasts", "Broadcast found: " + broadcast.getTimeBroadcast() + " on " + broadcast.getDateBroadcast());
         }
 
-        broadcastFirmList.clear();
-        broadcastFirmList.addAll(filteredList);
-        broadCastFirmAdapter.notifyDataSetChanged();
+        broadcastFilmList.clear();
+        broadcastFilmList.addAll(filteredList);
+        broadCastFilmAdapter.notifyDataSetChanged();
 
         if (filteredList.isEmpty()) {
             Toast.makeText(this, "Không có lịch chiếu cho ngày đã chọn", Toast.LENGTH_SHORT).show();

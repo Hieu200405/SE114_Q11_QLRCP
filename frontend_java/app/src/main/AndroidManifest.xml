@@ -96,7 +96,7 @@
 
         <!-- ========== User ========== -->
         <activity
-            android:name=".activities.UserDetailFirm"
+            android:name=".activities.UserDetailFilm"
             android:exported="false" />
         <activity
             android:name=".activities.UserShowListBroadcast"
@@ -145,7 +145,7 @@
             android:name=".activities.AdminActivityAddRoom"
             android:exported="false" />
         <activity
-            android:name=".activities.AdminActivityManageFirm"
+            android:name=".activities.AdminActivityManageFilm"
             android:exported="false" />
         <activity
             android:name=".activities.AdminActivityManageUser"
@@ -157,7 +157,7 @@
             android:name=".activities.AdminActivityCreateUser"
             android:exported="false" />
         <activity
-            android:name=".activities.AdminDetailFirm"
+            android:name=".activities.AdminDetailFilm"
             android:exported="false" />
         <activity
             android:name=".activities.AdminActivityListBroadcast"
@@ -169,10 +169,10 @@
             android:name=".activities.AdminActivityCreateBroadcast"
             android:exported="false" />
         <activity
-            android:name=".activities.AdminActivityCreateNewFirm"
+            android:name=".activities.AdminActivityCreateNewFilm"
             android:exported="false" />
         <activity
-            android:name=".activities.AdminActivityUpdateFirm"
+            android:name=".activities.AdminActivityUpdateFilm"
             android:exported="false" />
     </application>
 

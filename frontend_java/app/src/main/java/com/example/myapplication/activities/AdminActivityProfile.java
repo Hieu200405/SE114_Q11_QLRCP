@@ -36,7 +36,7 @@ public class AdminActivityProfile extends AppCompatActivity {
     TextView tvUserID;
 
     ImageView imageHome;
-    ImageView imageManageFirm;
+    ImageView imageManageFilm;
     ImageView imageManageUser;
     ImageView imageManageRoom;
     ImageView imageUser;
@@ -88,7 +88,7 @@ public class AdminActivityProfile extends AppCompatActivity {
         role = findViewById(R.id.textRole);
         tvUserID = findViewById(R.id.textUserID);
         imageHome = findViewById(R.id.imageHome);
-        imageManageFirm = findViewById(R.id.imageManageFirm);
+        imageManageFilm = findViewById(R.id.imageManageFilm);
         imageManageRoom = findViewById(R.id.imageManageRoom);
         imageManageUser = findViewById(R.id.imageManageUser);
         imageUser = findViewById(R.id.imageProfile);
@@ -220,9 +220,9 @@ public class AdminActivityProfile extends AppCompatActivity {
                 }
         );
 
-        imageManageFirm.setOnClickListener(
+        imageManageFilm.setOnClickListener(
                 v -> {
-                    Intent intent = new Intent(AdminActivityProfile.this, AdminActivityManageFirm.class);
+                    Intent intent = new Intent(AdminActivityProfile.this, AdminActivityManageFilm.class);
                     startActivity(intent);
                 }
         );

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -27,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Retrofit;
 
 public class AdminActivityManageRoom extends AppCompatActivity {
     private static final int REQUEST_CODE_EDIT_ROOM = 3;
@@ -41,7 +39,7 @@ public class AdminActivityManageRoom extends AppCompatActivity {
     ActivityResultLauncher<Intent> launcherEditRoom;
     ActivityResultLauncher<Intent> launcherAddRoom;
     ImageView imageHome;
-    ImageView imageManageFirm;
+    ImageView imageManageFilm;
     ImageView imageManageUser;
     ImageView imageManageRoom;
     ImageView imageUser;
@@ -76,7 +74,7 @@ public class AdminActivityManageRoom extends AppCompatActivity {
 
     void  setElementsByID() {
         imageHome = findViewById(R.id.imageHome);
-        imageManageFirm = findViewById(R.id.imageManageFirm);
+        imageManageFilm = findViewById(R.id.imageManageFilm);
         imageManageUser = findViewById(R.id.imageManageUser);
         imageManageRoom = findViewById(R.id.imageManageRoom);
         imageUser = findViewById(R.id.imageProfile);
@@ -88,8 +86,8 @@ public class AdminActivityManageRoom extends AppCompatActivity {
             startActivity(intent);
         });
 
-        imageManageFirm.setOnClickListener(v -> {
-            Intent intent = new Intent(AdminActivityManageRoom.this, AdminActivityManageFirm.class);
+        imageManageFilm.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminActivityManageRoom.this, AdminActivityManageFilm.class);
             startActivity(intent);
         });
 

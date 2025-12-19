@@ -19,8 +19,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.adapters.BroadCastFirmAdapter;
-import com.example.myapplication.models.BroadcastFirm;
+import com.example.myapplication.adapters.BroadCastFilmAdapter;
+import com.example.myapplication.models.BroadcastFilm;
 import com.example.myapplication.models.StatusMessage;
 import com.example.myapplication.network.ApiBroadcastService;
 import com.example.myapplication.network.ApiClient;
@@ -37,10 +37,10 @@ import retrofit2.Response;
 public class AdminActivityListBroadcast extends AppCompatActivity {
     String accessToken, role;
     private TextView textSelectedDate;
-    private BroadCastFirmAdapter broadCastFirmAdapter;
-    private List<BroadcastFirm> cacheBroadcastFirmList;
-    private List<BroadcastFirm> broadcastFirmList;
-    private RecyclerView broadcastFirmRecyclerView;
+    private BroadCastFilmAdapter broadCastFilmAdapter;
+    private List<BroadcastFilm> cacheBroadcastFilmList;
+    private List<BroadcastFilm> broadcastFilmList;
+    private RecyclerView broadcastFilmRecyclerView;
     private ImageButton btnSearchCalendar;
     private FloatingActionButton buttonAddBroadcast;
     private ImageView imageBack;
@@ -62,8 +62,8 @@ public class AdminActivityListBroadcast extends AppCompatActivity {
         }
 
         // Initialize your views and set up any necessary listeners here
-        int firmId = getIntent().getIntExtra("firmId", -1);
-        Log.e("UserDetailFirm", "Received firm ID: " + firmId);
+        int filmId = getIntent().getIntExtra("filmId", -1);
+        Log.e("UserDetailFilm", "Received film ID: " + filmId);
         textSelectedDate = findViewById(R.id.textSelectedDate);
         btnSearchCalendar = findViewById(R.id.btnSearch);
         imageBack = findViewById(R.id.imageBack);
@@ -71,16 +71,16 @@ public class AdminActivityListBroadcast extends AppCompatActivity {
 
 
 
-        broadcastFirmRecyclerView = findViewById(R.id.broadcastRecyclerView);
-        broadcastFirmRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        broadcastFilmRecyclerView = findViewById(R.id.broadcastRecyclerView);
+        broadcastFilmRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Load the list of broadcasts for the firm
-        broadcastFirmList = new ArrayList<>();
-        broadCastFirmAdapter = new BroadCastFirmAdapter(broadcastFirmList, role);
+        // Load the list of broadcasts for the film
+        broadcastFilmList = new ArrayList<>();
+        broadCastFilmAdapter = new BroadCastFilmAdapter(broadcastFilmList, role);
 
 
-        broadcastFirmRecyclerView.setAdapter(broadCastFirmAdapter);
-        loadListBroadcast(firmId);
+        broadcastFilmRecyclerView.setAdapter(broadCastFilmAdapter);
+        loadListBroadcast(filmId);
 
         // Thiết lập adapter click listener
 
@@ -97,18 +97,18 @@ public class AdminActivityListBroadcast extends AppCompatActivity {
 
 //    Listener adapter click listener for the broadcast list
     void setBroadCastAdapterClickListener() {
-        broadCastFirmAdapter.setOnItemClickListener(
-            new BroadCastFirmAdapter.OnItemClickListener() {
+        broadCastFilmAdapter.setOnItemClickListener(
+            new BroadCastFilmAdapter.OnItemClickListener() {
                 @Override
-                public void onItemClick(BroadcastFirm broadcastFirm) {
+                public void onItemClick(BroadcastFilm broadcastFilm) {
                     Intent intent = new Intent(AdminActivityListBroadcast.this, AdminShowSeatsActivity.class);
-                    intent.putExtra("broadcastId", broadcastFirm.getID());
+                    intent.putExtra("broadcastId", broadcastFilm.getID());
                     startActivity(intent);
                 }
 
                 @Override
-                public void onDeleteClick(BroadcastFirm broadcastFirm) {
-                    AlertDeleteBroadcast(broadcastFirm);
+                public void onDeleteClick(BroadcastFilm broadcastFilm) {
+                    AlertDeleteBroadcast(broadcastFilm);
                 }
             }
         );
@@ -137,23 +137,23 @@ public class AdminActivityListBroadcast extends AppCompatActivity {
     }
 
 
-    private void loadListBroadcast(int firmID) {
-        // Implement the logic to load firm details here
-        // This could involve making a network request to fetch firm data
+    private void loadListBroadcast(int filmID) {
+        // Implement the logic to load film details here
+        // This could involve making a network request to fetch film data
         // and then updating the UI with that data.
         ApiBroadcastService apiBroadcastService = ApiClient.getRetrofit().create(ApiBroadcastService.class);
-        Call<List<BroadcastFirm>> call = apiBroadcastService.getBroadcastsByFirmId(firmID); // Replace 1 with the actual firm ID you want to fetch
+        Call<List<BroadcastFilm>> call = apiBroadcastService.getBroadcastsByFilmId(filmID); // Replace 1 with the actual film ID you want to fetch
 
-        call.enqueue(new Callback<List<BroadcastFirm>>() {
+        call.enqueue(new Callback<List<BroadcastFilm>>() {
             @SuppressLint("SetTextI18n")
             @Override
-            public void onResponse(@NonNull Call<List<BroadcastFirm>> call, @NonNull Response<List<BroadcastFirm>> response) {
+            public void onResponse(@NonNull Call<List<BroadcastFilm>> call, @NonNull Response<List<BroadcastFilm>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    cacheBroadcastFirmList = response.body();
-                    broadcastFirmList.clear();
-                    broadcastFirmList.addAll(response.body());
+                    cacheBroadcastFilmList = response.body();
+                    broadcastFilmList.clear();
+                    broadcastFilmList.addAll(response.body());
                     Log.e("API_RESPONSE", "Response body: " + response.code());
-                    broadCastFirmAdapter.notifyDataSetChanged();
+                    broadCastFilmAdapter.notifyDataSetChanged();
 
                 } else {
                     Toast.makeText(AdminActivityListBroadcast.this, "Không lấy được dữ liệu", Toast.LENGTH_SHORT).show();
@@ -162,7 +162,7 @@ public class AdminActivityListBroadcast extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<BroadcastFirm>> call, Throwable t) {
+            public void onFailure(Call<List<BroadcastFilm>> call, Throwable t) {
 
             }
 
@@ -187,8 +187,8 @@ public class AdminActivityListBroadcast extends AppCompatActivity {
 
     private void filterBroadcastsByDate(String selectedDate) {
         Log.e("FilterBroadcasts", "Filtering broadcasts for date: " + selectedDate);
-        List<BroadcastFirm> filteredList = new ArrayList<>();
-        for (BroadcastFirm broadcast : cacheBroadcastFirmList) {
+        List<BroadcastFilm> filteredList = new ArrayList<>();
+        for (BroadcastFilm broadcast : cacheBroadcastFilmList) {
             if (broadcast.getDateBroadcast().equals(selectedDate)) {
                 filteredList.add(broadcast);
 
@@ -196,9 +196,9 @@ public class AdminActivityListBroadcast extends AppCompatActivity {
             Log.e("FilterBroadcasts", "Broadcast found: " + broadcast.getTimeBroadcast() + " on " + broadcast.getDateBroadcast());
         }
 
-        broadcastFirmList.clear();
-        broadcastFirmList.addAll(filteredList);
-        broadCastFirmAdapter.notifyDataSetChanged();
+        broadcastFilmList.clear();
+        broadcastFilmList.addAll(filteredList);
+        broadCastFilmAdapter.notifyDataSetChanged();
 
         if (filteredList.isEmpty()) {
             Toast.makeText(this, "Không có lịch chiếu cho ngày đã chọn", Toast.LENGTH_SHORT).show();
@@ -222,11 +222,11 @@ public class AdminActivityListBroadcast extends AppCompatActivity {
             result -> {
                 if (result.getResultCode() == RESULT_OK) {
                     // Refresh the list of broadcasts after creating a new one
-                    BroadcastFirm broadcastFirm = result.getData().getParcelableExtra("newBroadcast");
-                    if (broadcastFirm != null) {
-                        Log.e("AdminActivityListBroadcast", "New broadcast created: " + broadcastFirm.getID());
-                        broadcastFirmList.add(broadcastFirm);
-                        broadCastFirmAdapter.notifyDataSetChanged();
+                    BroadcastFilm broadcastFilm = result.getData().getParcelableExtra("newBroadcast");
+                    if (broadcastFilm != null) {
+                        Log.e("AdminActivityListBroadcast", "New broadcast created: " + broadcastFilm.getID());
+                        broadcastFilmList.add(broadcastFilm);
+                        broadCastFilmAdapter.notifyDataSetChanged();
                     } else {
                         Log.e("AdminActivityListBroadcast", "No new broadcast data received");
                     }
@@ -239,8 +239,8 @@ public class AdminActivityListBroadcast extends AppCompatActivity {
     private void setAddBroadcastListener() {
         buttonAddBroadcast.setOnClickListener(v -> {
             Intent intent = new Intent(AdminActivityListBroadcast.this, AdminActivityCreateBroadcast.class);
-            intent.putExtra("firmId", getIntent().getIntExtra("firmId", -1));
-            Log.e("AdminActivityListBroadcast", "Launching AdminActivityCreateBroadcast with firmId: " + getIntent().getIntExtra("firmId", -1));
+            intent.putExtra("filmId", getIntent().getIntExtra("filmId", -1));
+            Log.e("AdminActivityListBroadcast", "Launching AdminActivityCreateBroadcast with filmId: " + getIntent().getIntExtra("filmId", -1));
 
             launchCreateBroadcast.launch(intent);
 //            startActivity(intent);
@@ -249,9 +249,9 @@ public class AdminActivityListBroadcast extends AppCompatActivity {
 
 
 //    Sự kiện xóa broadcast
-    private void deleteBroadcast(BroadcastFirm broadcastFirm) {
+    private void deleteBroadcast(BroadcastFilm broadcastFilm) {
         ApiBroadcastService apiBroadcastService = ApiClient.getRetrofit().create(ApiBroadcastService.class);
-        Call<StatusMessage> call = apiBroadcastService.deleteBroadcast("Bearer " + accessToken, broadcastFirm.getID());
+        Call<StatusMessage> call = apiBroadcastService.deleteBroadcast("Bearer " + accessToken, broadcastFilm.getID());
         call.enqueue(
             new Callback<StatusMessage>() {
                 @Override
@@ -261,8 +261,8 @@ public class AdminActivityListBroadcast extends AppCompatActivity {
                         if (response.code() == 200) {
                             Toast.makeText(AdminActivityListBroadcast.this, "Xóa lịch chiếu thành công", Toast.LENGTH_SHORT).show();
                             // Remove the broadcast from the list and notify the adapter
-                            broadcastFirmList.remove(broadcastFirm);
-                            broadCastFirmAdapter.notifyDataSetChanged();
+                            broadcastFilmList.remove(broadcastFilm);
+                            broadCastFilmAdapter.notifyDataSetChanged();
                         } else {
                             Toast.makeText(AdminActivityListBroadcast.this, "Lỗi: " + statusMessage.getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -281,14 +281,14 @@ public class AdminActivityListBroadcast extends AppCompatActivity {
     }
 
 //    Thêm sự kiện thông báo xác nhận xóa lịch chiếu
-    private void AlertDeleteBroadcast(BroadcastFirm broadcastFirm) {
+    private void AlertDeleteBroadcast(BroadcastFilm broadcastFilm) {
         new AlertDialog.Builder(AdminActivityListBroadcast.this)
             .setTitle("Xác nhận Xóa Lịch Chiếu")
             .setMessage("Bạn có chắc chắn muốn xóa không?")
             .setPositiveButton("Chắc chắn", (dialog, which) -> {
                 // Xử lý xóa phòng
-                deleteBroadcast(broadcastFirm);
-                Toast.makeText(AdminActivityListBroadcast.this, "Delete clicked for broadcast ID: " + broadcastFirm.getID(), Toast.LENGTH_SHORT).show();
+                deleteBroadcast(broadcastFilm);
+                Toast.makeText(AdminActivityListBroadcast.this, "Delete clicked for broadcast ID: " + broadcastFilm.getID(), Toast.LENGTH_SHORT).show();
             })
             .setNegativeButton("Hủy", (dialog, which) -> {
                 dialog.dismiss(); // Đóng dialog nếu chọn Cancel

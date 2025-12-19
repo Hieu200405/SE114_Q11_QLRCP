@@ -1,7 +1,7 @@
 from app.services.broadcast_service import (
     get_broadcast_by_id,
     get_all_broadcasts_for_room,
-    get_all_broadcasts_for_firm,
+    get_all_broadcasts_for_film,
     get_all_broadcasts_on_date,
     create_broadcast,
     update_broadcast,
@@ -22,7 +22,7 @@ BROADCAST_BLUEPRINT = Blueprint('broadcast', __name__)
 
 {
     "room_id": 1,
-    "firm_id": 1,
+    "film_id": 1,
     "time_broadcast": "10:00:00",
     "date_broadcast": "2025-10-10",
     "price": 100000,
@@ -32,14 +32,14 @@ BROADCAST_BLUEPRINT = Blueprint('broadcast', __name__)
 @BROADCAST_BLUEPRINT.route('/create', methods=['POST'])
 def create_broadcast_route():
     data = request.json
-    fields = ['room_id', 'firm_id', 'time_broadcast', 'date_broadcast', 'price', 'seats']
+    fields = ['room_id', 'film_id', 'time_broadcast', 'date_broadcast', 'price', 'seats']
     for field in fields:
         if field not in data:
             return jsonify({"error": f"{field} is required"}), 400
     try:
         new_broadcast = create_broadcast(
             room_id=data['room_id'],
-            firm_id=data['firm_id'],
+            film_id=data['film_id'],
             time_broadcast=data['time_broadcast'],
             date_broadcast=data['date_broadcast'],
             price=data['price'],
@@ -84,15 +84,15 @@ def get_all_broadcasts_for_room_route(room_id):
 
 
 
-# Get all broadcasts for a firm
-# # link: localhost:5000/api/broadcasts/firm/<firm_id>
-@BROADCAST_BLUEPRINT.route('/firm/<int:firm_id>', methods=['GET'])
-def get_all_broadcasts_for_firm_route(firm_id):
+# Get all broadcasts for a film
+# # link: localhost:5000/api/broadcasts/film/<film_id>
+@BROADCAST_BLUEPRINT.route('/film/<int:film_id>', methods=['GET'])
+def get_all_broadcasts_for_film_route(film_id):
     date = request.args.get('date')
     if date is None:
-        broadcasts = get_all_broadcasts_for_firm(firm_id)
+        broadcasts = get_all_broadcasts_for_film(film_id)
     else:
-        broadcasts = get_all_broadcasts_for_firm(firm_id, date)
+        broadcasts = get_all_broadcasts_for_film(film_id, date)
     return jsonify([broadcast.serialize() for broadcast in broadcasts]), 200
 
 
@@ -115,7 +115,7 @@ def get_all_broadcasts_on_date_route():
 
 {
     "room_id": 1,
-    "firm_id": 1,
+    "film_id": 1,
     "time_broadcast": "11:00:00",
     "date_broadcast": "2025-10-11",
     "price": 120000,
@@ -130,7 +130,7 @@ def update_broadcast_route(broadcast_id):
         updated_broadcast = update_broadcast(
             broadcast_id,
             room_id=data.get('room_id'),
-            firm_id=data.get('firm_id'),
+            film_id=data.get('film_id'),
             time_broadcast=data.get('time_broadcast'),
             date_broadcast=data.get('date_broadcast'),
             price=data.get('price'),
