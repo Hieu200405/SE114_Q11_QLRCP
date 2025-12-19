@@ -4,7 +4,7 @@
   Mô tả: Khai báo bảng màu chủ đạo và màu phụ dùng trong app.
 -->
 <resources>
-    <color name="primary_bg">#141A31</color>              <!-- Nền chủ đạo (background) toàn app, tone navy -->
+    <color name="primary_bg">#FFFFFF</color>              <!-- Nền chủ đạo (background) toàn app, tone navy -->
     <color name="primary_text">#FFFFFF</color>             <!-- Màu chữ chính trên nền tối (trắng) -->
     <color name="colorPrimaryDark">#081029</color>         <!-- Nền tối nhất, có thể dùng cho status bar hoặc header -->
     <color name="secondary_text">#CCCCCC</color>           <!-- Chữ phụ, gợi ý (hint text) màu xám nhạt -->
