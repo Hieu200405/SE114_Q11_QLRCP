@@ -4,29 +4,35 @@
   Mô tả: Khai báo bảng màu chủ đạo và màu phụ dùng trong app.
 -->
 <resources>
-<!-- NỀN -->
-    <color name="primary_bg">#0F172A</color>              <!-- Nền chủ đạo (background) toàn app, tone navy -->
-    <color name="colorPrimary">#141A31</color>             <!-- Màu chủ đạo (trùng với primary_bg) -->
-    <color name="colorPrimaryLight">#1E2746</color>        <!-- Biến thể sáng hơn của màu nền chủ đạo -->
-    <color name="colorPrimaryDark">#081029</color>         <!-- Nền tối nhất, có thể dùng cho status bar hoặc header -->
-<!-- CHỮ -->
-    <color name="primary_text">#FFFFFF</color>             <!-- Màu chữ chính trên nền tối (trắng) -->
-    <color name="secondary_text">#CCCCCC</color>           <!-- Chữ phụ, gợi ý (hint text) màu xám nhạt -->
-    <color name="colorTextPrimary">#CBD5ED</color>         <!-- Màu chữ chính nổi bật (sáng hơn trắng) -->
-    <color name="colorTextSecondary">#D0D8F2</color>       <!-- Màu chữ phụ, sắc xanh nhạt (thường cho subtitle) -->
-    <color name="colorTextIcons">#ffffff</color>           <!-- Màu cho icon nền tối (trắng thuần) -->
-    <color name="colorTextOther">#FAD303</color>           <!-- Màu vàng nổi bật, có thể dùng cho warning/info -->
- <!-- MÀU NHẤN -->
-    <color name="primary_blue">#2196F3</color>             <!-- Màu xanh dương chuẩn, thường dùng cho nút chính -->
-    <color name="colorAccent">#0097FB</color>              <!-- Accent xanh dương nhạt, phụ trợ primary_blue -->
-    <color name="accent">#FF9800</color>                   <!-- Màu cam nhẹ dùng làm điểm nhấn -->
-<!-- MATERIAL (GIỮ LẠI NẾU DÙNG) -->   
-    <color name="purple_200">#FFBB86FC</color>             <!-- Màu tím (Material Design) cho state hoặc theme -->
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>               <!-- Màu xanh ngọc Material, thường làm accent -->
-    <color name="teal_700">#FF018786</color>
-<!-- CƠ BẢN -->
-    <color name="black">#FF000000</color>                  <!-- Đen thuần (ARGB) -->
-    <color name="white">#FFFFFFFF</color>                  <!-- Trắng thuần (ARGB) -->
+
+    <!-- NỀN -->
+    <color name="primary_bg">#F5F7FA</color>               <!-- Nền chính toàn app (xám rất nhạt) -->
+    <color name="colorPrimary">#FFFFFF</color>             <!-- Nền card, màn hình chính -->
+    <color name="colorPrimaryLight">#EEF2F7</color>        <!-- Nền phụ, list, section -->
+    <color name="colorPrimaryDark">#E2E8F0</color>         <!-- Header nhẹ / divider -->
+
+    <!-- CHỮ -->
+    <color name="primary_text">#0F172A</color>             <!-- Chữ chính (xanh đậm, dễ đọc) -->
+    <color name="secondary_text">#64748B</color>           <!-- Chữ phụ / hint -->
+    <color name="colorTextPrimary">#1E293B</color>         <!-- Chữ chính nổi bật -->
+    <color name="colorTextSecondary">#475569</color>       <!-- Subtitle -->
+    <color name="colorTextIcons">#334155</color>           <!-- Icon trên nền sáng -->
+    <color name="colorTextOther">#CA8A04</color>           <!-- Warning / info (vàng đậm) -->
+
+    <!-- MÀU NHẤN -->
+    <color name="primary_blue">#2563EB</color>             <!-- Nút chính (xanh hiện đại) -->
+    <color name="colorAccent">#3B82F6</color>              <!-- Accent phụ -->
+    <color name="accent">#F97316</color>                   <!-- Accent cam (CTA, highlight) -->
+
+    <!-- MATERIAL (GIỮ LẠI NẾU DÙNG) -->
+    <color name="purple_200">#E9D5FF</color>
+    <color name="purple_500">#A855F7</color>
+    <color name="purple_700">#7E22CE</color>
+    <color name="teal_200">#99F6E4</color>
+    <color name="teal_700">#0F766E</color>
+
+    <!-- CƠ BẢN -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
 </resources>
