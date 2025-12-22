@@ -65,12 +65,16 @@ pip install -r requirements.txt
 ➡️ Configure Environment Variables
 Edit the file ./backend_python/.env and update the following values:
 ```bash
-KEY='restfull_api'
-DB_HOST={HOST}
-DB_PORT={PORT}
-DB_USER={USER}
-DB_PASSWORD={PASSWORD}
-DB_NAME='firmmanagement'
+KEY=""
+DB_HOST=""
+DB_PORT=""
+DB_USER=""
+DB_PASSWORD=""
+DB_NAME=""
+#PayOS Configuration
+PAYOS_CLIENT_ID=""
+PAYOS_API_KEY=""
+PAYOS_CHECKSUM_KEY=""
 ```
 
 📌 Replace {HOST}, {PORT}, {USER}, {PASSWORD} with your actual MySQL connection details.
