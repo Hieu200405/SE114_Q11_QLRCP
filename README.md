@@ -29,6 +29,10 @@ Required Version: Python 3.12 or Python 3.13
 
 Download: Python Downloads
 
+## Ngrok
+
+Install ngrok (available on microsoft store or chrome)
+
 🔍 Verify Installations
 Check your installed versions:
 
@@ -77,18 +81,17 @@ PAYOS_API_KEY=""
 PAYOS_CHECKSUM_KEY=""
 ```
 
-📌 Replace {HOST}, {PORT}, {USER}, {PASSWORD} with your actual MySQL connection details.
+📌 Replace {KEY}, {DB_HOST}, {DB_PORT}, {DB_USER}, {DB_PASSWORD}, {DB_NAME}, {PAYOS_CLIENT_ID}, {PAYOS_API_KEY}, {PAYOS_CHECKSUM_KEY} with your PayOS Configuration.
+➡️ Database online
+Use the database created online
 
-➡️ Create Database in MySQL
-Open your MySQL client and run:
-```bash
-CREATE DATABASE firmmanagement;
-```
-
-Then import data from the provided backup_data.sql file.
 
 ➡️ Run Backend Server
-
+Run ngrok
+```bash
+ngrok http 5000
+```
+Run backend
 ```bash
 cd backend_python
 .\venv\Scripts\activate
@@ -102,7 +105,7 @@ Database tables created successfully.
  * Serving Flask app 'app'
  * Debug mode: on
  * Running on http://127.0.0.1:5000
- * Running on http://192.168.1.8:5000
+ * Running on http://192.168.1.x:5000
 Press CTRL+C to quit
  * Debugger is active!
 ```
@@ -115,10 +118,10 @@ Open the frontend_java folder in Android Studio.
 Edit the file frontend_java/local.properties and add:
 
 ```bash
-BASE_URL=http://192.168.1.8:5000
+BASE_URL=http://192.168.1.x:5000
 ```
 
-📌 Make sure to replace 192.168.1.8 with your actual local IP address (same IP where backend is running).
+📌 Make sure to replace 192.168.1.x with your actual local IP address (same IP where backend is running).
 
 ## Account
 ```bash
