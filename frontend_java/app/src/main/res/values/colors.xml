@@ -11,6 +11,10 @@
     <color name="colorPrimaryLight">#EEF2F7</color>        <!-- Nền phụ, list, section -->
     <color name="colorPrimaryDark">#E2E8F0</color>         <!-- Header nhẹ / divider -->
 
+    <!-- Input field colors -->
+    <color name="input_field_bg">#FFFFFFFF</color>        <!-- white field background -->
+    <color name="input_field_stroke">#E6EEF8</color>      <!-- subtle stroke for inputs -->
+
     <!-- CHỮ -->
     <color name="primary_text">#0F172A</color>             <!-- Chữ chính (xanh đậm, dễ đọc) -->
     <color name="secondary_text">#64748B</color>           <!-- Chữ phụ / hint -->
