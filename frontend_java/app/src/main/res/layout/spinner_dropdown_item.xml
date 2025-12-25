@@ -4,5 +4,6 @@
     android:layout_height="wrap_content"
     android:padding="12dp"
     android:textSize="16sp"
-    android:textColor="#EBE7E7"
+    android:textColor="@color/primary_text"
+    android:textStyle="bold"
     android:background="?android:attr/selectableItemBackground" />
