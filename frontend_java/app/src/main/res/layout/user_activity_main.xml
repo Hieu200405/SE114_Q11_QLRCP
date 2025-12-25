@@ -57,7 +57,7 @@
             android:visibility="visible"
             android:includeFontPadding="false"
             android:maxLines="1"
-            android:text="TOTO CINEMA"
+            android:text="HÔM NAY XEM GÌ?"
             android:textColor="@color/colorTextIcons"
             android:textSize="@dimen/_14sdp" />
 
