@@ -68,7 +68,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:visibility="gone"
-            android:hint="Search shows"
+            android:hint="Tìm kiếm phim..."
             android:textColorHint="@color/colorTextIcons"
             android:textColor="@color/colorTextIcons"
             android:textSize="@dimen/_12sdp" />
