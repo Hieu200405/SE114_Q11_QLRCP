@@ -107,9 +107,9 @@
             android:hint="Chọn danh mục"
             android:inputType="none"
             android:padding="@dimen/_8sdp"
-            android:popupBackground="@color/colorPrimaryDark"
-            android:textColor="@color/colorTextIcons"
-            android:textColorHint="@color/colorTextIcons"
+            android:popupBackground="@android:color/white"
+            android:textColor="#212121"
+            android:textColorHint="#757575"
             android:textSize="@dimen/_14sdp" />
     </com.google.android.material.textfield.TextInputLayout>
 
