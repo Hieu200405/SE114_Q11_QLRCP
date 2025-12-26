@@ -66,7 +66,7 @@
             android:background="@drawable/avatar_circle_bg"
             android:contentDescription="Avatar"
             android:scaleType="centerCrop"
-            android:src="@drawable/default_img" />
+            android:src="@drawable/admin" />
 
         <!-- Tên người dùng -->
         <TextView
