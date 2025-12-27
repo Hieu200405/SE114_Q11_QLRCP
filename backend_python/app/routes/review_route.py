@@ -43,3 +43,15 @@ def add_review():
         db.session.rollback()
         return jsonify({"code": "99", "desc": str(e)}), 500
 
+@REVIEW_BLUEPRINT.route('/film/<int:film_id>', methods=['GET'])
+def get_film_reviews(film_id):
+    try:
+        # Only get reviews with status = 1 (not hidden)
+        reviews = Review.query.filter_by(film_id=film_id, status=1).all()
+        return jsonify({
+            "code": "00",
+            "desc": "Success",
+            "data": [r.serialize() for r in reviews]
+        }), 200
+    except Exception as e:
+        return jsonify({"code": "99", "desc": str(e)}), 500
