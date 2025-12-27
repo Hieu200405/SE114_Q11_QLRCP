@@ -1,7 +1,5 @@
 package com.example.myapplication.adapters;
 
-
-
 import static androidx.core.content.ContextCompat.startActivity;
 
 import android.annotation.SuppressLint;
@@ -45,6 +43,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
         this.ticketList = ticketList;
         this.accessToken = accessToken;
     }
+
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
@@ -65,10 +64,14 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
     public void onBindViewHolder(@NonNull TicketViewHolder holder, int position) {
         Ticket ticket = ticketList.get(position);
         if (ticket != null) {
-            holder.tvBroadcastID.setText("Mã lịch chiếu: "+  String.valueOf(ticket.getBroadcastId()));
-            holder.tvSeatName.setText("Tên chỗ ngồi: " + ticket.getSeatName());
+            holder.tvBroadcastID.setText("Mã lịch chiếu: " + String.valueOf(ticket.getBroadcastId()));
+            if (ticket.getSeatName() != null) {
+                holder.tvSeatName.setText("Tên chỗ ngồi: Ghế " + ticket.getSeatName().replace("seat_", ""));
+            } else {
+                holder.tvSeatName.setText("Tên chỗ ngồi: Ghế ?");
+            }
             holder.tvPrice.setText("Giá: " + String.valueOf(ticket.getPrice()));
-            holder.tvDateOrder.setText("Ngày đặt: "+ ticket.getDateOrder());
+            holder.tvDateOrder.setText("Ngày đặt: " + ticket.getDateOrder());
         } else {
             // Handle the case where ticket is null
             holder.tvBroadcastID.setText("N/A");
@@ -79,8 +82,9 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
 
         // You can set click listeners or other interactions here if needed
         holder.itemView.setOnClickListener(v -> {
-//           loadDetalTicketByApi(v, accessToken, ticket.getId());
-//            // Toast.makeText(v.getContext(), "Clicked on ticket: " + ticket.getId(), Toast.LENGTH_SHORT).show();
+            // loadDetalTicketByApi(v, accessToken, ticket.getId());
+            // // Toast.makeText(v.getContext(), "Clicked on ticket: " + ticket.getId(),
+            // Toast.LENGTH_SHORT).show();
             if (listener != null) {
                 Toast.makeText(v.getContext(), "Clicked on ticket: " + ticket.getId(), Toast.LENGTH_SHORT).show();
                 listener.onItemClick(ticket);
@@ -103,6 +107,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
         TextView tvSeatName;
         TextView tvPrice;
         TextView tvDateOrder;
+
         TicketViewHolder(View itemView) {
             super(itemView);
             tvBroadcastID = itemView.findViewById(R.id.tvBroadcastID);
@@ -112,8 +117,6 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
 
         }
     }
-
-
 
     private void loadDetalTicketByApi(View v, String accessToken, int ticketId) {
 
@@ -143,7 +146,3 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
         });
     }
 }
-
-
-
-

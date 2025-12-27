@@ -33,12 +33,12 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/_6sdp"
             android:text="Chọn ngày"
-            android:textColor="@android:color/white"
+            android:textColor="@color/black"
             android:textSize="@dimen/_18sdp"
             android:layout_weight="1"
             android:drawablePadding="8dp"
             android:background="@drawable/bg_date_picker"
-            app:drawableTint="@color/colorTextIcons"
+            app:drawableTint="@color/black"
             android:gravity="center"
             android:layout_marginStart="8dp"/>
 
@@ -51,7 +51,7 @@
             android:layout_marginStart="20dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_search"
-            app:tint="@android:color/white" />
+            app:tint="@color/black" />
 
 
     </LinearLayout>
