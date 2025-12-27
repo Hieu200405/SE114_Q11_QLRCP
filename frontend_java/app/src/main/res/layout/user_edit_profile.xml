@@ -62,7 +62,7 @@
             android:id="@+id/tvName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Họ và Tên"
+            android:text="Họ và Tên mới"
             android:textSize="12sp"
             android:textStyle="bold"
             android:textColor="@color/secondary_text"
@@ -103,7 +103,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Số Điện Thoại"
+            android:text="Số Điện Thoại mới"
             android:textSize="12sp"
             android:textStyle="bold"
             android:textColor="@color/secondary_text"
@@ -144,7 +144,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Email"
+            android:text="Email mới"
             android:textSize="12sp"
             android:textStyle="bold"
             android:textColor="@color/secondary_text"
