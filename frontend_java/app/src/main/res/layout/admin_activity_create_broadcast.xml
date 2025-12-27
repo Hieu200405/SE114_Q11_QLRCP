@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#141A31"
+    android:background="@color/primary_bg"
     android:fitsSystemWindows="true"
 >
 
@@ -20,6 +20,17 @@
         android:padding="@dimen/_8sdp"
         app:layout_constraintTop_toTopOf="parent">
 
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/headerLogo"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:src="@drawable/ic_logo_toto_cinema"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerCrop"
+            android:background="@drawable/bg_logo_circle"
+            android:padding="@dimen/_6sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle" />
 
         <TextView
             android:id="@+id/textAppName"
@@ -33,136 +44,234 @@
             android:gravity="center_vertical"
             android:includeFontPadding="false"
             android:maxLines="1"
-            android:text="  TOTO CINEMA"
+            android:text="TẠO LỊCH CHIẾU"
             android:textColor="@color/colorTextIcons"
-            android:textSize="@dimen/_14sdp"
-            app:drawableStartCompat="@drawable/ic_movie"
-            app:drawableTint="@color/colorTextIcons" />
-
-
+            android:textSize="@dimen/_14sdp" />
 
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutHeader"
-        app:layout_constraintVertical_bias="0.0"
-        tools:ignore="MissingConstraints">
-        <!-- Logo app -->
-        <ImageView
-            android:id="@+id/logoApp"
-            android:layout_width="161dp"
-            android:layout_height="131dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_movie"
-            app:tint="#FFFFFF" />
+        app:layout_constraintTop_toBottomOf="@id/layoutHeader"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <!-- Spinner chọn phòng -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Chọn phòng"
-            android:textColor="#FFFFFF"
-            android:textSize="20dp" />
-
-        <Spinner
-            android:id="@+id/spinnerRoom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:backgroundTint="#888888"
-            android:popupBackground="#2F4281" />
-
-        <!-- Text hiển thị info phòng -->
-        <TextView
-            android:id="@+id/textRoomInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="Hello, đây là thông tin phòng"
-            android:textColor="#CAA1A1"
-            android:textSize="20sp" />
-
-        <!-- Thông tin khác -->
-        <EditText
-            android:id="@+id/editTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#888888"
-            android:hint="Giờ chiếu (HH:mm:ss)"
-            android:focusable="false"
-            android:inputType="time"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#888888" />
-
-        <EditText
-            android:id="@+id/editDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="#888888"
-            android:hint="Ngày chiếu (YYYY-MM-DD)"
-            android:focusable="false"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#888888" />
-
-        <EditText
-            android:id="@+id/editPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="#888888"
-            android:hint="Giá vé"
-            android:inputType="number"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#888888" />
-
-        <EditText
-            android:id="@+id/editSeats"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="#888888"
-            android:hint="Số chỗ ngồi"
-            android:inputType="number"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#888888" />
-
-        <!-- Nút tạo -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:padding="24dp">
 
-            <Button
-                android:id="@+id/btnCancel"
-                android:layout_width="@dimen/_80sdp"
+            <!-- Spinner chọn phòng, styled to look like input fields context -->
+             <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:backgroundTint="#888888"
-                android:text="Hủy"
-                android:textColor="#FFFFFF" />
+                android:text="Chọn phòng:"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@color/secondary_text"
+                android:layout_marginTop="8dp" />
 
-            <Button
-                android:id="@+id/btnCreate"
-                android:layout_width="@dimen/_80sdp"
+            <Spinner
+                android:id="@+id/spinnerRoom"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_input_layout"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp" />
+
+            <!-- Text hiển thị info phòng -->
+            <TextView
+                android:id="@+id/textRoomInfo"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#3E5CAD"
-                android:text="Tạo lịch"
-                android:textColor="#FFFFFF" />
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:text="Hello, đây là thông tin phòng"
+                android:textColor="@color/colorTextIcons"
+                android:textSize="14sp" />
 
+            <!-- Giờ chiếu -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Giờ chiếu (HH:mm:ss):"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@color/secondary_text" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false"
+                app:boxBackgroundMode="filled"
+                app:boxBackgroundColor="@color/input_field_bg"
+                app:boxStrokeColor="@color/input_field_stroke"
+                android:layout_marginTop="4dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="2dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Chọn giờ chiếu"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:inputType="time"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textColor="@color/primary_text"
+                    android:textColorHint="@color/secondary_text"
+                    android:background="@null"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Ngày chiếu -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ngày chiếu (YYYY-MM-DD):"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@color/secondary_text"
+                android:layout_marginTop="12dp" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false"
+                app:boxBackgroundMode="filled"
+                app:boxBackgroundColor="@color/input_field_bg"
+                app:boxStrokeColor="@color/input_field_stroke"
+                android:layout_marginTop="4dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="2dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Chọn ngày chiếu"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textColor="@color/primary_text"
+                    android:textColorHint="@color/secondary_text"
+                    android:background="@null"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Giá vé -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Giá vé (VNĐ):"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@color/secondary_text"
+                android:layout_marginTop="12dp" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false"
+                app:boxBackgroundMode="filled"
+                app:boxBackgroundColor="@color/input_field_bg"
+                app:boxStrokeColor="@color/input_field_stroke"
+                android:layout_marginTop="4dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="2dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nhập giá vé"
+                    android:inputType="number"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textColor="@color/primary_text"
+                    android:textColorHint="@color/secondary_text"
+                    android:background="@null"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Số chỗ ngồi -->
+             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Số chỗ ngồi:"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@color/secondary_text"
+                android:layout_marginTop="12dp" />
+             <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false"
+                app:boxBackgroundMode="filled"
+                app:boxBackgroundColor="@color/input_field_bg"
+                app:boxStrokeColor="@color/input_field_stroke"
+                android:layout_marginTop="4dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="2dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editSeats"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nhập số chỗ ngồi"
+                    android:inputType="number"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textColor="@color/primary_text"
+                    android:textColorHint="@color/secondary_text"
+                    android:background="@null"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Nút tạo -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="16dp"
+                    android:backgroundTint="#EF4444"
+                    android:text="Hủy"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/btnCreate"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#22C55E"
+                    android:text="Tạo lịch"
+                    android:textColor="#FFFFFF" />
+
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
