@@ -9,6 +9,7 @@ from .routes.broadcast_route import BROADCAST_BLUEPRINT
 from .routes.ticket_route import TICKET_BLUEPRINT
 from .routes.totalDay_route import TOTAL_DAY_BLUEPRINT
 from .routes.payment_route import PAYMENT_BLUEPRINT
+from .routes.review_route import REVIEW_BLUEPRINT
 
 from dotenv import load_dotenv
 import os
@@ -33,4 +34,5 @@ def create_app(file_config = 'config.py'):
     app.register_blueprint(TICKET_BLUEPRINT, url_prefix='/api/tickets')
     app.register_blueprint(TOTAL_DAY_BLUEPRINT, url_prefix='/api/total_day')
     app.register_blueprint(PAYMENT_BLUEPRINT, url_prefix='/api/payment')
+    app.register_blueprint(REVIEW_BLUEPRINT, url_prefix='/api/reviews')
     return app
