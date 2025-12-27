@@ -55,3 +55,42 @@ def get_film_reviews(film_id):
         }), 200
     except Exception as e:
         return jsonify({"code": "99", "desc": str(e)}), 500
+
+# API hide review for Admin 
+@REVIEW_BLUEPRINT.route('/admin/hide/<int:review_id>', methods=['PATCH'])
+@jwt_required()
+def hide_review(review_id):
+    try:
+        # Get role from JWT Token
+        claims = get_jwt()
+        user_role = claims.get('role')
+
+        # Check Admin auth
+        if user_role != 'admin':
+            return jsonify({
+                "code": "03",
+                "desc": "Permission denied. Admin role required."
+            }), 403
+            
+        # 3. Hide review
+        review = Review.query.get(review_id)
+        if not review:
+            return jsonify({
+                "code": "01", 
+                "desc": "Review not found"
+            }), 404
+        
+        review.status = 0 # Status = 0: hidden
+        db.session.commit()
+        
+        return jsonify({
+            "code": "00", 
+            "desc": "Review has been hidden by Admin"
+        }), 200
+        
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({
+            "code": "99", 
+            "desc": str(e)
+        }), 500
