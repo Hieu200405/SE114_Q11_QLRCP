@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#141A31"
+    android:background="@color/primary_bg"
     android:padding="16dp">
 
     <LinearLayout
@@ -29,7 +29,7 @@
             android:layout_marginBottom="16dp"
             android:background="@drawable/avatar_circle_bg"
             android:scaleType="centerCrop"
-            android:src="@drawable/default_img" />
+            android:src="@drawable/user" />
 
         <!-- ID - Không chỉnh sửa -->
 
@@ -40,7 +40,7 @@
             android:layout_marginTop="12dp"
             android:gravity="center"
             android:text="UID: 5"
-            android:textColor="#CCCCCC"
+            android:textColor="@color/secondary_text"
             android:textSize="@dimen/_23sdp" />
 
         <TextView
@@ -49,8 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:gravity="center"
-            android:text="User: huypro37"
-            android:textColor="#CCCCCC"
+            android:text="User: user"
+            android:textColor="@color/primary_text"
             android:textSize="@dimen/_20sdp" />
 
         <Space
@@ -62,51 +62,124 @@
             android:id="@+id/tvName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textSize="@dimen/_15sdp"
-            android:text="Họ và Tên"
-            android:textColor="#CCCCCC" />
+            android:text="Họ và Tên mới"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="@color/secondary_text"
+            android:layout_marginTop="12dp" />
 
-        <EditText
-            android:id="@+id/editName"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#888888"
-            android:textColor="#FFFFFF" />
+            app:hintEnabled="false"
+            app:boxBackgroundMode="filled"
+            app:boxBackgroundColor="@color/input_field_bg"
+            app:boxStrokeColor="@color/input_field_stroke"
+            android:layout_marginTop="4dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="2dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editName"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Nhập họ và tên"
+                android:inputType="textPersonName"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textColor="@color/primary_text"
+                android:textColorHint="@color/secondary_text"
+                android:background="@null"
+                android:backgroundTint="@null"
+                android:textSize="12sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Phone -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textSize="@dimen/_15sdp"
-            android:text="Số Điện Thoại"
-            android:textColor="#CCCCCC" />
+            android:text="Số Điện Thoại mới"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="@color/secondary_text"
+            android:layout_marginTop="12dp" />
 
-        <EditText
-            android:id="@+id/editPhone"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#888888"
-            android:inputType="phone"
-            android:textColor="#FFFFFF" />
+            app:hintEnabled="false"
+            app:boxBackgroundMode="filled"
+            app:boxBackgroundColor="@color/input_field_bg"
+            app:boxStrokeColor="@color/input_field_stroke"
+            android:layout_marginTop="4dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="2dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editPhone"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Nhập số điện thoại"
+                android:inputType="phone"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textColor="@color/primary_text"
+                android:textColorHint="@color/secondary_text"
+                android:background="@null"
+                android:backgroundTint="@null"
+                android:textSize="12sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Email -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textSize="@dimen/_15sdp"
-            android:text="Email"
-            android:textColor="#CCCCCC" />
+            android:text="Email mới"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="@color/secondary_text"
+            android:layout_marginTop="12dp" />
 
-        <EditText
-            android:id="@+id/editEmail"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#888888"
-            android:inputType="textEmailAddress"
-            android:textColor="#FFFFFF" />
+            app:hintEnabled="false"
+            app:boxBackgroundMode="filled"
+            app:boxBackgroundColor="@color/input_field_bg"
+            app:boxStrokeColor="@color/input_field_stroke"
+            android:layout_marginTop="4dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="2dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editEmail"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Nhập email"
+                android:inputType="textEmailAddress"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textColor="@color/primary_text"
+                android:textColorHint="@color/secondary_text"
+                android:background="@null"
+                android:backgroundTint="@null"
+                android:textSize="12sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Space
             android:layout_width="wrap_content"
@@ -124,6 +197,7 @@
                 android:layout_width="@dimen/_80sdp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/primary_blue"
+                android:textColor="@color/primary_text"
                 android:text="Hủy" />
 
             <Space
@@ -135,19 +209,11 @@
                 android:layout_width="@dimen/_80sdp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/primary_blue"
+                android:textColor="@color/primary_text"
                 android:text="Lưu" />
         </LinearLayout>
 
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="272dp"
-        android:layout_height="137dp"
-        android:src="@drawable/ic_movie"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:tint="@color/colorTextIcons"
-        tools:ignore="MissingConstraints" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,11 +21,10 @@ public class SeatAdapter extends RecyclerView.Adapter<SeatAdapter.SeatViewHolder
 
     Seat selectedSeat;
 
-    public SeatAdapter( List<Seat> seatList, Seat selectedSeat) {
+    public SeatAdapter(List<Seat> seatList, Seat selectedSeat) {
         this.seatList = seatList;
         this.selectedSeat = selectedSeat;
     }
-
 
     public Seat getSelectedSeat() {
         return selectedSeat;
@@ -42,7 +41,11 @@ public class SeatAdapter extends RecyclerView.Adapter<SeatAdapter.SeatViewHolder
     public void onBindViewHolder(@NonNull SeatViewHolder holder, int position) {
         Seat seat = seatList.get(position);
 
-        holder.seatName.setText(seat.getName());
+        if (seat.getName() != null) {
+            holder.seatName.setText("Ghế " + seat.getName().replace("seat_", ""));
+        } else {
+            holder.seatName.setText("Ghế ?");
+        }
 
         // Set background theo trạng thái
         if (seat.isBought()) {
@@ -73,9 +76,6 @@ public class SeatAdapter extends RecyclerView.Adapter<SeatAdapter.SeatViewHolder
 
     }
 
-
-
-
     @Override
     public int getItemCount() {
         return seatList.size();
@@ -84,6 +84,7 @@ public class SeatAdapter extends RecyclerView.Adapter<SeatAdapter.SeatViewHolder
     static class SeatViewHolder extends RecyclerView.ViewHolder {
         ImageView imageSeat;
         TextView seatName;
+
         SeatViewHolder(View itemView) {
             super(itemView);
             imageSeat = itemView.findViewById(R.id.imageSeat);

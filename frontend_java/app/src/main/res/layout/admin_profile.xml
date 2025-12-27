@@ -66,7 +66,7 @@
             android:background="@drawable/avatar_circle_bg"
             android:contentDescription="Avatar"
             android:scaleType="centerCrop"
-            android:src="@drawable/default_img" />
+            android:src="@drawable/admin" />
 
         <!-- Tên người dùng -->
         <TextView
@@ -74,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:text="Thanh huy"
+            android:text="admin"
             android:textColor="@color/primary_text"
             android:textSize="22sp"
             android:textStyle="bold" />

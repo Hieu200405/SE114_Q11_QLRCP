@@ -20,17 +20,20 @@
       Nằm ở gần top, giữa màn hình, tạo điểm nhấn thương hiệu.
       Sử dụng màu tint để đồng bộ màu sắc với theme.
     -->
-    <ImageView
-        android:id="@+id/imgLogo"
-        android:layout_width="196dp"
-        android:layout_height="204dp"
-        android:src="@drawable/ic_movie"
+    <!-- Header Title -->
+    <TextView
+        android:id="@+id/tvScreenTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/ubuntu_bold"
+        android:text="CHI TIẾT VÉ ĐÃ ĐẶT"
+        android:textColor="@color/colorTextIcons"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.239"
-        app:tint="@color/colorTextIcons" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!--
       CardView: Khung nổi chứa toàn bộ thông tin vé và các trường chi tiết.
@@ -47,7 +50,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btnBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/tvScreenTitle">
 
         <!--
           LinearLayout dọc chứa các thành phần hiển thị thông tin chi tiết vé.
@@ -77,7 +80,7 @@
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/bg_img_rounded"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/default_img" />
+                    android:src="@drawable/movie_image" />
 
                 <!--
                   layoutInfo: Cột bên phải chứa thông tin tên phim, ngày chiếu, giờ chiếu, thời lượng
@@ -313,7 +316,7 @@
         android:id="@+id/btnBack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="BACK"
+        android:text="QUAY LẠI"
         android:layout_marginTop="8dp"
         android:textAllCaps="true"
         android:layout_marginBottom="16dp"
@@ -333,7 +336,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:backgroundTint="#DB1111"
-        android:text="Delete"
+        android:text="XÓA VÉ ĐÃ ĐẶT"
         android:visibility="gone"
         android:textAllCaps="true"
         android:textColor="@android:color/white"
@@ -352,7 +355,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:backgroundTint="#DB1111"
-        android:text="Delete"
+        android:text="XÓA VÉ"
         android:visibility="gone"
         android:textAllCaps="true"
         android:textColor="@android:color/white"
