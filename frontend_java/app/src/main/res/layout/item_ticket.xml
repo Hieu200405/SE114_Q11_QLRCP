@@ -5,8 +5,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     card_view:cardCornerRadius="12dp"
-    card_view:cardElevation="6dp"
-    card_view:cardBackgroundColor="#141A31">
+    card_view:cardElevation="2dp"
+    card_view:cardBackgroundColor="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +29,8 @@
                 android:layout_height="wrap_content"
                 android:text="Mã lịch chiếu: 6"
                 android:textSize="15sp"
-                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textColor="@color/primary_text"
                 android:layout_marginBottom="6dp" />
 
             <TextView
@@ -37,8 +38,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Chỗ ngồi: seat_4"
-                android:textSize="15sp"
-                android:textColor="#FFFFFF" />
+                android:textSize="14sp"
+                android:textColor="@color/secondary_text" />
         </LinearLayout>
 
         <!-- Right Column -->
@@ -54,8 +55,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="100.000 VNĐ"
-                android:textSize="15sp"
-                android:textColor="#00FFAB"
+                android:textSize="16sp"
+                android:textColor="#27C82D"
                 android:textStyle="bold"
                 android:layout_marginBottom="6dp" />
 
@@ -64,8 +65,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="16/06/2025"
-                android:textSize="14sp"
-                android:textColor="#CCCCCC" />
+                android:textSize="12sp"
+                android:textColor="@color/secondary_text" />
         </LinearLayout>
 
     </LinearLayout>

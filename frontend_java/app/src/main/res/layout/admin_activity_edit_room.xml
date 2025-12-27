@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
-    android:background="#141A31">
+    android:background="@color/primary_bg">
 
     <LinearLayout
         android:id="@+id/layoutHeader"
@@ -17,9 +17,21 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/headerLogo"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:src="@drawable/ic_logo_toto_cinema"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerCrop"
+            android:background="@drawable/bg_logo_circle"
+            android:padding="@dimen/_6sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle" />
+
         <TextView
             android:id="@+id/textAppName"
-            android:layout_width="367dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_8sdp"
             android:layout_marginEnd="@dimen/_8sdp"
@@ -29,27 +41,20 @@
             android:gravity="center_vertical"
             android:includeFontPadding="false"
             android:maxLines="1"
-            android:text="  TOTO CINEMA"
+            android:text="SỬA PHÒNG"
             android:textColor="@color/colorTextIcons"
-            android:textSize="@dimen/_14sdp"
-            app:drawableStartCompat="@drawable/ic_movie"
-            app:drawableTint="@color/colorTextIcons" />
-
-
+            android:textSize="@dimen/_14sdp" />
 
     </LinearLayout>
 
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:foregroundGravity="center"
+        android:layout_height="0dp"
         android:padding="@dimen/_16sdp"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp">
+        app:layout_constraintTop_toBottomOf="@+id/layoutHeader"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="MissingConstraints">
 
 
         <LinearLayout
@@ -68,9 +73,8 @@
                 android:src="@drawable/image_present_room"
                 app:shapeAppearanceOverlay="@style/RoundedImageViewStyle" />
 
-            <!-- Mã phòng -->
 
-            <!-- Tên phòng -->
+            <!-- Mã phòng -->
             <TextView
                 android:id="@+id/textRoomId"
                 android:layout_width="match_parent"
@@ -78,46 +82,84 @@
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:text="Mã phòng: 22"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/primary_text"
+                android:textStyle="bold"
                 android:textSize="20sp" />
 
+            <!-- Tên phòng -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tên phòng"
-                android:textColor="#BBBBBB"
-                android:textSize="16sp" />
+                android:layout_marginBottom="4dp"
+                android:textColor="@color/secondary_text"
+                android:textStyle="bold"
+                android:textSize="14sp" />
 
-            <EditText
-                android:id="@+id/editRoomName"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:hintEnabled="false"
                 android:layout_marginBottom="16dp"
-                android:background="@drawable/bg_input_dark"
-                android:hint="Nhập tên phòng"
-                android:padding="12dp"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp" />
+                app:boxBackgroundMode="filled"
+                app:boxBackgroundColor="@color/input_field_bg"
+                app:boxStrokeColor="@color/input_field_stroke"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="2dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editRoomName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nhập tên phòng"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textColor="@color/primary_text"
+                    android:textColorHint="@color/secondary_text"
+                    android:background="@null"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Số ghế -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Số ghế"
-                android:textColor="#BBBBBB"
-                android:textSize="16sp" />
+                android:layout_marginBottom="4dp"
+                android:textColor="@color/secondary_text"
+                android:textStyle="bold"
+                android:textSize="14sp" />
 
-            <EditText
-                android:id="@+id/editSeats"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:hintEnabled="false"
                 android:layout_marginBottom="24dp"
-                android:background="@drawable/bg_input_dark"
-                android:hint="Nhập số ghế"
-                android:inputType="number"
-                android:padding="12dp"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp" />
+                app:boxBackgroundMode="filled"
+                app:boxBackgroundColor="@color/input_field_bg"
+                app:boxStrokeColor="@color/input_field_stroke"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="2dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editSeats"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nhập số ghế"
+                    android:inputType="number"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textColor="@color/primary_text"
+                    android:textColorHint="@color/secondary_text"
+                    android:background="@null"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Các nút -->
             <LinearLayout
@@ -135,6 +177,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
                     android:background="@drawable/bg_button_cancel"
+                    android:backgroundTint="#EF4444"
                     android:padding="12dp"
                     android:text="Hủy"
                     android:textColor="#FFFFFF" />
@@ -145,6 +188,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/bg_button_confirm"
+                    android:backgroundTint="#22C55E"
                     android:padding="12dp"
                     android:text="Lưu"
                     android:textColor="#FFFFFF" />
@@ -152,21 +196,6 @@
 
         </LinearLayout>
     </ScrollView>
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="Update Room"
-        android:textColor="#60C7F4"
-        android:textSize="26sp"
-        android:fontFamily="@font/ubuntu_bold"
-        android:letterSpacing="0.05"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutHeader"
-        tools:ignore="MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
