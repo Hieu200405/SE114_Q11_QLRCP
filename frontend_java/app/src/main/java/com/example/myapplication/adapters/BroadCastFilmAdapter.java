@@ -57,6 +57,27 @@ public class BroadCastFilmAdapter extends RecyclerView.Adapter<BroadCastFilmAdap
         holder.textRoomSeats.setText("Phòng " + broadcast.getRoomID() + " • " + broadcast.getSeats() + " ghế");
         holder.textPrice.setText(String.format("%,.0f đ", broadcast.getPrice()));
 
+        // Hiển thị thông tin Cinema nếu có
+        if (holder.textCinemaInfo != null) {
+            String cinemaName = broadcast.getCinemaName();
+            String distanceText = broadcast.getDistanceText();
+            String durationText = broadcast.getDurationText();
+
+            if (cinemaName != null && !cinemaName.isEmpty()) {
+                StringBuilder cinemaInfo = new StringBuilder("🎬 " + cinemaName);
+                if (distanceText != null && !distanceText.isEmpty()) {
+                    cinemaInfo.append(" • ").append(distanceText);
+                }
+                if (durationText != null && !durationText.isEmpty()) {
+                    cinemaInfo.append(" (~").append(durationText).append(")");
+                }
+                holder.textCinemaInfo.setText(cinemaInfo.toString());
+                holder.textCinemaInfo.setVisibility(View.VISIBLE);
+            } else {
+                holder.textCinemaInfo.setVisibility(View.GONE);
+            }
+        }
+
 
         if(role != null && role.equals("admin")) {
             holder.buttonDelete.setVisibility(View.VISIBLE);
@@ -89,7 +110,7 @@ public class BroadCastFilmAdapter extends RecyclerView.Adapter<BroadCastFilmAdap
     }
 
     public static class BroadcastFilmHolder extends RecyclerView.ViewHolder {
-        TextView textTime, textDate, textRoomSeats, textPrice;
+        TextView textTime, textDate, textRoomSeats, textPrice, textCinemaInfo;
         ImageButton buttonDelete;
 
         public BroadcastFilmHolder(@NonNull View itemView) {
@@ -99,6 +120,7 @@ public class BroadCastFilmAdapter extends RecyclerView.Adapter<BroadCastFilmAdap
             textRoomSeats = itemView.findViewById(R.id.textRoomSeats);
             textPrice = itemView.findViewById(R.id.textPrice);
             buttonDelete = itemView.findViewById(R.id.buttonDelete);
+            textCinemaInfo = itemView.findViewById(R.id.textCinemaInfo);
         }
 
 

@@ -102,13 +102,30 @@
                 android:id="@+id/editSeats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/bg_input_dark"
                 android:hint="Nhập số ghế"
                 android:inputType="number"
                 android:padding="12dp"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp" />
+
+            <!-- Chọn rạp chiếu phim -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rạp chiếu phim"
+                android:textColor="#BBBBBB"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/spinnerCinema"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/bg_input_dark"
+                android:padding="12dp"
+                android:popupBackground="@color/primary_bg" />
 
             <!-- Các nút -->
             <LinearLayout

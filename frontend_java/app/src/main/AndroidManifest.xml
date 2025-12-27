@@ -9,6 +9,10 @@
     <!-- Quyền truy cập Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
     
+    <!-- Quyền truy cập vị trí -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <!-- Quyền query packages để mở apps ngân hàng (Android 11+) -->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
@@ -30,6 +34,9 @@
         
     <!-- Khai báo các packages cần query (thay thế cho QUERY_ALL_PACKAGES) -->
     <queries>
+        <!-- Map apps for navigation -->
+        <package android:name="com.google.android.apps.maps" />
+
         <!-- Banking apps -->
         <package android:name="com.mservice.momotransfer" />
         <package android:name="vn.com.vng.zalopay" />
@@ -173,6 +180,20 @@
             android:exported="false" />
         <activity
             android:name=".activities.AdminActivityUpdateFilm"
+            android:exported="false" />
+
+        <!-- ========== Cinema ========== -->
+        <activity
+            android:name=".activities.CinemaListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.CinemaFormActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.CinemaDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.MapPickerActivity"
             android:exported="false" />
     </application>
 

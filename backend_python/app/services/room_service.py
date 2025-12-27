@@ -12,12 +12,12 @@ def get_room_by_id(room_id):
     return Room.query.filter_by(ID=room_id, is_delete=False).first()
 
 
-def create_room(name, seats):
+def create_room(name, seats, cinema_id=None):
     """Create a new room."""
     if Room.query.filter_by(name=name, is_delete=False).first():
         raise ValueError("Room with this name already exists")
 
-    new_room = Room(name=name, seats=seats)
+    new_room = Room(name=name, seats=seats, cinema_id=cinema_id)
     db.session.add(new_room)
     db.session.commit()
     return new_room
@@ -44,6 +44,22 @@ def update_room(room_id, name=None, seats=None):
 
     db.session.commit()
     return room
+
+
+def update_room_cinema(room_id, cinema_id):
+    """Update room's cinema assignment."""
+    room = get_room_by_id(room_id)
+    if not room:
+        raise ValueError("Room not found")
+    
+    room.cinema_id = cinema_id
+    db.session.commit()
+    return room
+
+
+def get_rooms_by_cinema(cinema_id):
+    """Get all rooms belonging to a cinema."""
+    return Room.query.filter_by(cinema_id=cinema_id, is_delete=False).all()
 
 def delete_room(room_id):
     """Soft delete a room by setting is_delete to True."""

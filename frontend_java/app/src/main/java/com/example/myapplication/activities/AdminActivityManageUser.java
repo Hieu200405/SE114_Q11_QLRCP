@@ -38,7 +38,7 @@ public class AdminActivityManageUser extends AppCompatActivity {
 
     int EDIT_USER_REQUEST_CODE = 1;
     String accessToken;
-    ImageView imageHome, imageManageFilm, imageManageUser, imageManageRoom, imageUser;
+    ImageView imageHome, imageManageFilm, imageManageUser, imageManageRoom, imageManageCinema, imageUser;
     FloatingActionButton fabAddUser;
     RecyclerView recyclerViewUser;
     UserAdapter userAdapter;
@@ -83,6 +83,7 @@ public class AdminActivityManageUser extends AppCompatActivity {
         imageManageFilm = findViewById(R.id.imageManageFilm);
         imageManageUser = findViewById(R.id.imageManageUser);
         imageManageRoom = findViewById(R.id.imageManageRoom);
+        imageManageCinema = findViewById(R.id.imageManageCinema);
         imageUser = findViewById(R.id.imageProfile);
         fabAddUser = findViewById(R.id.buttonAddUser);
         recyclerViewUser = findViewById(R.id.UsersRecyclerView);
@@ -95,6 +96,12 @@ public class AdminActivityManageUser extends AppCompatActivity {
         });
         imageManageRoom.setOnClickListener(v -> {
             startActivity(new Intent(AdminActivityManageUser.this, AdminActivityManageRoom.class));
+        });
+        imageManageCinema.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminActivityManageUser.this, CinemaListActivity.class);
+            intent.putExtra("isAdminMode", true);
+            intent.putExtra("token", accessToken);
+            startActivity(intent);
         });
         imageUser.setOnClickListener(v -> {
             startActivity(new Intent(AdminActivityManageUser.this, AdminActivityProfile.class));
