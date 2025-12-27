@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#141A31"
+    android:background="@color/primary_bg"
     android:padding="16dp">
 
     <LinearLayout
@@ -40,7 +40,7 @@
             android:layout_marginTop="12dp"
             android:gravity="center"
             android:text="UID: 5"
-            android:textColor="#CCCCCC"
+            android:textColor="@color/secondary_text"
             android:textSize="@dimen/_23sdp" />
 
         <TextView
@@ -50,7 +50,7 @@
             android:layout_marginTop="12dp"
             android:gravity="center"
             android:text="User: user"
-            android:textColor="#CCCCCC"
+            android:textColor="@color/primary_text"
             android:textSize="@dimen/_20sdp" />
 
         <Space
@@ -197,6 +197,7 @@
                 android:layout_width="@dimen/_80sdp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/primary_blue"
+                android:textColor="@color/primary_text"
                 android:text="Hủy" />
 
             <Space
@@ -208,6 +209,7 @@
                 android:layout_width="@dimen/_80sdp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/primary_blue"
+                android:textColor="@color/primary_text"
                 android:text="Lưu" />
         </LinearLayout>
 
