@@ -8,7 +8,7 @@ class Review(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.ID'), nullable=False)
     film_id = db.Column(db.Integer, db.ForeignKey('film.ID'), nullable=False)
     
-    rating = db.Column(db.Integer, nullable=False) # 1-5 sao
+    rating = db.Column(db.Integer, nullable=False) # 1-5 star
     comment = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.now)
     status = db.Column(db.Integer, default=1) 
