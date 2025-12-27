@@ -167,7 +167,7 @@
                     android:background="@drawable/bg_button_cancel"
                     android:backgroundTint="#EF4444"
                     android:padding="12dp"
-                    android:text="Hủy"
+                    android:text="Hủy tạo"
                     android:textColor="#FFFFFF" />
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -178,7 +178,7 @@
                     android:background="@drawable/bg_button_confirm"
                     android:backgroundTint="#22C55E"
                     android:padding="12dp"
-                    android:text="Tạo"
+                    android:text="Tạo phòng"
                     android:textColor="#FFFFFF" />
             </LinearLayout>
 

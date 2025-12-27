@@ -23,13 +23,12 @@ public class AdminActivityCreateUser extends AppCompatActivity {
     EditText editName, editUsername, editPassword, editPhone, editEmail;
     Button btnCancel, btnCreate;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_activity_create_user);
 
-//        get access token from shared preferences
+        // get access token from shared preferences
         accessToken = getSharedPreferences("MyAppPrefs", MODE_PRIVATE).getString("access_token", null);
         Log.d("accessToken", "Access Token: " + accessToken);
 
@@ -37,38 +36,41 @@ public class AdminActivityCreateUser extends AppCompatActivity {
         btnCancel.setOnClickListener(
                 v -> {
                     finish();
-                }
-        );
+                });
         btnCreate.setOnClickListener(
-            v -> {
-                String name = editName.getText().toString().trim();
-                String username = editUsername.getText().toString().trim();
-                String password = editPassword.getText().toString().trim();
-                String phone = editPhone.getText().toString().trim();
-                String email = editEmail.getText().toString().trim();
+                v -> {
+                    String name = editName.getText().toString().trim();
+                    String username = editUsername.getText().toString().trim();
+                    String password = editPassword.getText().toString().trim();
+                    String phone = editPhone.getText().toString().trim();
+                    String email = editEmail.getText().toString().trim();
 
-                if (name.isEmpty() || username.isEmpty() || password.isEmpty() || phone.isEmpty() || email.isEmpty()) {
-                    Toast.makeText(AdminActivityCreateUser.this, "Vui lòng điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (!isValidPhoneNumber(phone)) {
-                    Toast.makeText(AdminActivityCreateUser.this, "Số điện thoại không hợp lệ!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (!isValidEmail(email)) {
-                    Toast.makeText(AdminActivityCreateUser.this, "Email không hợp lệ!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (!isValidPassword(password)) {
-                    Toast.makeText(AdminActivityCreateUser.this, "Mật khẩu phải có ít nhất 6 kí tự!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                RegisterRequest registerRequest = new RegisterRequest(username, password, name, email, phone);
-                createUserByApi(registerRequest);
-            }
-        );
-        
+                    if (name.isEmpty() || username.isEmpty() || password.isEmpty() || phone.isEmpty()
+                            || email.isEmpty()) {
+                        Toast.makeText(AdminActivityCreateUser.this, "Vui lòng điền đầy đủ thông tin!",
+                                Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (!isValidPhoneNumber(phone)) {
+                        Toast.makeText(AdminActivityCreateUser.this, "Số điện thoại không hợp lệ!", Toast.LENGTH_SHORT)
+                                .show();
+                        return;
+                    }
+                    if (!isValidEmail(email)) {
+                        Toast.makeText(AdminActivityCreateUser.this, "Email không hợp lệ!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (!isValidPassword(password)) {
+                        Toast.makeText(AdminActivityCreateUser.this, "Mật khẩu phải có ít nhất 6 kí tự!",
+                                Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    RegisterRequest registerRequest = new RegisterRequest(username, password, name, phone, email);
+                    createUserByApi(registerRequest);
+                });
+
     }
+
     void setElementById() {
         editName = findViewById(R.id.editName);
         editUsername = findViewById(R.id.editUsername);
@@ -81,7 +83,7 @@ public class AdminActivityCreateUser extends AppCompatActivity {
 
     void createUserByApi(RegisterRequest registerRequest) {
         ApiUserService apiUserService = ApiClient.getRetrofit().create(ApiUserService.class);
-        Call<UserInfo> call = apiUserService.createUser("Bearer" + accessToken, registerRequest);
+        Call<UserInfo> call = apiUserService.createUser("Bearer " + accessToken, registerRequest);
         call.enqueue(
                 new retrofit2.Callback<UserInfo>() {
                     @Override
@@ -96,32 +98,47 @@ public class AdminActivityCreateUser extends AppCompatActivity {
                             }
                         } else {
                             // Handle error response
-                            Toast.makeText(AdminActivityCreateUser.this, "Lỗi tạo user: " + response.message(), Toast.LENGTH_SHORT).show();
-                            Log.e("AdminActivityCreateUser", "Lỗi tạo user: " + response.message());
+                            try {
+                                String errorBody = response.errorBody().string();
+                                if (errorBody.toLowerCase().contains("exist")) {
+                                    Toast.makeText(AdminActivityCreateUser.this,
+                                            "Thông tin (Username, Email hoặc SĐT) đã tồn tại!", Toast.LENGTH_LONG)
+                                            .show();
+                                } else {
+                                    Toast.makeText(AdminActivityCreateUser.this, "Lỗi tạo user: " + errorBody,
+                                            Toast.LENGTH_LONG).show();
+                                }
+                                Log.e("AdminActivityCreateUser", "Lỗi tạo user: " + errorBody);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(AdminActivityCreateUser.this, "Lỗi tạo user: " + response.message(),
+                                        Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
 
                     @Override
                     public void onFailure(Call<UserInfo> call, Throwable t) {
                         // Handle failure
-                        Toast.makeText(AdminActivityCreateUser.this,"Trùng thông tin user với tài khoản khác, vui lòng thử lại!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AdminActivityCreateUser.this,
+                                "Trùng thông tin user với tài khoản khác, vui lòng thử lại!", Toast.LENGTH_SHORT)
+                                .show();
                         Log.e("AdminActivityCreateUser", "Tạo user thất bại: " + t.getMessage());
                     }
-                }
-        );
+                });
 
     }
 
-    //    check password has at least 6 chars
+    // check password has at least 6 chars
     private boolean isValidPassword(String password) {
         // Kiểm tra mật khẩu có ít nhất 6 kí tự
         return password.length() >= 6;
     }
 
-    //    check phone number has 10 chars and only contains digits
+    // check phone number has 10 chars and only contains digits
     private boolean isValidPhoneNumber(String phone) {
         // Kiểm tra số điện thoại có 10 kí tự và chỉ chứa chữ số
-        if('0' != phone.charAt(0)) {
+        if ('0' != phone.charAt(0)) {
             return false; // Số điện thoại phải bắt đầu bằng 0
         }
         if (phone.length() != 10) {
@@ -135,7 +152,7 @@ public class AdminActivityCreateUser extends AppCompatActivity {
         return true;
     }
 
-    //    check email format
+    // check email format
     private boolean isValidEmail(String email) {
         // Kiểm tra định dạng email cơ bản
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";

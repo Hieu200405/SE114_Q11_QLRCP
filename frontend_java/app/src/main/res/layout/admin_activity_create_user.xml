@@ -263,7 +263,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/bg_button_cancel"
                     android:backgroundTint="#EF4444"
-                    android:text="Hủy"
+                    android:text="Hủy thêm"
                     android:textColor="#FFFFFF" />
 
                 <Space
@@ -277,7 +277,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/bg_button_confirm"
                     android:backgroundTint="#22C55E"
-                    android:text="Tạo"
+                    android:text="Thêm người dùng"
                     android:textColor="#FFFFFF" />
             </LinearLayout>
 
