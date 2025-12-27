@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:text="A1"
         android:textSize="12sp"
-        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textColor="@color/primary_text"
         android:layout_marginTop="4dp"/>
 </LinearLayout>
