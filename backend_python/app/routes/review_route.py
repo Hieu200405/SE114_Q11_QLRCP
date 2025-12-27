@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from app.extension import db
 from app.models.Review import Review
 from app.models.Film import Film
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 
 REVIEW_BLUEPRINT = Blueprint('review', __name__)
 
