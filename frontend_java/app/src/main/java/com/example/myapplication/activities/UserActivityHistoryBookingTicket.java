@@ -5,14 +5,22 @@ import static androidx.core.content.ContextCompat.startActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,8 +28,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.adapters.TicketAdapter;
 import com.example.myapplication.models.BookingTicketResponse;
+import com.example.myapplication.models.ReviewRequest;
+import com.example.myapplication.models.ReviewResponse;
 import com.example.myapplication.models.Ticket;
 import com.example.myapplication.network.ApiClient;
+import com.example.myapplication.network.ApiFilmService;
 import com.example.myapplication.network.ApiTicketService;
 
 import java.util.ArrayList;
@@ -38,6 +49,7 @@ public class UserActivityHistoryBookingTicket extends AppCompatActivity {
     int userId;
     ApiTicketService apiTicketService;
     List<Ticket> ticketList;
+    ApiFilmService apiFilmService;
     RecyclerView recyclerViewTickets;
     TicketAdapter ticketAdapter;
     ImageView imageUser;
@@ -181,4 +193,71 @@ public class UserActivityHistoryBookingTicket extends AppCompatActivity {
                 }
         );
     }
+
+    private void showRatingDialog(int filmId) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_rating, null);
+        builder.setView(dialogView);
+
+        AlertDialog dialog = builder.create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
+        RatingBar ratingBar = dialogView.findViewById(R.id.ratingBar);
+        EditText etComment = dialogView.findViewById(R.id.etComment);
+        Button btnSubmit = dialogView.findViewById(R.id.btnSubmit);
+
+        btnSubmit.setOnClickListener(v -> {
+            int rating = (int) ratingBar.getRating();
+            String comment = etComment.getText().toString().trim();
+
+            if (rating == 0) {
+                Toast.makeText(this, "Vui lòng chọn số sao", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            sendReviewRequest(filmId, rating, comment);
+            dialog.dismiss();
+        });
+
+        dialog.show();
+    }
+
+    private void sendReviewRequest(int filmId, int rating, String comment) {
+        ReviewRequest reviewRequest = new ReviewRequest(filmId, rating, comment);
+        String tokenHeader = "Bearer " + accessToken;
+
+        apiFilmService.addReview(tokenHeader, reviewRequest).enqueue(new Callback<ReviewResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<ReviewResponse> call, @NonNull Response<ReviewResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ReviewResponse result = response.body();
+
+                    if (result.getCode().equals("00")) {
+                        // Success
+                        Toast.makeText(UserActivityHistoryBookingTicket.this,
+                                "Cảm ơn bạn đã đánh giá phim!", Toast.LENGTH_SHORT).show();
+                        ticketAdapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(UserActivityHistoryBookingTicket.this,
+                                "Lỗi: " + result.getDesc(), Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Log.e("API_ERROR", "Response code: " + response.code());
+                    Toast.makeText(UserActivityHistoryBookingTicket.this,
+                            "Không thể gửi đánh giá. Vui lòng thử lại sau.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ReviewResponse> call, @NonNull Throwable t) {
+                Log.e("API_ERROR", "Network error: " + t.getMessage());
+                Toast.makeText(UserActivityHistoryBookingTicket.this,
+                        "Lỗi kết nối mạng!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }
