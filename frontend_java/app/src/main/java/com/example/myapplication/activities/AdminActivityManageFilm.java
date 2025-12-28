@@ -38,7 +38,7 @@ public class AdminActivityManageFilm extends AppCompatActivity {
     private final int UPDATE_FILM_REQUEST_CODE = 5; // Assuming this is the code for updating a film
     private final int DELETE_FILM_REQUEST_CODE = 6; // Assuming this is the code for deleting a film
 
-    ImageView imageHome, imageManageFilm, imageManageUser, imageManageRoom, imageUser;
+    ImageView imageHome, imageManageFilm, imageManageUser, imageManageRoom, imageManageCinema, imageUser;
     ImageView imageSearch;
     TextView textAppName;
     EditText editSearch;
@@ -98,6 +98,7 @@ public class AdminActivityManageFilm extends AppCompatActivity {
         imageManageFilm = findViewById(R.id.imageManageFilm);
         imageManageUser = findViewById(R.id.imageManageUser);
         imageManageRoom = findViewById(R.id.imageManageRoom);
+        imageManageCinema = findViewById(R.id.imageManageCinema);
         imageUser = findViewById(R.id.imageProfile);
         fabAddFilm = findViewById(R.id.buttonAddFilm);
         recyclerViewFilm = findViewById(R.id.filmShowsRecyclerView);
@@ -114,7 +115,6 @@ public class AdminActivityManageFilm extends AppCompatActivity {
             startActivity(intent);
         });
 
-
         imageManageUser.setOnClickListener(v -> {
             Intent intent = new Intent(AdminActivityManageFilm.this, AdminActivityManageUser.class);
             startActivity(intent);
@@ -122,6 +122,13 @@ public class AdminActivityManageFilm extends AppCompatActivity {
 
         imageManageRoom.setOnClickListener(v -> {
             Intent intent = new Intent(AdminActivityManageFilm.this, AdminActivityManageRoom.class);
+            startActivity(intent);
+        });
+
+        imageManageCinema.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminActivityManageFilm.this, CinemaListActivity.class);
+            intent.putExtra("isAdminMode", true);
+            intent.putExtra("token", accessToken);
             startActivity(intent);
         });
 

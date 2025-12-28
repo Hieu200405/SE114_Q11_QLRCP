@@ -9,7 +9,8 @@ import com.google.gson.annotations.SerializedName;
     {
         "ID": 2,
         "Name": "Room 50",
-        "Seats": 20
+        "Seats": 20,
+        "CinemaID": 1
     }
  */
 public class RoomResponse implements Parcelable {
@@ -19,6 +20,11 @@ public class RoomResponse implements Parcelable {
     private String name;
     @SerializedName("Seats")
     private int seats;
+    @SerializedName("CinemaID")  // FIX: Backend uses "CinemaID" not "CinemaId"
+    private Integer cinemaId;
+    @SerializedName("Cinema")
+    private Cinema cinema;
+
     // Constructor
     public RoomResponse(int id, String name, int seats) {
         this.id = id;
@@ -26,10 +32,23 @@ public class RoomResponse implements Parcelable {
         this.seats = seats;
     }
 
+    public RoomResponse(int id, String name, int seats, Integer cinemaId) {
+        this.id = id;
+        this.name = name;
+        this.seats = seats;
+        this.cinemaId = cinemaId;
+    }
+
     protected RoomResponse(Parcel in) {
         id = in.readInt();
         name = in.readString();
         seats = in.readInt();
+        if (in.readByte() == 0) {
+            cinemaId = null;
+        } else {
+            cinemaId = in.readInt();
+        }
+        cinema = in.readParcelable(Cinema.class.getClassLoader());
     }
 
     @Override
@@ -37,6 +56,13 @@ public class RoomResponse implements Parcelable {
         dest.writeInt(id);
         dest.writeString(name);
         dest.writeInt(seats);
+        if (cinemaId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(cinemaId);
+        }
+        dest.writeParcelable(cinema, flags);
     }
 
     @Override
@@ -65,5 +91,19 @@ public class RoomResponse implements Parcelable {
     }
     public int getSeats() {
         return seats;
+    }
+    public Integer getCinemaId() {
+        return cinemaId;
+    }
+    public Cinema getCinema() {
+        return cinema;
+    }
+
+    // Setters
+    public void setCinemaId(Integer cinemaId) {
+        this.cinemaId = cinemaId;
+    }
+    public void setCinema(Cinema cinema) {
+        this.cinema = cinema;
     }
 }

@@ -5,6 +5,7 @@ if (localPropertiesFile.exists()) {
     localProperties.load(localPropertiesFile.inputStream())
 }
 val baseUrl = localProperties.getProperty("BASE_URL") ?: "https://defaulturl.com"
+val goongMapKey = localProperties.getProperty("GOONG_MAP_KEY") ?: ""
 
 plugins {
     alias(libs.plugins.android.application)
@@ -22,6 +23,7 @@ android {
         versionCode = 1
         versionName = "1.0"
         buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
+        buildConfigField("String", "GOONG_MAP_KEY", "\"$goongMapKey\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -61,4 +63,9 @@ dependencies {
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
    // implementation("com.google.android.material:material:1.11.0")
     implementation ("com.squareup.okhttp3:okhttp:4.10.0")
+// Google Play Services Location for GPS
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
+
+    // ZXing for QR Code generation
+    implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
 }

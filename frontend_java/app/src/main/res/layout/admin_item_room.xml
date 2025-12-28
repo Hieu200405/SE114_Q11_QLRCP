@@ -8,53 +8,75 @@
     android:padding="16dp"
     android:layout_marginBottom="12dp">
 
+    <!-- Edit button at top-right -->
+    <ImageView
+        android:id="@+id/buttonEdit"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:padding="4dp"
+        android:src="@drawable/ic_edit"
+        android:contentDescription="Edit"
+        app:layout_constraintEnd_toStartOf="@id/buttonDelete"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="8dp"
+        app:tint="#4CAF50" />
+
+    <!-- Delete button at top-right -->
+    <ImageView
+        android:id="@+id/buttonDelete"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:padding="4dp"
+        android:src="@drawable/ic_delete"
+        android:contentDescription="Delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="#F44336" />
+
+    <!-- Room name with space for buttons -->
     <TextView
         android:id="@+id/tvRoomName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Room 22"
+        android:text="Tên phòng: Room 22"
         android:textColor="@color/primary_text"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:maxLines="1"
         android:ellipsize="end"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonEdit"
+        android:layout_marginEnd="8dp"
         />
 
+    <!-- Seats count -->
     <TextView
         android:id="@+id/tvSeats"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Seats: 30"
+        android:layout_marginTop="4dp"
+        android:text="Số chỗ ngồi: 30"
         android:textColor="@color/secondary_text"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvRoomName"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageView
-        android:id="@+id/buttonEdit"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:src="@drawable/ic_edit"
-        android:contentDescription="Edit"
-        app:layout_constraintEnd_toStartOf="@id/buttonDelete"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginEnd="12dp"
-        app:tint="#4CAF50" />
-
-    <ImageView
-        android:id="@+id/buttonDelete"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:src="@drawable/ic_delete"
-        android:contentDescription="Delete"
+    <!-- Cinema info with full width -->
+    <TextView
+        android:id="@+id/tvCinemaInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="🎬 CGV Vincom Đồng Khởi"
+        android:textColor="#4CAF50"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSeats"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:tint="#F44336" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

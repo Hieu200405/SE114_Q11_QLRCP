@@ -149,6 +149,57 @@
                         android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Chọn rạp chiếu phim -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rạp chiếu phim"
+                android:layout_marginBottom="4dp"
+                android:textColor="@color/secondary_text"
+                android:textStyle="bold"
+                android:textSize="14sp" />
+
+            <Spinner
+                android:id="@+id/spinnerCinema"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_spinner_light"
+                android:padding="12dp"
+                android:popupBackground="@color/white" />
+
+            <!-- Thông tin rạp đã chọn -->
+            <LinearLayout
+                android:id="@+id/layoutCinemaInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_cinema_info"
+                android:padding="12dp">
+
+                <TextView
+                    android:id="@+id/tvSelectedCinemaAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_navigate"
+                    android:drawablePadding="8dp"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tvSelectedCinemaPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:drawableStart="@drawable/ic_phone"
+                    android:drawablePadding="8dp"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
             <!-- Các nút -->
             <LinearLayout
                 android:layout_width="match_parent"

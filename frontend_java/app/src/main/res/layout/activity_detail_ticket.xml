@@ -327,6 +327,22 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <!--
+      Nút XEM QR CODE: hiển thị mã QR của vé để quét tại rạp
+    -->
+    <Button
+        android:id="@+id/btnShowQR"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#4CAF50"
+        android:text="📱 XEM MÃ QR"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/btnDeleteUser"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!--
       Nút DELETE USER (ẩn mặc định), chỉ hiện nếu có quyền/xác thực đặc biệt.
       Màu đỏ nổi bật, luôn dưới card vé và trên nút BACK.
     -->
@@ -338,7 +354,7 @@
         android:backgroundTint="#DB1111"
         android:text="XÓA VÉ ĐÃ ĐẶT"
         android:visibility="gone"
-        android:textAllCaps="true"
+        android:textAllCaps="false"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/btnBack"
         app:layout_constraintEnd_toEndOf="parent"
