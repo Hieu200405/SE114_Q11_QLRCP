@@ -63,6 +63,27 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
     @Override
     public void onBindViewHolder(@NonNull TicketViewHolder holder, int position) {
         Ticket ticket = ticketList.get(position);
+
+        // Time check logic
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            String broadcastAt = ticket.getDateBroadcast() + " " + ticket.getTimeBroadcast();
+            Date showDate = sdf.parse(broadcastAt);
+            Date now = new Date();
+
+            if (now.after(showDate)) {
+                holder.btnRating.setVisibility(View.VISIBLE);
+                holder.btnRating.setOnClickListener(v -> {
+                    // Mở Dialog đánh giá (truyền FilmID vào)
+                    showRatingDialog(ticket.getFilmId());
+                });
+            } else {
+                holder.btnRating.setVisibility(View.GONE);
+            }
+        } catch (Exception e) {
+            holder.btnRating.setVisibility(View.GONE);
+        }
+
         if (ticket != null) {
             holder.tvBroadcastID.setText("Mã lịch chiếu: " + String.valueOf(ticket.getBroadcastId()));
             if (ticket.getSeatName() != null) {
