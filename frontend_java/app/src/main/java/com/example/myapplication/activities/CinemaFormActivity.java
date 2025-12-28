@@ -123,7 +123,7 @@ public class CinemaFormActivity extends AppCompatActivity {
         View toolbar = findViewById(R.id.toolbar);
         btnBack = toolbar.findViewById(R.id.buttonBack);
         tvTitle = toolbar.findViewById(R.id.titleToolbar);
-        tvTitle.setText(isEditMode ? "Chỉnh sửa rạp" : "Thêm rạp mới");
+        tvTitle.setText(isEditMode ? "CHỈNH SỬA RẠP" : "THÊM RẠP MỚI");
     }
 
     private void initApi() {
@@ -142,8 +142,7 @@ public class CinemaFormActivity extends AppCompatActivity {
                                 .centerCrop()
                                 .into(ivCinemaImage);
                     }
-                }
-        );
+                });
 
         // Map picker
         mapPickerLauncher = registerForActivityResult(
@@ -165,8 +164,7 @@ public class CinemaFormActivity extends AppCompatActivity {
                             isUpdatingAddress = false;
                         }
                     }
-                }
-        );
+                });
     }
 
     private void setupListeners() {
@@ -196,7 +194,8 @@ public class CinemaFormActivity extends AppCompatActivity {
         // Address autocomplete
         etAddress.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -211,7 +210,8 @@ public class CinemaFormActivity extends AppCompatActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
     }
 
@@ -225,14 +225,16 @@ public class CinemaFormActivity extends AppCompatActivity {
             try {
                 intent.putExtra("latitude", Double.parseDouble(latStr));
                 intent.putExtra("longitude", Double.parseDouble(lngStr));
-            } catch (NumberFormatException ignored) {}
+            } catch (NumberFormatException ignored) {
+            }
         }
 
         mapPickerLauncher.launch(intent);
     }
 
     private void populateData() {
-        if (currentCinema == null) return;
+        if (currentCinema == null)
+            return;
 
         etCinemaName.setText(currentCinema.getName());
 
@@ -261,21 +263,23 @@ public class CinemaFormActivity extends AppCompatActivity {
                 .enqueue(new retrofit2.Callback<List<PlaceAutocomplete.Prediction>>() {
                     @Override
                     public void onResponse(@NonNull retrofit2.Call<List<PlaceAutocomplete.Prediction>> call,
-                                           @NonNull retrofit2.Response<List<PlaceAutocomplete.Prediction>> response) {
+                            @NonNull retrofit2.Response<List<PlaceAutocomplete.Prediction>> response) {
                         if (response.isSuccessful() && response.body() != null) {
                             showPlaceSuggestions(response.body());
                         }
                     }
 
                     @Override
-                    public void onFailure(@NonNull retrofit2.Call<List<PlaceAutocomplete.Prediction>> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull retrofit2.Call<List<PlaceAutocomplete.Prediction>> call,
+                            @NonNull Throwable t) {
                         Log.e(TAG, "Error searching places", t);
                     }
                 });
     }
 
     private void showPlaceSuggestions(List<PlaceAutocomplete.Prediction> predictions) {
-        if (predictions.isEmpty()) return;
+        if (predictions.isEmpty())
+            return;
 
         String[] items = new String[predictions.size()];
         for (int i = 0; i < predictions.size(); i++) {
@@ -302,7 +306,7 @@ public class CinemaFormActivity extends AppCompatActivity {
                 .enqueue(new retrofit2.Callback<Map<String, Object>>() {
                     @Override
                     public void onResponse(@NonNull retrofit2.Call<Map<String, Object>> call,
-                                           @NonNull retrofit2.Response<Map<String, Object>> response) {
+                            @NonNull retrofit2.Response<Map<String, Object>> response) {
                         if (response.isSuccessful() && response.body() != null) {
                             try {
                                 Map<String, Object> data = response.body();
@@ -370,7 +374,7 @@ public class CinemaFormActivity extends AppCompatActivity {
 
         showLoading(true);
 
-// Nếu có ảnh mới, upload trước
+        // Nếu có ảnh mới, upload trước
         if (selectedImageUri != null) {
             uploadImageToCloudinary(selectedImageUri, imageUrl -> {
                 selectedImageUrl = imageUrl;
@@ -382,8 +386,9 @@ public class CinemaFormActivity extends AppCompatActivity {
     }
 
     private void submitCinemaRequest(String name, String address, double latitude, double longitude,
-                                      String phone, String description) {
-        CinemaRequest request = new CinemaRequest(name, address, latitude, longitude, phone, selectedImageUrl, description);
+            String phone, String description) {
+        CinemaRequest request = new CinemaRequest(name, address, latitude, longitude, phone, selectedImageUrl,
+                description);
 
         if (isEditMode && currentCinema != null) {
             updateCinema(request);
@@ -427,7 +432,8 @@ public class CinemaFormActivity extends AppCompatActivity {
                 public void onFailure(@NonNull Call call, @NonNull IOException e) {
                     runOnUiThread(() -> {
                         showLoading(false);
-                        Toast.makeText(CinemaFormActivity.this, "Lỗi upload ảnh: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CinemaFormActivity.this, "Lỗi upload ảnh: " + e.getMessage(), Toast.LENGTH_SHORT)
+                                .show();
                     });
                 }
 
@@ -464,7 +470,8 @@ public class CinemaFormActivity extends AppCompatActivity {
         apiCinemaService.createCinema("Bearer " + authToken, request)
                 .enqueue(new retrofit2.Callback<Cinema>() {
                     @Override
-                    public void onResponse(@NonNull retrofit2.Call<Cinema> call, @NonNull retrofit2.Response<Cinema> response) {
+                    public void onResponse(@NonNull retrofit2.Call<Cinema> call,
+                            @NonNull retrofit2.Response<Cinema> response) {
                         showLoading(false);
                         if (response.isSuccessful()) {
                             CinemaCache.clearCache(); // Clear cache to reload updated data
@@ -479,7 +486,8 @@ public class CinemaFormActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull retrofit2.Call<Cinema> call, @NonNull Throwable t) {
                         showLoading(false);
-                        Toast.makeText(CinemaFormActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CinemaFormActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT)
+                                .show();
                         Log.e(TAG, "Error creating cinema", t);
                     }
                 });
@@ -489,22 +497,26 @@ public class CinemaFormActivity extends AppCompatActivity {
         apiCinemaService.updateCinema("Bearer " + authToken, currentCinema.getId(), request)
                 .enqueue(new retrofit2.Callback<Cinema>() {
                     @Override
-                    public void onResponse(@NonNull retrofit2.Call<Cinema> call, @NonNull retrofit2.Response<Cinema> response) {
+                    public void onResponse(@NonNull retrofit2.Call<Cinema> call,
+                            @NonNull retrofit2.Response<Cinema> response) {
                         showLoading(false);
                         if (response.isSuccessful()) {
                             CinemaCache.clearCache(); // Clear cache to reload updated data
-                            Toast.makeText(CinemaFormActivity.this, "Cập nhật rạp thành công", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CinemaFormActivity.this, "Cập nhật rạp thành công", Toast.LENGTH_SHORT)
+                                    .show();
                             setResult(RESULT_OK);
                             finish();
                         } else {
-                            Toast.makeText(CinemaFormActivity.this, "Không thể cập nhật rạp", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CinemaFormActivity.this, "Không thể cập nhật rạp", Toast.LENGTH_SHORT)
+                                    .show();
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull retrofit2.Call<Cinema> call, @NonNull Throwable t) {
                         showLoading(false);
-                        Toast.makeText(CinemaFormActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CinemaFormActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT)
+                                .show();
                         Log.e(TAG, "Error updating cinema", t);
                     }
                 });
@@ -515,4 +527,3 @@ public class CinemaFormActivity extends AppCompatActivity {
         btnSave.setEnabled(!show);
     }
 }
-

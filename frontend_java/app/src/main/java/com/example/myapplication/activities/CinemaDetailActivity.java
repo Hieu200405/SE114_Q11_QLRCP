@@ -34,7 +34,7 @@ public class CinemaDetailActivity extends AppCompatActivity {
 
     // Views
     private ImageView ivCinemaImage, btnBack;
-    private TextView tvTitle, tvCinemaName, tvAddress, tvPhone, tvDescription;
+    private TextView tvCinemaName, tvAddress, tvPhone, tvDescription;
     private TextView tvDistance, tvDuration;
     private LinearLayout layoutDistanceInfo;
     private Button btnNavigate, btnViewRooms;
@@ -78,10 +78,8 @@ public class CinemaDetailActivity extends AppCompatActivity {
         btnViewRooms = findViewById(R.id.btnViewRooms);
         rvRooms = findViewById(R.id.rvRooms);
 
-        // Toolbar
-        View toolbar = findViewById(R.id.toolbar);
-        btnBack = toolbar.findViewById(R.id.buttonBack);
-        tvTitle = toolbar.findViewById(R.id.titleToolbar);
+        // Header View
+        btnBack = findViewById(R.id.imageBack);
 
         locationHelper = new LocationHelper(this);
     }
@@ -103,7 +101,6 @@ public class CinemaDetailActivity extends AppCompatActivity {
     }
 
     private void displayCinemaInfo() {
-        tvTitle.setText(cinema.getName());
         tvCinemaName.setText(cinema.getName());
         tvAddress.setText(cinema.getAddress());
 
@@ -164,4 +161,3 @@ public class CinemaDetailActivity extends AppCompatActivity {
         rvRooms.setVisibility(View.VISIBLE);
     }
 }
-
