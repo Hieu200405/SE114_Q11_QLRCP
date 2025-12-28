@@ -36,7 +36,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
 public class UserAdminShowDetailTicket extends AppCompatActivity {
 
     private ImageView imageThumbnail;
@@ -66,21 +65,20 @@ public class UserAdminShowDetailTicket extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_ticket);
-//        find elements by ID
+        // find elements by ID
         setElementsByID();
 
-//        set access token from SharedPreferences
+        // set access token from SharedPreferences
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-        accessToken =  prefs.getString("access_token", null);
-//        set role from SharedPreferences
+        accessToken = prefs.getString("access_token", null);
+        // set role from SharedPreferences
         String role = prefs.getString("role", null);
-
 
         BookingTicketResponse bookingTicketResponse = getIntent().getParcelableExtra("bookingTicketResponse");
         Broadcast broadcast = bookingTicketResponse.getBroadcast();
         Log.d("thumbnail", "Thumbnail URL: " + broadcast.getThumbnail());
         if (bookingTicketResponse != null && broadcast != null) {
-            if(broadcast.getThumbnail() == null || broadcast.getThumbnail().isEmpty()) {
+            if (broadcast.getThumbnail() == null || broadcast.getThumbnail().isEmpty()) {
                 // Set a default image if the thumbnail is null or empty
                 Glide.with(this)
                         .load(R.drawable.default_img) // Replace with your default image resource
@@ -93,18 +91,17 @@ public class UserAdminShowDetailTicket extends AppCompatActivity {
                         .into(imageThumbnail);
             }
             Log.d("userID", "User ID: " + bookingTicketResponse.getUserID());
-//            set ticketId from BookingTicketResponse
+            // set ticketId from BookingTicketResponse
             ticketId = String.valueOf(bookingTicketResponse.getID());
 
-
             tvFilmName.setText(broadcast.getFilmName());
-            tvDate.setText("Ngày chiếu: "+ broadcast.getDateBroadcast());
+            tvDate.setText("Ngày chiếu: " + broadcast.getDateBroadcast());
             tvTime.setText("Thời gian: " + broadcast.getTimeBroadcast());
             tvRuntime.setText("Runtime: " + broadcast.getRuntime() + " phút");
             tvRoomID.setText(String.valueOf(bookingTicketResponse.getRoomID()));
-            tvSeatName.setText(String.valueOf(bookingTicketResponse.getSeatID()));
+            tvSeatName.setText("Ghế " + String.valueOf(bookingTicketResponse.getSeatID()));
             tvDateOrder.setText(bookingTicketResponse.getDateOrder());
-            tvPrice.setText(String.valueOf(bookingTicketResponse.getPrice() )+ " VND");
+            tvPrice.setText(String.valueOf(bookingTicketResponse.getPrice()) + " VND");
             tvTimeOrder.setText(bookingTicketResponse.getTimeOrder());
             tvTicketID.setText(String.valueOf(bookingTicketResponse.getID()));
             tvUserID.setText(String.valueOf(bookingTicketResponse.getUserID()));
@@ -116,7 +113,6 @@ public class UserAdminShowDetailTicket extends AppCompatActivity {
 
             tvFilmName.setText("No booking details available");
         }
-
 
         btnBack.setOnClickListener(v -> {
             finish(); // Close the activity and return to the previous one
@@ -139,16 +135,13 @@ public class UserAdminShowDetailTicket extends AppCompatActivity {
             btnDeleteUser.setVisibility(Button.GONE);
         }
 
-
-
     }
-
 
     void DeleteTicketByApi() {
         String token = "Bearer " + accessToken;
         ApiTicketService apiTicketService = ApiClient.getRetrofit().create(ApiTicketService.class);
         Call<String> call = apiTicketService.deleteTicket(token, String.valueOf(ticketId));
-        call.enqueue( new Callback<String>(){
+        call.enqueue(new Callback<String>() {
 
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -178,7 +171,7 @@ public class UserAdminShowDetailTicket extends AppCompatActivity {
         });
     }
 
-    void setElementsByID(){
+    void setElementsByID() {
         imageThumbnail = findViewById(R.id.imgThumbnail);
         tvFilmName = findViewById(R.id.tvFilmName);
         tvDate = findViewById(R.id.tvDate);
@@ -269,31 +262,29 @@ public class UserAdminShowDetailTicket extends AppCompatActivity {
         return bitmap;
     }
 
-
     void listenerDeleteTicket(BookingTicketResponse bookingTicketResponse) {
         btnDelete.setOnClickListener(v -> {
             new AlertDialog.Builder(UserAdminShowDetailTicket.this)
-                .setTitle("Xác nhận xóa vé")
-                .setMessage("Bạn có chắc chắn muốn xóa không?")
-                .setPositiveButton("Xóa", (dialog, which) -> {
-                    DeleteTicketByApi();
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra("ticketId", bookingTicketResponse.getID());
-                    resultIntent.putExtra("seatId", bookingTicketResponse.getSeatID());
-                    setResult(4, resultIntent); // Trả về kết quả OK với ticketId
-                    finish(); // Đóng activity sau khi xóa vé
-                })
-                .setNegativeButton("Hủy", (dialog, which) -> {
-                    dialog.dismiss(); // Đóng dialog nếu chọn Cancel
-                })
-                .show();
+                    .setTitle("Xác nhận xóa vé")
+                    .setMessage("Bạn có chắc chắn muốn xóa không?")
+                    .setPositiveButton("Xóa", (dialog, which) -> {
+                        DeleteTicketByApi();
+                        Intent resultIntent = new Intent();
+                        resultIntent.putExtra("ticketId", bookingTicketResponse.getID());
+                        resultIntent.putExtra("seatId", bookingTicketResponse.getSeatID());
+                        setResult(4, resultIntent); // Trả về kết quả OK với ticketId
+                        finish(); // Đóng activity sau khi xóa vé
+                    })
+                    .setNegativeButton("Hủy", (dialog, which) -> {
+                        dialog.dismiss(); // Đóng dialog nếu chọn Cancel
+                    })
+                    .show();
         });
-
 
     }
 
     void listenerDeleteUser(BookingTicketResponse bookingTicketResponse) {
-//        ticket just delete on the order day
+        // ticket just delete on the order day
 
         btnDeleteUser.setOnClickListener(v -> {
             Date currentDate = new Date();
@@ -304,20 +295,20 @@ public class UserAdminShowDetailTicket extends AppCompatActivity {
                 return; // Không hiển thị nút xóa nếu ngày hiện tại không trùng với ngày đặt vé
             }
             new AlertDialog.Builder(UserAdminShowDetailTicket.this)
-                .setTitle("Xác nhận xóa vé")
-                .setMessage("Bạn có chắc chắn muốn xóa vé này không?")
-                .setPositiveButton("Xóa", (dialog, which) -> {
-                    DeleteTicketByApi();
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra("ticketId", bookingTicketResponse.getID());
-                    setResult(1, resultIntent); // Trả về kết quả OK với ticketId
-                    finish(); // Đóng activity sau khi xóa vé
+                    .setTitle("Xác nhận xóa vé")
+                    .setMessage("Bạn có chắc chắn muốn xóa vé này không?")
+                    .setPositiveButton("Xóa", (dialog, which) -> {
+                        DeleteTicketByApi();
+                        Intent resultIntent = new Intent();
+                        resultIntent.putExtra("ticketId", bookingTicketResponse.getID());
+                        setResult(1, resultIntent); // Trả về kết quả OK với ticketId
+                        finish(); // Đóng activity sau khi xóa vé
 
-                })
-                .setNegativeButton("Hủy", (dialog, which) -> {
-                    dialog.dismiss(); // Đóng dialog nếu chọn Cancel
-                })
-                .show();
+                    })
+                    .setNegativeButton("Hủy", (dialog, which) -> {
+                        dialog.dismiss(); // Đóng dialog nếu chọn Cancel
+                    })
+                    .show();
         });
     }
 }

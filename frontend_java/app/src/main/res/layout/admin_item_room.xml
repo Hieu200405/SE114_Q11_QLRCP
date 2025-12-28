@@ -3,6 +3,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_item_dark_cart"
+    android:backgroundTint="@color/white"
+    android:elevation="2dp"
     android:padding="16dp"
     android:layout_marginBottom="12dp">
 
@@ -11,7 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Room 22"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/primary_text"
         android:textSize="20sp"
         android:textStyle="bold"
         android:maxLines="1"
@@ -26,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Seats: 30"
-        android:textColor="#BBBBBB"
+        android:textColor="@color/secondary_text"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvRoomName"

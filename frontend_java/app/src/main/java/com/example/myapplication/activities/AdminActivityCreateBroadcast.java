@@ -40,12 +40,12 @@ public class AdminActivityCreateBroadcast extends AppCompatActivity {
     int selectedMaxSeats = 0;
     ArrayAdapter<String> adapter;
     int room_id;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_activity_create_broadcast);
-//        Get access token from shared preferences
+        // Get access token from shared preferences
         accessToken = getSharedPreferences("MyAppPrefs", MODE_PRIVATE).getString("access_token", null);
         if (accessToken == null) {
             Toast.makeText(this, "Access token không tìm thấy", Toast.LENGTH_SHORT).show();
@@ -80,11 +80,11 @@ public class AdminActivityCreateBroadcast extends AppCompatActivity {
             DatePickerDialog datePickerDialog = new DatePickerDialog(
                     this,
                     (view, selectedYear, selectedMonth, selectedDay) -> {
-                        String selectedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay);
+                        String selectedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1,
+                                selectedDay);
                         editDate.setText(selectedDate);
                     },
-                    year, month, day
-            );
+                    year, month, day);
             datePickerDialog.show();
         });
 
@@ -104,9 +104,11 @@ public class AdminActivityCreateBroadcast extends AppCompatActivity {
             timePickerDialog.show();
         });
     }
-    void  loadRoomsByApi() {
+
+    void loadRoomsByApi() {
         // This method should call the API to load the rooms and set them to the spinner
-        // For example, using Retrofit to fetch the rooms and then setting the adapter for the spinner
+        // For example, using Retrofit to fetch the rooms and then setting the adapter
+        // for the spinner
         ApiRoomService apiRoomService = ApiClient.getRetrofit().create(ApiRoomService.class);
         Call<List<RoomResponse>> call = apiRoomService.getAllRooms("Bearer " + accessToken);
         call.enqueue(new retrofit2.Callback<List<RoomResponse>>() {
@@ -119,24 +121,26 @@ public class AdminActivityCreateBroadcast extends AppCompatActivity {
                     for (RoomResponse room : roomList) {
                         roomNames.add(room.getName());
                     }
-                    adapter = new ArrayAdapter<>(AdminActivityCreateBroadcast.this, R.layout.spinner_selected_item, roomNames);
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+                    adapter = new ArrayAdapter<>(AdminActivityCreateBroadcast.this, R.layout.spinner_selected_item,
+                            roomNames);
+                    adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
                     spinnerRoom.setAdapter(adapter);
                 } else {
                     // Handle the error case
-                    Toast.makeText(AdminActivityCreateBroadcast.this, "Lỗi khi tải danh sách phòng: " + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminActivityCreateBroadcast.this, "Lỗi khi tải danh sách phòng: " + response.code(),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<RoomResponse>> call, Throwable t) {
                 // Handle the failure case
-                Toast.makeText(AdminActivityCreateBroadcast.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AdminActivityCreateBroadcast.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT)
+                        .show();
             }
         });
 
     }
-
 
     void setOnclickSpinnerRoom() {
         // Xử lý chọn phòng
@@ -152,86 +156,88 @@ public class AdminActivityCreateBroadcast extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
-
 
     void setButtonListeners(int filmId) {
         btnCancel.setOnClickListener(v -> finish());
         btnCreate.setOnClickListener(
-            v -> {
-                String time = editTime.getText().toString();
-                String date = editDate.getText().toString();
-                String priceStr = editPrice.getText().toString();
-                String seatsStr = editSeats.getText().toString();
+                v -> {
+                    String time = editTime.getText().toString();
+                    String date = editDate.getText().toString();
+                    String priceStr = editPrice.getText().toString();
+                    String seatsStr = editSeats.getText().toString();
 
-                if (time.isEmpty() || date.isEmpty() || priceStr.isEmpty() || seatsStr.isEmpty()) {
-                    Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                    if (time.isEmpty() || date.isEmpty() || priceStr.isEmpty() || seatsStr.isEmpty()) {
+                        Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                // ngày chiếu lớn hơn ngày hiện tại
-                Calendar calendar = Calendar.getInstance();
-                String currentDate = String.format("%04d-%02d-%02d", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
-                if (!date.isEmpty() && date.compareTo(currentDate) < 0) {
-                    Toast.makeText(this, "Ngày chiếu phải lớn hơn hoặc bằng ngày hiện tại!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (time.isEmpty() || date.isEmpty() || priceStr.isEmpty() || seatsStr.isEmpty()) {
-                    Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                    // ngày chiếu lớn hơn ngày hiện tại
+                    Calendar calendar = Calendar.getInstance();
+                    String currentDate = String.format("%04d-%02d-%02d", calendar.get(Calendar.YEAR),
+                            calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
+                    if (!date.isEmpty() && date.compareTo(currentDate) < 0) {
+                        Toast.makeText(this, "Ngày chiếu phải lớn hơn hoặc bằng ngày hiện tại!", Toast.LENGTH_SHORT)
+                                .show();
+                        return;
+                    }
+                    if (time.isEmpty() || date.isEmpty() || priceStr.isEmpty() || seatsStr.isEmpty()) {
+                        Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                int price = Integer.parseInt(priceStr);
-                int seats = Integer.parseInt(seatsStr);
+                    int price = Integer.parseInt(priceStr);
+                    int seats = Integer.parseInt(seatsStr);
 
-                if (price <= 10000) {
-                    Toast.makeText(this, "Giá vé phải lớn hơn 10.000!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                    if (price <= 10000) {
+                        Toast.makeText(this, "Giá vé phải lớn hơn 10.000!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                if (seats > selectedMaxSeats) {
-                    Toast.makeText(this, "Số ghế vượt quá số ghế tối đa của phòng!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                BroadcastFilmRequest broadcastFilmRequest = new BroadcastFilmRequest(room_id, filmId, time, date, price, seats);
-                createBroadcastApi(broadcastFilmRequest);
-            }
-        );
+                    if (seats > selectedMaxSeats) {
+                        Toast.makeText(this, "Số ghế vượt quá số ghế tối đa của phòng!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    BroadcastFilmRequest broadcastFilmRequest = new BroadcastFilmRequest(room_id, filmId, time, date,
+                            price, seats);
+                    createBroadcastApi(broadcastFilmRequest);
+                });
 
     }
 
-
-    void  createBroadcastApi(BroadcastFilmRequest broadcastFilmRequest){
+    void createBroadcastApi(BroadcastFilmRequest broadcastFilmRequest) {
         ApiBroadcastService apiBroadcastService = ApiClient.getRetrofit().create(ApiBroadcastService.class);
         Call<BroadcastFilm> call = apiBroadcastService.createBroadcast("Bearer " + accessToken, broadcastFilmRequest);
         call.enqueue(
-            new retrofit2.Callback<BroadcastFilm>() {
-                @Override
-                public void onResponse(Call<BroadcastFilm> call, retrofit2.Response<BroadcastFilm> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        // Handle successful creation of broadcast
-                        BroadcastFilm createdBroadcast = response.body();
-                        Toast.makeText(AdminActivityCreateBroadcast.this, "Tạo buổi chiếu thành công!", Toast.LENGTH_SHORT).show();
-                        Intent resultIntent = new Intent();
-                        resultIntent.putExtra("newBroadcast", createdBroadcast);
-                        setResult(RESULT_OK, resultIntent);
-                        finish();
-                    } else {
-                        // Handle the error case
-                        Toast.makeText(AdminActivityCreateBroadcast.this, "Lỗi: " + response.code(), Toast.LENGTH_SHORT).show();
+                new retrofit2.Callback<BroadcastFilm>() {
+                    @Override
+                    public void onResponse(Call<BroadcastFilm> call, retrofit2.Response<BroadcastFilm> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            // Handle successful creation of broadcast
+                            BroadcastFilm createdBroadcast = response.body();
+                            Toast.makeText(AdminActivityCreateBroadcast.this, "Tạo buổi chiếu thành công!",
+                                    Toast.LENGTH_SHORT).show();
+                            Intent resultIntent = new Intent();
+                            resultIntent.putExtra("newBroadcast", createdBroadcast);
+                            setResult(RESULT_OK, resultIntent);
+                            finish();
+                        } else {
+                            // Handle the error case
+                            Toast.makeText(AdminActivityCreateBroadcast.this, "Lỗi: " + response.code(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<BroadcastFilm> call, Throwable t) {
-                    // Handle the failure case
-                    Toast.makeText(AdminActivityCreateBroadcast.this, "Gọi API lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        );
-
+                    @Override
+                    public void onFailure(Call<BroadcastFilm> call, Throwable t) {
+                        // Handle the failure case
+                        Toast.makeText(AdminActivityCreateBroadcast.this, "Gọi API lỗi: " + t.getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
 
     }
 
