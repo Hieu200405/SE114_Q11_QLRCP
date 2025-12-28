@@ -109,11 +109,11 @@ public class CinemaListActivity extends AppCompatActivity implements CinemaAdapt
         progressBar = findViewById(R.id.progressBar);
         fabAddCinema = findViewById(R.id.fabAddCinema);
 
-        // Toolbar
-        View toolbar = findViewById(R.id.toolbar);
-        btnBack = toolbar.findViewById(R.id.buttonBack);
-        tvTitle = toolbar.findViewById(R.id.titleToolbar);
-        tvTitle.setText("Danh sách rạp chiếu phim");
+        // Toolbar handled in layout
+        // View toolbar = findViewById(R.id.toolbar);
+        // btnBack = toolbar.findViewById(R.id.buttonBack);
+        // tvTitle = toolbar.findViewById(R.id.titleToolbar);
+        // tvTitle.setText("Danh sách rạp chiếu phim");
 
         // Menu bar
         layoutBottomMenu = findViewById(R.id.layoutBottomMenu);
@@ -149,7 +149,7 @@ public class CinemaListActivity extends AppCompatActivity implements CinemaAdapt
     }
 
     private void setupListeners() {
-        btnBack.setOnClickListener(v -> finish());
+        // btnBack.setOnClickListener(v -> finish());
 
         btnMyLocation.setOnClickListener(v -> getCurrentLocation());
 
@@ -163,7 +163,8 @@ public class CinemaListActivity extends AppCompatActivity implements CinemaAdapt
         // Search filter
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -171,7 +172,8 @@ public class CinemaListActivity extends AppCompatActivity implements CinemaAdapt
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
 
         // Menu bar listeners (only for admin)
@@ -311,7 +313,7 @@ public class CinemaListActivity extends AppCompatActivity implements CinemaAdapt
             String lowerQuery = query.toLowerCase();
             for (Cinema cinema : allCinemas) {
                 if (cinema.getName().toLowerCase().contains(lowerQuery) ||
-                    cinema.getAddress().toLowerCase().contains(lowerQuery)) {
+                        cinema.getAddress().toLowerCase().contains(lowerQuery)) {
                     filteredCinemas.add(cinema);
                 }
             }
@@ -351,7 +353,8 @@ public class CinemaListActivity extends AppCompatActivity implements CinemaAdapt
 
     @Override
     public void onEditClick(Cinema cinema) {
-        if (!isAdminMode) return;
+        if (!isAdminMode)
+            return;
 
         Intent intent = new Intent(this, CinemaFormActivity.class);
         intent.putExtra("isEditMode", true);
@@ -362,7 +365,8 @@ public class CinemaListActivity extends AppCompatActivity implements CinemaAdapt
 
     @Override
     public void onDeleteClick(Cinema cinema) {
-        if (!isAdminMode) return;
+        if (!isAdminMode)
+            return;
 
         new AlertDialog.Builder(this)
                 .setTitle("Xác nhận xóa")
@@ -387,7 +391,8 @@ public class CinemaListActivity extends AppCompatActivity implements CinemaAdapt
         apiCinemaService.deleteCinema("Bearer " + authToken, cinema.getId())
                 .enqueue(new Callback<StatusMessage>() {
                     @Override
-                    public void onResponse(@NonNull Call<StatusMessage> call, @NonNull Response<StatusMessage> response) {
+                    public void onResponse(@NonNull Call<StatusMessage> call,
+                            @NonNull Response<StatusMessage> response) {
                         showLoading(false);
                         if (response.isSuccessful()) {
                             CinemaCache.clearCache(); // Clear cache to reload updated data
@@ -418,7 +423,8 @@ public class CinemaListActivity extends AppCompatActivity implements CinemaAdapt
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (LocationHelper.handlePermissionResult(requestCode, grantResults)) {
             getCurrentLocation();
@@ -435,4 +441,3 @@ public class CinemaListActivity extends AppCompatActivity implements CinemaAdapt
         }
     }
 }
-
