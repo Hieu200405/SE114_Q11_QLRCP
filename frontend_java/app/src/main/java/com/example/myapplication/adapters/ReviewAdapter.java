@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.R;
 import com.example.myapplication.models.Review;
 
 import java.util.List;
@@ -30,22 +31,24 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     @Override
     public void onBindViewHolder(@NonNull ReviewViewHolder holder, int position) {
         Review review = reviewList.get(position);
-        holder.tvUserName.setText(review.getUserName());
-        holder.tvComment.setText(review.getComment());
-        holder.ratingBar.setRating(review.getRating());
+        holder.tvUserNameReview.setText(review.getUserName());
+        holder.tvCommentReview.setText(review.getComment());
+        holder.ratingBarReview.setRating(review.getRating());
     }
 
     @Override
-    public int getItemCount() { return reviewList.size(); }
+    public int getItemCount() {
+        return reviewList != null ? reviewList.size() : 0;
+    }
 
     static class ReviewViewHolder extends RecyclerView.ViewHolder {
-        TextView tvUserName, tvComment;
-        RatingBar ratingBar;
+        TextView tvUserNameReview, tvCommentReview;
+        RatingBar ratingBarReview;
         ReviewViewHolder(View v) {
             super(v);
-            tvUserName = v.findViewById(R.id.tvUserNameReview);
-            tvComment = v.findViewById(R.id.tvCommentReview);
-            ratingBar = v.findViewById(R.id.ratingBarReview);
+            tvUserNameReview = v.findViewById(R.id.tvUserNameReview);
+            tvCommentReview = v.findViewById(R.id.tvCommentReview);
+            ratingBarReview = v.findViewById(R.id.ratingBarReview);
         }
     }
 }

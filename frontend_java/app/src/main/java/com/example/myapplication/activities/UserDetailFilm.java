@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -76,6 +77,12 @@ public class UserDetailFilm extends  AppCompatActivity {
         textRuntime = findViewById(R.id.textRuntime); // Initialize your runtime TextView here
         btnBookTicket = findViewById(R.id.btnBookTicket); // Initialize your book ticket button here
 
+        rvReviews = findViewById(R.id.rvReviews);
+        rvReviews.setLayoutManager(new LinearLayoutManager(this));
+        reviewList = new ArrayList<>();
+        reviewAdapter = new ReviewAdapter(reviewList);
+        rvReviews.setAdapter(reviewAdapter);
+
         // get the film ID from the intent
         int filmId = getIntent().getIntExtra("film_id", -1);
 
@@ -93,6 +100,7 @@ public class UserDetailFilm extends  AppCompatActivity {
          // Get the film ID from the intent
         if (filmId != -1) {
             loadFilmDetail(String.valueOf(filmId)); // Load film details using the ID
+            loadReviews(filmId);
         } else {
             Toast.makeText(this, "Lỗi Mã Phim", Toast.LENGTH_SHORT).show();
             Log.e("UserDetailFilm", "Invalid film ID received");
@@ -154,6 +162,10 @@ public class UserDetailFilm extends  AppCompatActivity {
                             reviewList.clear();
                             reviewList.addAll(data);
                             reviewAdapter.notifyDataSetChanged();
+
+                            findViewById(R.id.tvReviewTitle).setVisibility(
+                                    reviewList.isEmpty() ? View.GONE : View.VISIBLE
+                            );
                         }
                     } else {
                         Log.e("REVIEW_ERROR", "Lỗi từ server: " + reviewResponse.getDesc());
