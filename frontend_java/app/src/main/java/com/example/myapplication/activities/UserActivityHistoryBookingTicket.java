@@ -80,6 +80,7 @@ public class UserActivityHistoryBookingTicket extends AppCompatActivity {
         recyclerViewTickets = findViewById(R.id.historyTicketBookedRecyclerView);
         recyclerViewTickets.setLayoutManager(new LinearLayoutManager(this));
         ticketList = new ArrayList<>();
+        ticketAdapter = new TicketAdapter(ticketList, accessToken);
         recyclerViewTickets.setAdapter(ticketAdapter);
         // Load the booking history
         loadHistoryBookingTicket(accessToken, userId);
@@ -108,7 +109,6 @@ public class UserActivityHistoryBookingTicket extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Ticket>> call, retrofit2.Response<List<Ticket>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Log.d("JSON_CHECK", new Gson().toJson(response.body()));
                     Log.d("API_RESPONSE", "Booking history loaded successfully: "+ response.code());
                     ticketList.clear();
                     ticketList.addAll(response.body());

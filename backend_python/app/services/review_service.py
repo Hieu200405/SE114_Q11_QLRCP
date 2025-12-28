@@ -1,6 +1,9 @@
 from app.extension import db
 from app.models.Review import Review
 from app.models.Film import Film
+from app.models.Ticket import Ticket
+from app.models.BroadCast import Broadcast
+from datetime import datetime
 
 def add_review_service(user_id, film_id, rating, comment):
     ticket = db.session.query(Ticket).join(Broadcast).filter(

@@ -72,6 +72,7 @@ public class UserAdminShowDetailTicket extends AppCompatActivity {
         String role = prefs.getString("role", null);
 
         BookingTicketResponse bookingTicketResponse = getIntent().getParcelableExtra("bookingTicketResponse");
+        this.currentTicket = bookingTicketResponse;
         Broadcast broadcast = bookingTicketResponse.getBroadcast();
         Log.d("thumbnail", "Thumbnail URL: " + broadcast.getThumbnail());
         if (bookingTicketResponse != null && broadcast != null) {
@@ -130,7 +131,6 @@ public class UserAdminShowDetailTicket extends AppCompatActivity {
         Button btnRating = findViewById(R.id.btnRatingTicketDetail);
         if (btnRating != null) {
             btnRating.setOnClickListener(v -> {
-                // Sử dụng ngay biến currentTicket bạn đã khai báo sẵn trong file gốc
                 if (currentTicket != null && currentTicket.getBroadcast() != null) {
                     showRatingDialog(currentTicket.getBroadcast().getFilmID());
                 } else {
@@ -279,7 +279,13 @@ public class UserAdminShowDetailTicket extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Toast.makeText(UserAdminShowDetailTicket.this, "Cảm ơn bạn đã đánh giá!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(UserAdminShowDetailTicket.this, "Lỗi: " + response.message(), Toast.LENGTH_LONG).show();
+                    try {
+                        String errorDetail = response.errorBody().string();
+                        Log.e("SERVER_ERROR", errorDetail);
+                        Toast.makeText(UserAdminShowDetailTicket.this, "Lỗi Server: " + errorDetail, Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        Toast.makeText(UserAdminShowDetailTicket.this, "Lỗi: " + response.code(), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 

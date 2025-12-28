@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +34,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketViewHolder> {
+
     String accessToken;
 
     List<Ticket> ticketList;
@@ -49,10 +51,6 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
 
     public interface OnItemClickListener {
         void onItemClick(Ticket ticket);
-    }
-
-    public interface OnReviewClickListener {
-        void onReviewClick(Ticket ticket);
     }
 
     @NonNull
@@ -117,7 +115,6 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
             tvSeatName = itemView.findViewById(R.id.tvSeatName);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvDateOrder = itemView.findViewById(R.id.tvDateOrder);
-
         }
     }
 
