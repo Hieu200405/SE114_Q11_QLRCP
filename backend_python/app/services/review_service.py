@@ -3,31 +3,21 @@ from app.models.Review import Review
 from app.models.Film import Film
 
 def add_review_service(user_id, film_id, rating, comment):
-    try:
-        # Create new review
-        new_review = Review(
-            user_id=user_id, 
-            film_id=film_id, 
-            rating=rating, 
-            comment=comment
-        )
-        db.session.add(new_review)
+    ticket = db.session.query(Ticket).join(Broadcast).filter(
+        Ticket.userID == user_id,
+        Broadcast.FilmID == film_id
+    ).first()
 
-        # Update Film table
-        film = Film.query.get(film_id)
-        if not film:
-            raise ValueError("Phim không tồn tại")
+    if not ticket:
+        raise ValueError("Bạn chưa mua vé cho phim này nên không thể đánh giá.")
 
-        current_total_score = (film.rating * film.rating_count) + rating
-        film.rating_count += 1
-        film.rating = round(current_total_score / film.rating_count, 1) 
-
-        db.session.commit()
-        return new_review.serialize()
-
-    except Exception as e:
-        db.session.rollback()
-        raise e
+    # check broadcast time 
+    broadcast = Broadcast.query.get(ticket.BroadcastID)
+    now = datetime.now()
+    broadcast_datetime = datetime.combine(broadcast.dateBroadcast, broadcast.timeBroadcast)
+    
+    if now < broadcast_datetime:
+        raise ValueError("Bạn chỉ có thể đánh giá sau khi suất chiếu bắt đầu.")
 
 def get_film_reviews_service(film_id):
     # Get reviews with visible status (status=1)
