@@ -13,5 +13,6 @@ public class ReviewResponse {
     private List<Review> data; // Danh sách các Review
 
     public String getCode() { return code; }
+    public String getDesc() { return desc; }
     public List<Review> getData() { return data; }
 }
