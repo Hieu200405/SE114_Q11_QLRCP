@@ -5,10 +5,15 @@ import static retrofit2.Response.error;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +24,10 @@ import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.models.BookingTicketResponse;
 import com.example.myapplication.models.Broadcast;
+import com.example.myapplication.models.ReviewRequest;
+import com.example.myapplication.models.ReviewResponse;
 import com.example.myapplication.network.ApiClient;
+import com.example.myapplication.network.ApiFilmService;
 import com.example.myapplication.network.ApiTicketService;
 
 import java.util.Date;
@@ -46,6 +54,8 @@ public class UserAdminShowDetailTicket extends AppCompatActivity {
     private TextView tvUserID;
     String accessToken;
     String ticketId;
+    private ApiFilmService apiFilmService;
+    private BookingTicketResponse currentTicket;
 
     @SuppressLint({ "MissingInflatedId", "SetTextI18n" })
     @Override
@@ -115,6 +125,19 @@ public class UserAdminShowDetailTicket extends AppCompatActivity {
             btnDeleteUser.setVisibility(Button.GONE);
         }
 
+        apiFilmService = ApiClient.getRetrofit().create(ApiFilmService.class);
+
+        Button btnRating = findViewById(R.id.btnRatingTicketDetail);
+        if (btnRating != null) {
+            btnRating.setOnClickListener(v -> {
+                // Sử dụng ngay biến currentTicket bạn đã khai báo sẵn trong file gốc
+                if (currentTicket != null && currentTicket.getBroadcast() != null) {
+                    showRatingDialog(currentTicket.getBroadcast().getFilmID());
+                } else {
+                    Toast.makeText(this, "Thông tin vé không khả dụng", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     void DeleteTicketByApi() {
@@ -216,6 +239,54 @@ public class UserAdminShowDetailTicket extends AppCompatActivity {
                         dialog.dismiss(); // Đóng dialog nếu chọn Cancel
                     })
                     .show();
+        });
+    }
+
+    public void showRatingDialog(int broadcastId) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_rating, null);
+        builder.setView(dialogView);
+
+        AlertDialog dialog = builder.create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
+        RatingBar ratingBar = dialogView.findViewById(R.id.ratingBar);
+        EditText etComment = dialogView.findViewById(R.id.etComment);
+        Button btnSubmit = dialogView.findViewById(R.id.btnSubmit);
+
+        btnSubmit.setOnClickListener(v -> {
+            int rating = (int) ratingBar.getRating();
+            String comment = etComment.getText().toString().trim();
+            if (rating == 0) {
+                Toast.makeText(this, "Vui lòng chọn số sao", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            sendReviewRequest(broadcastId, rating, comment);
+            dialog.dismiss();
+        });
+        dialog.show();
+    }
+
+    private void sendReviewRequest(int broadcastId, int rating, String comment) {
+        ReviewRequest request = new ReviewRequest(broadcastId, rating, comment);
+        String authHeader = "Bearer " + accessToken;
+
+        apiFilmService.addReview(authHeader, request).enqueue(new Callback<ReviewResponse>() {
+            @Override
+            public void onResponse(Call<ReviewResponse> call, Response<ReviewResponse> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(UserAdminShowDetailTicket.this, "Cảm ơn bạn đã đánh giá!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(UserAdminShowDetailTicket.this, "Lỗi: " + response.message(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReviewResponse> call, Throwable t) {
+                Toast.makeText(UserAdminShowDetailTicket.this, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 }
