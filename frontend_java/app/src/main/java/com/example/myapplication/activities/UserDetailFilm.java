@@ -50,10 +50,10 @@ public class UserDetailFilm extends  AppCompatActivity {
     TextView textReadMore;
     TextView textRuntime;
     Button btnBookTicket;
-    private ApiFilmService apiFilmService;
     private RecyclerView rvReviews;
     private ReviewAdapter reviewAdapter;
-    private List<Review> reviewList = new ArrayList<>();
+    private List<Review> reviewList;
+    private ApiFilmService apiFilmService;
 
     @Override
     protected void onCreate(android.os.Bundle savedInstanceState) {
@@ -77,15 +77,21 @@ public class UserDetailFilm extends  AppCompatActivity {
         textRuntime = findViewById(R.id.textRuntime); // Initialize your runtime TextView here
         btnBookTicket = findViewById(R.id.btnBookTicket); // Initialize your book ticket button here
 
+        apiFilmService = ApiClient.getRetrofit().create(ApiFilmService.class);
         rvReviews = findViewById(R.id.rvReviews);
-        rvReviews.setLayoutManager(new LinearLayoutManager(this));
         reviewList = new ArrayList<>();
         reviewAdapter = new ReviewAdapter(reviewList);
-        rvReviews.setAdapter(reviewAdapter);
+
+        if (rvReviews != null) {
+            rvReviews.setLayoutManager(new LinearLayoutManager(this));
+            rvReviews.setNestedScrollingEnabled(false);
+            rvReviews.setAdapter(reviewAdapter);
+        } else {
+            Log.e("DEBUG", "Không tìm thấy rvReviews trong layout!");
+        }
 
         // get the film ID from the intent
         int filmId = getIntent().getIntExtra("film_id", -1);
-
 
         // Set up listeners for the back button and read more description
         ListenerSetupBackButton();
@@ -100,11 +106,14 @@ public class UserDetailFilm extends  AppCompatActivity {
          // Get the film ID from the intent
         if (filmId != -1) {
             loadFilmDetail(String.valueOf(filmId)); // Load film details using the ID
-            loadReviews(filmId);
         } else {
             Toast.makeText(this, "Lỗi Mã Phim", Toast.LENGTH_SHORT).show();
             Log.e("UserDetailFilm", "Invalid film ID received");
             finish();
+        }
+
+        if (filmId != -1) {
+            loadReviews(filmId);
         }
 
     }
@@ -154,28 +163,17 @@ public class UserDetailFilm extends  AppCompatActivity {
             @Override
             public void onResponse(Call<ReviewResponse> call, Response<ReviewResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    ReviewResponse reviewResponse = response.body();
-
-                    if ("00".equals(reviewResponse.getCode())) {
-                        List<Review> data = reviewResponse.getData();
-                        if (data != null) {
-                            reviewList.clear();
-                            reviewList.addAll(data);
-                            reviewAdapter.notifyDataSetChanged();
-
-                            findViewById(R.id.tvReviewTitle).setVisibility(
-                                    reviewList.isEmpty() ? View.GONE : View.VISIBLE
-                            );
-                        }
-                    } else {
-                        Log.e("REVIEW_ERROR", "Lỗi từ server: " + reviewResponse.getDesc());
+                    ReviewResponse res = response.body();
+                    if ("00".equals(res.getCode()) && res.getData() != null) {
+                        reviewList.clear();
+                        reviewList.addAll(res.getData());
+                        reviewAdapter.notifyDataSetChanged();
                     }
                 }
             }
-
             @Override
             public void onFailure(Call<ReviewResponse> call, Throwable t) {
-                Log.e("API_ERROR", "Không thể kết nối API reviews: " + t.getMessage());
+                Log.e("API_ERROR", t.getMessage());
             }
         });
     }

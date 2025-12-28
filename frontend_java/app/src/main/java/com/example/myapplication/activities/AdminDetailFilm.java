@@ -14,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -52,10 +53,10 @@ public class AdminDetailFilm extends AppCompatActivity {
     TextView textRuntime;
     Button btnBroadcast;
     Button btnUpdate, btnDelete;
-    private ApiFilmService apiFilmService;
     private RecyclerView rvReviews;
     private ReviewAdapter reviewAdapter;
-    private List<Review> reviewList = new ArrayList<>();
+    private List<Review> reviewList;
+    private ApiFilmService apiFilmService;
 
     @Override
     protected void onCreate(android.os.Bundle savedInstanceState) {
@@ -67,6 +68,19 @@ public class AdminDetailFilm extends AppCompatActivity {
             Toast.makeText(this, "Access token not found", Toast.LENGTH_SHORT).show();
             finish();
             return;
+        }
+
+        apiFilmService = ApiClient.getRetrofit().create(ApiFilmService.class);
+        rvReviews = findViewById(R.id.rvReviews);
+        reviewList = new ArrayList<>();
+        reviewAdapter = new ReviewAdapter(reviewList);
+
+        if (rvReviews != null) {
+            rvReviews.setLayoutManager(new LinearLayoutManager(this));
+            rvReviews.setNestedScrollingEnabled(false);
+            rvReviews.setAdapter(reviewAdapter);
+        } else {
+            Log.e("DEBUG", "Không tìm thấy rvReviews trong layout!");
         }
 
         setElementsByID();
@@ -96,6 +110,10 @@ public class AdminDetailFilm extends AppCompatActivity {
             finish();
         }
         ListenerBoadcast(filmId); // Set up listener for booking tickets
+
+        if (filmId != -1) {
+            loadReviews(filmId);
+        }
 
     }
 
@@ -162,24 +180,17 @@ public class AdminDetailFilm extends AppCompatActivity {
             @Override
             public void onResponse(Call<ReviewResponse> call, Response<ReviewResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    ReviewResponse reviewResponse = response.body();
-
-                    if ("00".equals(reviewResponse.getCode())) {
-                        List<Review> data = reviewResponse.getData();
-                        if (data != null) {
-                            reviewList.clear();
-                            reviewList.addAll(data);
-                            reviewAdapter.notifyDataSetChanged();
-                        }
-                    } else {
-                        Log.e("REVIEW_ERROR", "Lỗi từ server: " + reviewResponse.getDesc());
+                    ReviewResponse res = response.body();
+                    if ("00".equals(res.getCode()) && res.getData() != null) {
+                        reviewList.clear();
+                        reviewList.addAll(res.getData());
+                        reviewAdapter.notifyDataSetChanged();
                     }
                 }
             }
-
             @Override
             public void onFailure(Call<ReviewResponse> call, Throwable t) {
-                Log.e("API_ERROR", "Không thể kết nối API reviews: " + t.getMessage());
+                Log.e("API_ERROR", t.getMessage());
             }
         });
     }
