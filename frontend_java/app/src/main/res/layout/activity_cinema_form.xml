@@ -53,7 +53,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/ubuntu_bold"
                 android:maxLines="1"
-                android:text="Thêm rạp mới"
+                android:text="THÊM RẠP MỚI"
                 android:textColor="@color/colorTextIcons"
                 android:textSize="@dimen/_14sdp" />
 
@@ -91,10 +91,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
-            android:text="Tên rạp *"
-            android:textColor="@color/primary_text"
+            android:text="Tên rạp"
+            android:textColor="@color/secondary_text"
             android:textSize="14sp"
             android:textStyle="bold"
+            android:fontFamily="@font/ubuntu_bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivCinemaImage" />
 
@@ -111,6 +112,7 @@
             android:textColor="@color/primary_text"
             android:textColorHint="@color/secondary_text"
             android:textSize="14sp"
+            android:fontFamily="@font/ubuntu_regular"
             app:layout_constraintTop_toBottomOf="@id/labelName" />
 
         <!-- Address with Search -->
@@ -120,10 +122,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Địa chỉ *"
-            android:textColor="@color/primary_text"
+            android:text="Địa chỉ"
+            android:textColor="@color/secondary_text"
             android:textSize="14sp"
             android:textStyle="bold"
+            android:fontFamily="@font/ubuntu_bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/etCinemaName" />
 
@@ -142,6 +145,7 @@
             android:textColor="@color/primary_text"
             android:textColorHint="@color/secondary_text"
             android:textSize="14sp"
+            android:fontFamily="@font/ubuntu_regular"
             app:layout_constraintTop_toBottomOf="@id/labelAddress" />
 
         <!-- Coordinates (Auto-filled) -->
@@ -151,10 +155,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Tọa độ *"
-            android:textColor="@color/primary_text"
+            android:text="Tọa độ"
+            android:textColor="@color/secondary_text"
             android:textSize="14sp"
             android:textStyle="bold"
+            android:fontFamily="@font/ubuntu_bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/etAddress" />
 
@@ -172,6 +177,7 @@
             android:text="Chọn trên bản đồ"
             android:textColor="#FFFFFF"
             android:textSize="12sp"
+            android:fontFamily="@font/ubuntu_bold"
             app:layout_constraintBottom_toBottomOf="@id/labelCoordinates"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/labelCoordinates" />
@@ -195,9 +201,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Vĩ độ *"
-                    android:textColor="@color/primary_text"
+                    android:text="Vĩ độ"
+                    android:textColor="@color/secondary_text"
                     android:textSize="14sp"
+                    android:fontFamily="@font/ubuntu_bold"
                     android:textStyle="bold" />
 
                 <EditText
@@ -211,7 +218,8 @@
                     android:paddingHorizontal="12dp"
                     android:textColor="@color/primary_text"
                     android:textColorHint="@color/secondary_text"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:fontFamily="@font/ubuntu_regular" />
 
             </LinearLayout>
 
@@ -225,9 +233,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Kinh độ *"
-                    android:textColor="@color/primary_text"
+                    android:text="Kinh độ"
+                    android:textColor="@color/secondary_text"
                     android:textSize="14sp"
+                    android:fontFamily="@font/ubuntu_bold"
                     android:textStyle="bold" />
 
                 <EditText
@@ -241,7 +250,8 @@
                     android:paddingHorizontal="12dp"
                     android:textColor="@color/primary_text"
                     android:textColorHint="@color/secondary_text"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:fontFamily="@font/ubuntu_regular" />
 
             </LinearLayout>
 
@@ -255,9 +265,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="Số điện thoại"
-            android:textColor="@color/primary_text"
+            android:textColor="@color/secondary_text"
             android:textSize="14sp"
             android:textStyle="bold"
+            android:fontFamily="@font/ubuntu_bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layoutCoordinates" />
 
@@ -274,6 +285,7 @@
             android:textColor="@color/primary_text"
             android:textColorHint="@color/secondary_text"
             android:textSize="14sp"
+            android:fontFamily="@font/ubuntu_regular"
             app:layout_constraintTop_toBottomOf="@id/labelPhone" />
 
         <!-- Description -->
@@ -284,9 +296,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="Mô tả"
-            android:textColor="@color/primary_text"
+            android:textColor="@color/secondary_text"
             android:textSize="14sp"
             android:textStyle="bold"
+            android:fontFamily="@font/ubuntu_bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/etPhone" />
 
@@ -305,6 +318,7 @@
             android:textColor="@color/primary_text"
             android:textColorHint="@color/secondary_text"
             android:textSize="14sp"
+            android:fontFamily="@font/ubuntu_regular"
             app:layout_constraintTop_toBottomOf="@id/labelDescription" />
 
         <!-- Buttons -->
@@ -323,8 +337,7 @@
                 android:layout_height="48dp"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/bg_button_cancel"
-                android:backgroundTint="#EF4444"
+                android:background="@drawable/bg_button_cancel_light"
                 android:text="Hủy"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp" />
@@ -335,8 +348,7 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/bg_button_confirm"
-                android:backgroundTint="#22C55E"
+                android:background="@drawable/bg_button_save_light"
                 android:text="Lưu"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp" />
