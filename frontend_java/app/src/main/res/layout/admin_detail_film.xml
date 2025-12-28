@@ -15,7 +15,9 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/buttonLayout">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -292,58 +294,53 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-
-                <LinearLayout
-                    android:id="@+id/buttonLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_margin="@dimen/_8sdp"
-                    app:layout_constraintTop_toBottomOf="@id/viewDivider2"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnUpdate"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/colorAccent"
-                        android:text="Cập nhật"
-                        android:textColor="@color/colorTextIcons"
-                        android:textSize="@dimen/_12sdp"/>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnBroadcast"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_30sdp"
-                        android:backgroundTint="@android:color/holo_purple"
-                        android:text="Lịch Chiếu"
-                        android:textColor="@color/colorTextIcons"
-                        android:textSize="@dimen/_12sdp"/>
-                </LinearLayout>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnDelete"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_8sdp"
-                    android:backgroundTint="@android:color/holo_red_light"
-                    android:text="Xóa"
-                    android:textColor="@color/colorTextIcons"
-                    android:textSize="@dimen/_12sdp"
-                    app:layout_constraintTop_toBottomOf="@id/buttonLayout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
 
+            <LinearLayout
+                android:id="@+id/buttonLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_margin="@dimen/_8sdp"
+                app:layout_constraintBottom_toTopOf="@id/btnDelete">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnUpdate"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorAccent"
+                    android:text="Cập nhật"
+                    android:textColor="@color/colorTextIcons"
+                    android:textSize="@dimen/_12sdp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBroadcast"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_30sdp"
+                    android:backgroundTint="@android:color/holo_purple"
+                    android:text="Lịch Chiếu"
+                    android:textColor="@color/colorTextIcons"
+                    android:textSize="@dimen/_12sdp"/>
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDelete"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_8sdp"
+                android:backgroundTint="@android:color/holo_red_light"
+                android:text="Xóa"
+                android:textColor="@color/colorTextIcons"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
         <ProgressBar
             android:layout_width="@dimen/_25sdp"
@@ -356,5 +353,4 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

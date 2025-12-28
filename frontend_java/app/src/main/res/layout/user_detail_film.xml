@@ -16,7 +16,9 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/buttonUpdate">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -294,42 +296,40 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnBookTicket"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_8sdp"
-                    android:backgroundTint="@android:color/holo_purple"
-                    android:fontFamily="@font/ubuntu_medium"
-                    android:includeFontPadding="false"
-                    android:text="Book Vé"
-                    android:textColor="@color/colorTextIcons"
-                    android:textSize="@dimen/_12sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/viewPivot"
-                    app:layout_constraintTop_toBottomOf="@+id/viewDivider2" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/buttonUpdate"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_8sdp"
-                    android:backgroundTint="@color/colorAccent"
-                    android:fontFamily="@font/ubuntu_medium"
-                    android:includeFontPadding="false"
-                    android:text="Update"
-                    android:visibility="gone"
-                    android:textSize="@dimen/_12sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/viewPivot"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/viewDivider2" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBookTicket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/_8sdp"
+            android:backgroundTint="@android:color/holo_purple"
+            android:fontFamily="@font/ubuntu_medium"
+            android:includeFontPadding="false"
+            android:text="Book Vé"
+            android:textColor="@color/colorTextIcons"
+            android:textSize="@dimen/_12sdp"
+            app:layout_constraintBottom_toTopOf="@+id/buttonUpdate"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonUpdate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_8sdp"
+            android:backgroundTint="@color/colorAccent"
+            android:fontFamily="@font/ubuntu_medium"
+            android:includeFontPadding="false"
+            android:text="Update"
+            android:visibility="gone"
+            android:textSize="@dimen/_12sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <ProgressBar
             android:layout_width="@dimen/_25sdp"
