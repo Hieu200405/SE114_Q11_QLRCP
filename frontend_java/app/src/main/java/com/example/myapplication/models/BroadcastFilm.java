@@ -31,11 +31,14 @@ public class BroadcastFilm implements Parcelable {
     private double Price;
 
     // Cinema info (loaded separately from Room -> Cinema)
-    private transient String cinemaName;
-    private transient String cinemaAddress;
-    private transient String distanceText;
-    private transient String durationText;
-    private transient int cinemaId;
+    // NOT transient - data must be preserved
+    private String cinemaName;
+    private String cinemaAddress;
+    private String distanceText;
+    private String durationText;
+    private int cinemaId;
+    private Double cinemaLatitude;
+    private Double cinemaLongitude;
 
     protected BroadcastFilm(Parcel in) {
         FilmID = in.readInt();
@@ -50,6 +53,8 @@ public class BroadcastFilm implements Parcelable {
         distanceText = in.readString();
         durationText = in.readString();
         cinemaId = in.readInt();
+        cinemaLatitude = (Double) in.readSerializable();
+        cinemaLongitude = (Double) in.readSerializable();
     }
     public static final Creator<BroadcastFilm> CREATOR = new Creator<BroadcastFilm>() {
         @Override
@@ -76,6 +81,8 @@ public class BroadcastFilm implements Parcelable {
         dest.writeString(distanceText);
         dest.writeString(durationText);
         dest.writeInt(cinemaId);
+        dest.writeSerializable(cinemaLatitude);
+        dest.writeSerializable(cinemaLongitude);
     }
 
 //    getters
@@ -122,6 +129,12 @@ public class BroadcastFilm implements Parcelable {
 
     public int getCinemaId() { return cinemaId; }
     public void setCinemaId(int cinemaId) { this.cinemaId = cinemaId; }
+
+    public Double getCinemaLatitude() { return cinemaLatitude; }
+    public void setCinemaLatitude(Double cinemaLatitude) { this.cinemaLatitude = cinemaLatitude; }
+
+    public Double getCinemaLongitude() { return cinemaLongitude; }
+    public void setCinemaLongitude(Double cinemaLongitude) { this.cinemaLongitude = cinemaLongitude; }
 
 
     @Override

@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,10 +18,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
+import com.example.myapplication.cacheModels.CinemaCache;
+import com.example.myapplication.helper.BroadcastCinemaEnricher;
 import com.example.myapplication.models.Cinema;
 import com.example.myapplication.models.RoomRequest;
 import com.example.myapplication.models.RoomResponse;
-import com.example.myapplication.network.ApiCinemaService;
 import com.example.myapplication.network.ApiClient;
 import com.example.myapplication.network.ApiRoomService;
 
@@ -38,6 +40,11 @@ public class AdminActivityAddRoom extends AppCompatActivity {
     Spinner spinnerCinema;
     Button buttonCancel;
     Button buttonCreate;
+
+    // Cinema info views
+    private LinearLayout layoutCinemaInfo;
+    private TextView tvSelectedCinemaAddress;
+    private TextView tvSelectedCinemaPhone;
 
     private List<Cinema> cinemaList = new ArrayList<>();
     private int selectedCinemaId = -1;
@@ -60,23 +67,25 @@ public class AdminActivityAddRoom extends AppCompatActivity {
         spinnerCinema = findViewById(R.id.spinnerCinema);
         buttonCancel = findViewById(R.id.buttonCancel);
         buttonCreate = findViewById(R.id.buttonCreate);
+
+        // Cinema info views
+        layoutCinemaInfo = findViewById(R.id.layoutCinemaInfo);
+        tvSelectedCinemaAddress = findViewById(R.id.tvSelectedCinemaAddress);
+        tvSelectedCinemaPhone = findViewById(R.id.tvSelectedCinemaPhone);
     }
 
     private void loadCinemas() {
-        ApiCinemaService apiCinemaService = ApiClient.getRetrofit().create(ApiCinemaService.class);
-        apiCinemaService.getAllCinemas().enqueue(new Callback<List<Cinema>>() {
+        CinemaCache.loadCinemas(new CinemaCache.CinemaLoadListener() {
             @Override
-            public void onResponse(@NonNull Call<List<Cinema>> call, @NonNull Response<List<Cinema>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    cinemaList.clear();
-                    cinemaList.addAll(response.body());
-                    setupCinemaSpinner();
-                }
+            public void onCinemasLoaded(List<Cinema> cinemas) {
+                cinemaList.clear();
+                cinemaList.addAll(cinemas);
+                setupCinemaSpinner();
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<Cinema>> call, @NonNull Throwable t) {
-                Log.e("AdminActivityAddRoom", "Lỗi load cinema: " + t.getMessage());
+            public void onLoadError(String error) {
+                Log.e("AdminActivityAddRoom", "Lỗi load cinema: " + error);
             }
         });
     }
@@ -93,15 +102,15 @@ public class AdminActivityAddRoom extends AppCompatActivity {
             @Override
             public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
-                ((TextView) view).setTextColor(getResources().getColor(android.R.color.white));
+                ((TextView) view).setTextColor(getResources().getColor(R.color.primary_text));
                 return view;
             }
 
             @Override
             public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
                 View view = super.getDropDownView(position, convertView, parent);
-                ((TextView) view).setTextColor(getResources().getColor(android.R.color.white));
-                view.setBackgroundColor(getResources().getColor(R.color.primary_bg));
+                ((TextView) view).setTextColor(getResources().getColor(R.color.primary_text));
+                view.setBackgroundColor(getResources().getColor(R.color.white));
                 return view;
             }
         };
@@ -113,16 +122,41 @@ public class AdminActivityAddRoom extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) {
                     selectedCinemaId = cinemaList.get(position - 1).getId();
+                    showCinemaInfo(cinemaList.get(position - 1));
                 } else {
                     selectedCinemaId = -1;
+                    hideCinemaInfo();
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 selectedCinemaId = -1;
+                hideCinemaInfo();
             }
         });
+    }
+
+    private void showCinemaInfo(Cinema cinema) {
+        if (layoutCinemaInfo != null) {
+            layoutCinemaInfo.setVisibility(View.VISIBLE);
+
+            if (tvSelectedCinemaAddress != null) {
+                String address = cinema.getAddress() != null ? cinema.getAddress() : "Chưa có địa chỉ";
+                tvSelectedCinemaAddress.setText(address);
+            }
+
+            if (tvSelectedCinemaPhone != null) {
+                String phone = cinema.getPhone() != null ? cinema.getPhone() : "Chưa có số điện thoại";
+                tvSelectedCinemaPhone.setText(phone);
+            }
+        }
+    }
+
+    private void hideCinemaInfo() {
+        if (layoutCinemaInfo != null) {
+            layoutCinemaInfo.setVisibility(View.GONE);
+        }
     }
 
     private void setListeners() {
@@ -160,6 +194,10 @@ public class AdminActivityAddRoom extends AppCompatActivity {
             public void onResponse(@NonNull Call<RoomResponse> call, @NonNull Response<RoomResponse> response) {
                 if (response.isSuccessful()) {
                     RoomResponse roomResponse = response.body();
+
+                    // Clear room cache to force reload new data
+                    BroadcastCinemaEnricher.clearRoomCache();
+
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra("room", roomResponse);
                     setResult(4, resultIntent);

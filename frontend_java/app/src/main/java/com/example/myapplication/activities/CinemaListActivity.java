@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.adapters.CinemaAdapter;
+import com.example.myapplication.cacheModels.CinemaCache;
 import com.example.myapplication.helper.LocationHelper;
 import com.example.myapplication.models.Cinema;
 import com.example.myapplication.models.NearbyCinemaRequest;
@@ -389,6 +390,7 @@ public class CinemaListActivity extends AppCompatActivity implements CinemaAdapt
                     public void onResponse(@NonNull Call<StatusMessage> call, @NonNull Response<StatusMessage> response) {
                         showLoading(false);
                         if (response.isSuccessful()) {
+                            CinemaCache.clearCache(); // Clear cache to reload updated data
                             Toast.makeText(CinemaListActivity.this, "Đã xóa rạp thành công", Toast.LENGTH_SHORT).show();
                             loadCinemas(); // Reload list
                         } else {

@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
         "ID": 2,
         "Name": "Room 50",
         "Seats": 20,
-        "CinemaId": 1
+        "CinemaID": 1
     }
  */
 public class RoomResponse implements Parcelable {
@@ -20,7 +20,7 @@ public class RoomResponse implements Parcelable {
     private String name;
     @SerializedName("Seats")
     private int seats;
-    @SerializedName("CinemaId")
+    @SerializedName("CinemaID")  // FIX: Backend uses "CinemaID" not "CinemaId"
     private Integer cinemaId;
     @SerializedName("Cinema")
     private Cinema cinema;

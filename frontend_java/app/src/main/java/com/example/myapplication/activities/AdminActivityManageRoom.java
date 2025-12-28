@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.adapters.RoomAdapter;
+import com.example.myapplication.cacheModels.CinemaCache;
+import com.example.myapplication.helper.BroadcastCinemaEnricher;
+import com.example.myapplication.helper.LocationHelper;
 import com.example.myapplication.models.RoomResponse;
 import com.example.myapplication.models.StatusMessage;
 import com.example.myapplication.network.ApiClient;
@@ -28,6 +31,7 @@ import java.util.List;
 import retrofit2.Call;
 
 public class AdminActivityManageRoom extends AppCompatActivity {
+    private static final String TAG = "AdminManageRoom";
     private static final int REQUEST_CODE_EDIT_ROOM = 3;
     private static final int REQUEST_CODE_CANCEL = 2;
     private static final int REQUEST_CODE_ADD_ROOM = 4;
@@ -36,6 +40,9 @@ public class AdminActivityManageRoom extends AppCompatActivity {
     // Cinema filter (optional - passed from CinemaDetailActivity)
     private int cinemaId = -1;
     private String cinemaName = null;
+
+    // Location helper for distance calculation
+    private LocationHelper locationHelper;
 
     List<RoomResponse> roomList;
     RoomAdapter roomAdapter;
@@ -62,6 +69,9 @@ public class AdminActivityManageRoom extends AppCompatActivity {
         cinemaId = getIntent().getIntExtra("cinema_id", -1);
         cinemaName = getIntent().getStringExtra("cinema_name");
 
+        // Initialize location helper
+        locationHelper = new LocationHelper(this);
+
         setElementsByID();
 
         // Initialize RecyclerView
@@ -71,7 +81,9 @@ public class AdminActivityManageRoom extends AppCompatActivity {
         recyclerViewRooms.setLayoutManager(new LinearLayoutManager(this));
         roomAdapter = new RoomAdapter(roomList);
         recyclerViewRooms.setAdapter(roomAdapter);
-        LoadRooms();
+
+        // Get user location and then load rooms
+        getUserLocationAndLoadRooms();
 
         setOnclickRoomAdapter();
         setLauncherEditRoom();
@@ -125,9 +137,48 @@ public class AdminActivityManageRoom extends AppCompatActivity {
         });
     }
 
+    /**
+     * Get user location and then load rooms
+     */
+    private void getUserLocationAndLoadRooms() {
+        locationHelper.getCurrentLocation(new LocationHelper.LocationResultListener() {
+            @Override
+            public void onLocationReceived(double latitude, double longitude) {
+                Log.d(TAG, "User location: " + latitude + ", " + longitude);
+                // Set user location to adapter for distance calculation
+                roomAdapter.setUserLocation(latitude, longitude);
+                // Now load rooms
+                LoadRooms();
+            }
 
+            @Override
+            public void onLocationError(String error) {
+                Log.w(TAG, "Location error: " + error + ". Loading rooms without distance.");
+                // Still load rooms even without location
+                LoadRooms();
+            }
+        });
+    }
 
     void LoadRooms() {
+        // Load cinema cache first to ensure cinema info is available for display
+        CinemaCache.loadCinemas(new CinemaCache.CinemaLoadListener() {
+            @Override
+            public void onCinemasLoaded(java.util.List<com.example.myapplication.models.Cinema> cinemas) {
+                // Cinema cache loaded, now load rooms
+                loadRoomsFromApi();
+            }
+
+            @Override
+            public void onLoadError(String error) {
+                // Still try to load rooms even if cinema cache fails
+                Log.w(TAG, "Cinema cache load error: " + error);
+                loadRoomsFromApi();
+            }
+        });
+    }
+
+    private void loadRoomsFromApi() {
         // This method should be implemented to load rooms from the server or database
         String token = "Bearer " + accessToken;
 
@@ -205,6 +256,10 @@ public class AdminActivityManageRoom extends AppCompatActivity {
             public void onResponse(Call<StatusMessage> call, retrofit2.Response<StatusMessage> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     StatusMessage statusMessage = response.body();
+
+                    // Clear room cache to force reload updated data
+                    BroadcastCinemaEnricher.clearRoomCache();
+
                     Toast.makeText(AdminActivityManageRoom.this, statusMessage.getMessage(), Toast.LENGTH_SHORT).show();
                     LoadRooms(); // Reload the room list after deletion
                 } else {

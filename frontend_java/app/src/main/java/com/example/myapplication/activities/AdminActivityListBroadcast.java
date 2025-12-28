@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.adapters.BroadCastFilmAdapter;
+import com.example.myapplication.helper.BroadcastCinemaEnricher;
+import com.example.myapplication.helper.LocationHelper;
 import com.example.myapplication.models.BroadcastFilm;
 import com.example.myapplication.models.StatusMessage;
 import com.example.myapplication.network.ApiBroadcastService;
@@ -35,6 +37,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AdminActivityListBroadcast extends AppCompatActivity {
+    private static final String TAG = "AdminListBroadcast";
+
     String accessToken, role;
     private TextView textSelectedDate;
     private BroadCastFilmAdapter broadCastFilmAdapter;
@@ -45,6 +49,9 @@ public class AdminActivityListBroadcast extends AppCompatActivity {
     private FloatingActionButton buttonAddBroadcast;
     private ImageView imageBack;
     ActivityResultLauncher<Intent> launchCreateBroadcast;
+
+    // Location helper for distance calculation
+    private LocationHelper locationHelper;
 
 
     @SuppressLint("MissingInflatedId")
@@ -69,7 +76,8 @@ public class AdminActivityListBroadcast extends AppCompatActivity {
         imageBack = findViewById(R.id.imageBack);
         buttonAddBroadcast = findViewById(R.id.buttonAddBroadcast);
 
-
+        // Initialize location helper for distance calculation
+        locationHelper = new LocationHelper(this);
 
         broadcastFilmRecyclerView = findViewById(R.id.broadcastRecyclerView);
         broadcastFilmRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -80,7 +88,9 @@ public class AdminActivityListBroadcast extends AppCompatActivity {
 
 
         broadcastFilmRecyclerView.setAdapter(broadCastFilmAdapter);
-        loadListBroadcast(filmId);
+
+        // Get user location and then load broadcasts
+        getUserLocationAndLoadBroadcasts(filmId);
 
         // Thiết lập adapter click listener
 
@@ -137,6 +147,29 @@ public class AdminActivityListBroadcast extends AppCompatActivity {
     }
 
 
+    /**
+     * Get user location and then load broadcasts
+     */
+    private void getUserLocationAndLoadBroadcasts(int filmId) {
+        locationHelper.getCurrentLocation(new LocationHelper.LocationResultListener() {
+            @Override
+            public void onLocationReceived(double latitude, double longitude) {
+                Log.d(TAG, "User location: " + latitude + ", " + longitude);
+                // Set user location to adapter for distance calculation
+                broadCastFilmAdapter.setUserLocation(latitude, longitude);
+                // Now load broadcasts
+                loadListBroadcast(filmId);
+            }
+
+            @Override
+            public void onLocationError(String error) {
+                Log.w(TAG, "Location error: " + error + ". Loading broadcasts without distance.");
+                // Still load broadcasts even without location
+                loadListBroadcast(filmId);
+            }
+        });
+    }
+
     private void loadListBroadcast(int filmID) {
         // Implement the logic to load film details here
         // This could involve making a network request to fetch film data
@@ -149,11 +182,30 @@ public class AdminActivityListBroadcast extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<List<BroadcastFilm>> call, @NonNull Response<List<BroadcastFilm>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    cacheBroadcastFilmList = response.body();
-                    broadcastFilmList.clear();
-                    broadcastFilmList.addAll(response.body());
-                    Log.e("API_RESPONSE", "Response body: " + response.code());
-                    broadCastFilmAdapter.notifyDataSetChanged();
+                    List<BroadcastFilm> broadcasts = response.body();
+
+                    // Enrich broadcasts with cinema information
+                    BroadcastCinemaEnricher.enrichBroadcastsWithCinemaInfo(broadcasts,
+                        new BroadcastCinemaEnricher.EnrichmentCompleteListener() {
+                            @Override
+                            public void onEnrichmentComplete(List<BroadcastFilm> enrichedBroadcasts) {
+                                cacheBroadcastFilmList = enrichedBroadcasts;
+                                broadcastFilmList.clear();
+                                broadcastFilmList.addAll(enrichedBroadcasts);
+                                Log.e("API_RESPONSE", "Response body: " + response.code());
+                                broadCastFilmAdapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onEnrichmentError(String error) {
+                                // Still show broadcasts even if cinema enrichment fails
+                                cacheBroadcastFilmList = broadcasts;
+                                broadcastFilmList.clear();
+                                broadcastFilmList.addAll(broadcasts);
+                                Log.e("API_RESPONSE", "Cinema enrichment error: " + error);
+                                broadCastFilmAdapter.notifyDataSetChanged();
+                            }
+                        });
 
                 } else {
                     Toast.makeText(AdminActivityListBroadcast.this, "Không lấy được dữ liệu", Toast.LENGTH_SHORT).show();

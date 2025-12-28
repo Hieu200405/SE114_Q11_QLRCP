@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
+import com.example.myapplication.cacheModels.CinemaCache;
 import com.example.myapplication.models.Cinema;
 import com.example.myapplication.models.CinemaRequest;
 import com.example.myapplication.models.PlaceAutocomplete;
@@ -466,6 +467,7 @@ public class CinemaFormActivity extends AppCompatActivity {
                     public void onResponse(@NonNull retrofit2.Call<Cinema> call, @NonNull retrofit2.Response<Cinema> response) {
                         showLoading(false);
                         if (response.isSuccessful()) {
+                            CinemaCache.clearCache(); // Clear cache to reload updated data
                             Toast.makeText(CinemaFormActivity.this, "Tạo rạp thành công", Toast.LENGTH_SHORT).show();
                             setResult(RESULT_OK);
                             finish();
@@ -490,6 +492,7 @@ public class CinemaFormActivity extends AppCompatActivity {
                     public void onResponse(@NonNull retrofit2.Call<Cinema> call, @NonNull retrofit2.Response<Cinema> response) {
                         showLoading(false);
                         if (response.isSuccessful()) {
+                            CinemaCache.clearCache(); // Clear cache to reload updated data
                             Toast.makeText(CinemaFormActivity.this, "Cập nhật rạp thành công", Toast.LENGTH_SHORT).show();
                             setResult(RESULT_OK);
                             finish();
