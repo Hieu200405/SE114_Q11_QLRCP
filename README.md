@@ -79,9 +79,12 @@ DB_NAME=""
 PAYOS_CLIENT_ID=""
 PAYOS_API_KEY=""
 PAYOS_CHECKSUM_KEY=""
+#Goong Configuration
+GOONG_SERVICE_KEY=""
+GOONG_MAP_KEY=""
 ```
 
-📌 Replace {KEY}, {DB_HOST}, {DB_PORT}, {DB_USER}, {DB_PASSWORD}, {DB_NAME}, {PAYOS_CLIENT_ID}, {PAYOS_API_KEY}, {PAYOS_CHECKSUM_KEY} with your PayOS Configuration.
+📌 Replace {KEY}, {DB_HOST}, {DB_PORT}, {DB_USER}, {DB_PASSWORD}, {DB_NAME}, {PAYOS_CLIENT_ID}, {PAYOS_API_KEY}, {PAYOS_CHECKSUM_KEY}, {GOONG_SERVICE_KEY}, {GOONG_MAP_KEY} with your PayOS Configuration.
 ➡️ Database online
 Use the database created online
 
@@ -118,7 +121,8 @@ Open the frontend_java folder in Android Studio.
 Edit the file frontend_java/local.properties and add:
 
 ```bash
-BASE_URL=http://192.168.1.x:5000
+BASE_URL=""
+GOONG_MAP_KEY=""
 ```
 
 📌 Make sure to replace 192.168.1.x with your actual local IP address (same IP where backend is running).
