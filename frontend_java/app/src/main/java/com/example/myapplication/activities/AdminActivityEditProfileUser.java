@@ -29,7 +29,7 @@ public class AdminActivityEditProfileUser extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_edit_profile_of_user);
-//        Get the access token from SharedPreferences
+        // Get the access token from SharedPreferences
         accessToken = getSharedPreferences("MyAppPrefs", MODE_PRIVATE).getString("access_token", null);
 
         UserInfo userInfo = (UserInfo) getIntent().getParcelableExtra("userInfo");
@@ -39,10 +39,8 @@ public class AdminActivityEditProfileUser extends AppCompatActivity {
         }
         ListenerButtonEvents(userInfo);
 
-
-
-
     }
+
     private void setElementsByID() {
         tvUID = findViewById(R.id.tvUID);
         tvUsername = findViewById(R.id.tvUsername);
@@ -65,21 +63,23 @@ public class AdminActivityEditProfileUser extends AppCompatActivity {
             String Name = editName.getText().toString();
             String Email = editEmail.getText().toString();
             String Phone = editPhone.getText().toString();
-            if( Name.isEmpty() || Email.isEmpty() || Phone.isEmpty()) {
-                Toast.makeText(AdminActivityEditProfileUser.this, "Vui lòng điền vào tất cả các trường", Toast.LENGTH_SHORT).show();
+            if (Name.isEmpty() || Email.isEmpty() || Phone.isEmpty()) {
+                Toast.makeText(AdminActivityEditProfileUser.this, "Vui lòng điền vào tất cả các trường",
+                        Toast.LENGTH_SHORT).show();
                 return;
             }
             if (!isValidEmail(Email)) {
-                Toast.makeText(AdminActivityEditProfileUser.this, "Định dạng email không hợp lệ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AdminActivityEditProfileUser.this, "Định dạng email không hợp lệ", Toast.LENGTH_SHORT)
+                        .show();
                 return;
             }
             if (!isValidPhoneNumber(Phone)) {
-                Toast.makeText(AdminActivityEditProfileUser.this, "Định dạng số điện thoại không hợp lệ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AdminActivityEditProfileUser.this, "Định dạng số điện thoại không hợp lệ",
+                        Toast.LENGTH_SHORT).show();
                 return;
             }
             UserUpdateRequest userUpdateRequest = new UserUpdateRequest(Name, Phone, Email);
             updateProfile(userInfo.getId(), userUpdateRequest);
-
 
         });
 
@@ -91,7 +91,7 @@ public class AdminActivityEditProfileUser extends AppCompatActivity {
 
     private boolean isValidPhoneNumber(String phone) {
         // Kiểm tra số điện thoại có 10 kí tự và chỉ chứa chữ số
-        if('0' != phone.charAt(0)) {
+        if ('0' != phone.charAt(0)) {
             return false; // Số điện thoại phải bắt đầu bằng 0
         }
         if (phone.length() != 10) {
@@ -105,16 +105,17 @@ public class AdminActivityEditProfileUser extends AppCompatActivity {
         return true;
     }
 
-    //    check email format
+    // check email format
     private boolean isValidEmail(String email) {
         // Kiểm tra định dạng email cơ bản
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         return email.matches(emailPattern);
     }
 
-    void  updateProfile(int userId, UserUpdateRequest userUpdateRequest) {
+    void updateProfile(int userId, UserUpdateRequest userUpdateRequest) {
         ApiUserService apiUserService = ApiClient.getRetrofit().create(ApiUserService.class);
-        Call<UserInfo> call = apiUserService.updateUser("Bearer " + accessToken, String.valueOf(userId), userUpdateRequest);
+        Call<UserInfo> call = apiUserService.updateUser("Bearer " + accessToken, String.valueOf(userId),
+                userUpdateRequest);
         call.enqueue(new retrofit2.Callback<UserInfo>() {
             @Override
             public void onResponse(Call<UserInfo> call, retrofit2.Response<UserInfo> response) {
@@ -122,7 +123,8 @@ public class AdminActivityEditProfileUser extends AppCompatActivity {
                     // Handle successful update
                     UserInfo updatedUser = response.body();
                     // You can update the UI or show a success message here
-                    Toast.makeText(AdminActivityEditProfileUser.this, "Hồ sơ cập nhật thành công!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminActivityEditProfileUser.this, "Hồ sơ cập nhật thành công!", Toast.LENGTH_SHORT)
+                            .show();
                     Intent intent = new Intent();
                     intent.putExtra("updatedUserInfo", updatedUser);
                     setResult(1, intent);
@@ -133,13 +135,15 @@ public class AdminActivityEditProfileUser extends AppCompatActivity {
                     if (response.errorBody() != null) {
                         try {
                             String errorMessage = response.errorBody().string();
-                            Toast.makeText(AdminActivityEditProfileUser.this, "Error: " + errorMessage, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AdminActivityEditProfileUser.this, "Error: " + errorMessage,
+                                    Toast.LENGTH_SHORT).show();
                             Log.e("UserEditProfile", "Cập nhật lỗi hồ sơ: " + errorMessage);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     } else {
-                        Toast.makeText(AdminActivityEditProfileUser.this, "Cập nhật lỗi hồ sơ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AdminActivityEditProfileUser.this, "Cập nhật lỗi hồ sơ", Toast.LENGTH_SHORT)
+                                .show();
                     }
                 }
             }
@@ -147,7 +151,8 @@ public class AdminActivityEditProfileUser extends AppCompatActivity {
             @Override
             public void onFailure(Call<UserInfo> call, Throwable t) {
                 // Handle the failure case
-                Toast.makeText(AdminActivityEditProfileUser.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AdminActivityEditProfileUser.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT)
+                        .show();
                 Log.e("UserEditProfile", "Cập nhật lỗi hồ sơ: " + t.getMessage());
             }
         });

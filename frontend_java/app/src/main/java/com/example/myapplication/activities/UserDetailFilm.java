@@ -28,8 +28,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserDetailFilm extends  AppCompatActivity {
-    // This class is currently empty, but you can add methods and properties as needed
+public class UserDetailFilm extends AppCompatActivity {
+    // This class is currently empty, but you can add methods and properties as
+    // needed
     // to handle user details related to films.
     String accessToken;
     private DetailFilm detailFilm;
@@ -70,18 +71,15 @@ public class UserDetailFilm extends  AppCompatActivity {
         // get the film ID from the intent
         int filmId = getIntent().getIntExtra("film_id", -1);
 
-
         // Set up listeners for the back button and read more description
         ListenerSetupBackButton();
         ListenerReadMoreDescription();
         ListenerBookTicket(filmId); // Set up listener for booking ticket
 
-         // Log the received film ID for debugging
-
-
+        // Log the received film ID for debugging
 
         // Initialize your views and set up any necessary data binding or listeners here
-         // Get the film ID from the intent
+        // Get the film ID from the intent
         if (filmId != -1) {
             loadFilmDetail(String.valueOf(filmId)); // Load film details using the ID
         } else {
@@ -97,12 +95,16 @@ public class UserDetailFilm extends  AppCompatActivity {
         // This could involve making a network request to fetch film data
         // and then updating the UI with that data.
         ApiFilmService apiFilmService = ApiClient.getRetrofit().create(ApiFilmService.class);
-        Call<DetailFilm> call = apiFilmService.getFilmById("Bearer "+ accessToken, id); // Replace 1 with the actual film ID you want to fetch
+        Call<DetailFilm> call = apiFilmService.getFilmById("Bearer " + accessToken, id); // Replace 1 with the actual
+                                                                                         // film ID you want to fetch
 
         call.enqueue(new Callback<DetailFilm>() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(@NonNull Call<DetailFilm> call, @NonNull Response<DetailFilm> response) {
+                if (isDestroyed() || isFinishing())
+                    return;
+
                 if (response.isSuccessful() && response.body() != null) {
                     detailFilm = response.body();
                     Log.e("API_RESPONSE", "Response body: " + detailFilm.getImages().size());
@@ -115,7 +117,7 @@ public class UserDetailFilm extends  AppCompatActivity {
                             .into(imageFilmShow);
                     nameFilmTextView.setText(detailFilm.getName());
                     descriptionFilmTextView.setText(detailFilm.getDescription());
-                    startedFilmTextView.setText("Date on: "+ detailFilm.getStartDate());
+                    startedFilmTextView.setText("Date on: " + detailFilm.getStartDate());
                     textRating.setText("Rating: " + detailFilm.getRating());
                     textRuntime.setText(detailFilm.getRuntime() + " min");
                     Log.e("API_RESPONSE", "Response code: " + response.code());
@@ -126,17 +128,20 @@ public class UserDetailFilm extends  AppCompatActivity {
             }
 
             public void onFailure(Call<DetailFilm> call, Throwable t) {
+                if (isDestroyed() || isFinishing())
+                    return;
+
                 Toast.makeText(UserDetailFilm.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("API_ERROR", Objects.requireNonNull(t.getMessage()));
             }
         });
     }
 
-//    xử lý sự kiện click của nút back
+    // xử lý sự kiện click của nút back
     private void ListenerSetupBackButton() {
         imageBack.setOnClickListener(v -> {
             // Hoặc bạn có thể sử dụng finish() để đóng activity hiện tại
-             finish();
+            finish();
         });
     }
 
@@ -163,14 +168,14 @@ public class UserDetailFilm extends  AppCompatActivity {
         });
     }
 
-
     private void ListenerBookTicket(Integer filmId) {
         // Implement the logic to handle booking tickets for the film
         // This could involve navigating to a booking screen or showing a dialog
         btnBookTicket.setOnClickListener(v -> {
             Toast.makeText(UserDetailFilm.this, "Đặt vé cho phim " + detailFilm.getName(), Toast.LENGTH_SHORT).show();
             // Add your booking logic here
-            Intent intent = new Intent(UserDetailFilm.this, UserShowListBroadcast.class); // Replace with your actual Booking Activity
+            Intent intent = new Intent(UserDetailFilm.this, UserShowListBroadcast.class); // Replace with your actual
+                                                                                          // Booking Activity
             intent.putExtra("filmId", filmId);
             startActivity(intent);
         });
