@@ -11,16 +11,21 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.adapters.ImageFilmAdapter;
+import com.example.myapplication.adapters.ReviewAdapter;
 import com.example.myapplication.models.DetailFilm;
 import com.example.myapplication.models.ImageFilm;
+import com.example.myapplication.models.Review;
+import com.example.myapplication.models.ReviewResponse;
 import com.example.myapplication.network.ApiClient;
 import com.example.myapplication.network.ApiFilmService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -44,6 +49,10 @@ public class UserDetailFilm extends  AppCompatActivity {
     TextView textReadMore;
     TextView textRuntime;
     Button btnBookTicket;
+    private ApiFilmService apiFilmService;
+    private RecyclerView rvReviews;
+    private ReviewAdapter reviewAdapter;
+    private List<Review> reviewList = new ArrayList<>();
 
     @Override
     protected void onCreate(android.os.Bundle savedInstanceState) {
@@ -128,6 +137,33 @@ public class UserDetailFilm extends  AppCompatActivity {
             public void onFailure(Call<DetailFilm> call, Throwable t) {
                 Toast.makeText(UserDetailFilm.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("API_ERROR", Objects.requireNonNull(t.getMessage()));
+            }
+        });
+    }
+
+    private void loadReviews(int filmId) {
+        apiFilmService.getFilmReviews(filmId).enqueue(new Callback<ReviewResponse>() {
+            @Override
+            public void onResponse(Call<ReviewResponse> call, Response<ReviewResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ReviewResponse reviewResponse = response.body();
+
+                    if ("00".equals(reviewResponse.getCode())) {
+                        List<Review> data = reviewResponse.getData();
+                        if (data != null) {
+                            reviewList.clear();
+                            reviewList.addAll(data);
+                            reviewAdapter.notifyDataSetChanged();
+                        }
+                    } else {
+                        Log.e("REVIEW_ERROR", "Lỗi từ server: " + reviewResponse.getDesc());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReviewResponse> call, Throwable t) {
+                Log.e("API_ERROR", "Không thể kết nối API reviews: " + t.getMessage());
             }
         });
     }
