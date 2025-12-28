@@ -30,3 +30,17 @@ frontend_java/*.iml
 *.log
 frontend_java/app/build/reports/
 
+# Binaries & Executables
+*.dll
+*.so
+*.dylib
+
+# Secrets & Config
+google-services.json
+**/.env
+
+# Android additional
+.cxx/
+.externalNativeBuild/
+captures/
+
