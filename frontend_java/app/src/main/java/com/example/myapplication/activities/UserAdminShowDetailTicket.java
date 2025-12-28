@@ -3,10 +3,14 @@ package com.example.myapplication.activities;
 import static retrofit2.Response.error;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +25,10 @@ import com.example.myapplication.models.BookingTicketResponse;
 import com.example.myapplication.models.Broadcast;
 import com.example.myapplication.network.ApiClient;
 import com.example.myapplication.network.ApiTicketService;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 
 import java.util.Date;
 
@@ -42,12 +50,17 @@ public class UserAdminShowDetailTicket extends AppCompatActivity {
     private TextView tvTimeOrder;
     private TextView tvPrice;
     private Button btnBack;
-    private Button btnDelete, btnDeleteUser;
+    private Button btnDelete, btnDeleteUser, btnShowQR;
     private TextView tvUserID;
     String accessToken;
     String ticketId;
 
-    @SuppressLint({ "MissingInflatedId", "SetTextI18n" })
+    // Thông tin vé để tạo QR
+    private BookingTicketResponse currentTicket;
+
+
+
+    @SuppressLint({"MissingInflatedId", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +105,9 @@ public class UserAdminShowDetailTicket extends AppCompatActivity {
             tvTimeOrder.setText(bookingTicketResponse.getTimeOrder());
             tvTicketID.setText(String.valueOf(bookingTicketResponse.getID()));
             tvUserID.setText(String.valueOf(bookingTicketResponse.getUserID()));
+
+            // Lưu ticket để tạo QR
+            currentTicket = bookingTicketResponse;
         } else {
             // Handle the case where bookingTicketResponse is null
 
@@ -101,6 +117,10 @@ public class UserAdminShowDetailTicket extends AppCompatActivity {
         btnBack.setOnClickListener(v -> {
             finish(); // Close the activity and return to the previous one
         });
+
+        // Listener cho nút xem QR Code
+        btnShowQR.setOnClickListener(v -> showQRCodeDialog());
+
 
         if (role != null && role.equals("admin")) {
             btnDelete.setVisibility(Button.VISIBLE);
@@ -167,6 +187,79 @@ public class UserAdminShowDetailTicket extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         btnDelete = findViewById(R.id.btnDelete);
         btnDeleteUser = findViewById(R.id.btnDeleteUser);
+        btnShowQR = findViewById(R.id.btnShowQR);
+    }
+
+    /**
+     * Hiển thị dialog chứa mã QR của vé
+     */
+    private void showQRCodeDialog() {
+        if (currentTicket == null) {
+            Toast.makeText(this, "Không có thông tin vé", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Tạo nội dung QR: Ticket ID + Film + Seat + Room + Date + Time
+        Broadcast broadcast = currentTicket.getBroadcast();
+        String qrContent = String.format(java.util.Locale.US,
+                "TICKET_ID:%d|FILM:%s|SEAT:%d|ROOM:%d|DATE:%s|TIME:%s|USER:%d",
+                currentTicket.getID(),
+                broadcast != null ? broadcast.getFilmName() : "N/A",
+                currentTicket.getSeatID(),
+                currentTicket.getRoomID(),
+                broadcast != null ? broadcast.getDateBroadcast() : "N/A",
+                broadcast != null ? broadcast.getTimeBroadcast() : "N/A",
+                currentTicket.getUserID()
+        );
+
+        try {
+            Bitmap qrBitmap = generateQRCode(qrContent, 512);
+
+            // Tạo dialog hiển thị QR
+            Dialog dialog = new Dialog(this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog_qr_code);
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+            ImageView ivQRCode = dialog.findViewById(R.id.ivQRCode);
+            TextView tvQRTitle = dialog.findViewById(R.id.tvQRTitle);
+            TextView tvQRInfo = dialog.findViewById(R.id.tvQRInfo);
+            Button btnCloseQR = dialog.findViewById(R.id.btnCloseQR);
+
+            ivQRCode.setImageBitmap(qrBitmap);
+            tvQRTitle.setText("Mã QR Vé #" + currentTicket.getID());
+            tvQRInfo.setText(String.format("Phim: %s\nGhế: %d | Phòng: %d\nNgày: %s | Giờ: %s",
+                    broadcast != null ? broadcast.getFilmName() : "N/A",
+                    currentTicket.getSeatID(),
+                    currentTicket.getRoomID(),
+                    broadcast != null ? broadcast.getDateBroadcast() : "N/A",
+                    broadcast != null ? broadcast.getTimeBroadcast() : "N/A"
+            ));
+
+            btnCloseQR.setOnClickListener(v -> dialog.dismiss());
+
+            dialog.show();
+
+        } catch (WriterException e) {
+            Log.e("QR_ERROR", "Lỗi tạo QR Code: " + e.getMessage());
+            Toast.makeText(this, "Không thể tạo mã QR", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * Tạo Bitmap QR Code từ nội dung
+     */
+    private Bitmap generateQRCode(String content, int size) throws WriterException {
+        QRCodeWriter writer = new QRCodeWriter();
+        BitMatrix bitMatrix = writer.encode(content, BarcodeFormat.QR_CODE, size, size);
+
+        Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565);
+        for (int x = 0; x < size; x++) {
+            for (int y = 0; y < size; y++) {
+                bitmap.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
+            }
+        }
+        return bitmap;
     }
 
     void listenerDeleteTicket(BookingTicketResponse bookingTicketResponse) {

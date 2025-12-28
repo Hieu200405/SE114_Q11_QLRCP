@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="12dp"
+    android:layout_marginBottom="12dp"
+    app:cardBackgroundColor="#1E1E2E"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <!-- Cinema Image -->
+        <ImageView
+            android:id="@+id/ivCinemaImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/bg_item_dark_cart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_launcher_background" />
+
+        <!-- Cinema Name -->
+        <TextView
+            android:id="@+id/tvCinemaName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/btnNavigate"
+            app:layout_constraintStart_toEndOf="@+id/ivCinemaImage"
+            app:layout_constraintTop_toTopOf="@+id/ivCinemaImage"
+            tools:text="CGV Vincom Đồng Khởi" />
+
+        <!-- Address -->
+        <TextView
+            android:id="@+id/tvCinemaAddress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:drawablePadding="4dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="#AAAAAA"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/btnNavigate"
+            app:layout_constraintStart_toEndOf="@+id/ivCinemaImage"
+            app:layout_constraintTop_toBottomOf="@+id/tvCinemaName"
+            tools:text="72 Lê Thánh Tôn, Bến Nghé, Quận 1, TP.HCM" />
+
+        <!-- Distance and Duration Row -->
+        <LinearLayout
+            android:id="@+id/layoutDistanceDuration"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toEndOf="@+id/ivCinemaImage"
+            app:layout_constraintTop_toBottomOf="@+id/tvCinemaAddress">
+
+            <!-- Distance -->
+            <TextView
+                android:id="@+id/tvDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_distance_tag"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp"
+                android:textColor="#4CAF50"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                tools:text="5.2 km" />
+
+            <!-- Duration -->
+            <TextView
+                android:id="@+id/tvDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_duration_tag"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp"
+                android:textColor="#2196F3"
+                android:textSize="11sp"
+                tools:text="~15 phút" />
+
+        </LinearLayout>
+
+        <!-- Phone -->
+        <TextView
+            android:id="@+id/tvPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:drawableStart="@drawable/ic_phone"
+            android:drawablePadding="4dp"
+            android:textColor="#888888"
+            android:textSize="11sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@+id/ivCinemaImage"
+            app:layout_constraintTop_toBottomOf="@+id/layoutDistanceDuration"
+            tools:text="1900 6017"
+            tools:visibility="visible" />
+
+        <!-- Navigate Button -->
+        <ImageView
+            android:id="@+id/btnNavigate"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="6dp"
+            android:src="@drawable/ic_navigate"
+            android:background="@drawable/bg_circle_button"
+            android:contentDescription="Navigate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#4CAF50" />
+
+        <!-- Admin Controls (Edit/Delete) -->
+        <LinearLayout
+            android:id="@+id/layoutAdminControls"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnNavigate"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/btnEdit"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="Edit"
+                android:src="@drawable/ic_edit"
+                app:tint="#4CAF50" />
+
+            <ImageView
+                android:id="@+id/btnDelete"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:contentDescription="Delete"
+                android:src="@drawable/ic_delete"
+                app:tint="#F44336" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
+

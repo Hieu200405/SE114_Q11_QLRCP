@@ -53,6 +53,20 @@
         android:layout_below="@id/textDate"
         android:layout_marginTop="2dp" />
 
+    <!-- Thông tin rạp chiếu và khoảng cách -->
+
+
+    <TextView
+        android:id="@+id/textCinemaInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textRoomSeats"
+        android:layout_marginTop="2dp"
+        android:maxLines="1"
+        android:text="🎬 CGV Vincom • 5.2 km (~15 phút)"
+        android:textColor="#4CAF50"
+        android:textSize="13sp" />
+
     <!-- Nút Xóa -->
     <ImageButton
         android:id="@+id/buttonDelete"

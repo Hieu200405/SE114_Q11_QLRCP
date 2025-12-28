@@ -259,6 +259,14 @@
             app:tint="#888888" />
 
         <ImageView
+            android:id="@+id/imageManageCinema"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_32sdp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_cinema"
+            app:tint="#888888" />
+
+        <ImageView
             android:id="@+id/imageManageUser"
             android:layout_width="0dp"
             android:layout_height="@dimen/_32sdp"

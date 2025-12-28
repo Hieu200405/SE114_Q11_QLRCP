@@ -149,6 +149,23 @@
                         android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Chọn rạp chiếu phim -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rạp chiếu phim"
+                android:textColor="#BBBBBB"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/spinnerCinema"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/bg_input_dark"
+                android:padding="12dp"
+                android:popupBackground="@color/primary_bg" />
+
             <!-- Các nút -->
             <LinearLayout
                 android:layout_width="match_parent"
