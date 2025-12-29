@@ -55,13 +55,17 @@ public class AdminDetailFilm extends AppCompatActivity {
     Button btnUpdate, btnDelete;
     private RecyclerView rvReviews;
     private ReviewAdapter reviewAdapter;
-    private List<Review> reviewList;
+    private List<Review> reviewList = new ArrayList<>();
     private ApiFilmService apiFilmService;
+    private int filmId;
+
 
     @Override
     protected void onCreate(android.os.Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_detail_film);
+
+        filmId = getIntent().getIntExtra("film_id", -1);
         accessToken = getSharedPreferences("MyAppPrefs", MODE_PRIVATE).getString("access_token", null);
         Log.d("AdminDetailFilm", "Access Token in detail film: " + accessToken);
         if(accessToken == null) {
@@ -72,16 +76,20 @@ public class AdminDetailFilm extends AppCompatActivity {
 
         apiFilmService = ApiClient.getRetrofit().create(ApiFilmService.class);
         rvReviews = findViewById(R.id.rvReviews);
-        reviewList = new ArrayList<>();
         reviewAdapter = new ReviewAdapter(reviewList);
+        reviewAdapter.setAdmin(true);
+        reviewAdapter.setOnReviewClickListener(new ReviewAdapter.OnReviewClickListener() {
+            @Override
+            public void onDeleteClick(int rId) {
+                showConfirmDeleteDialog(rId);
+            }
+        });
 
-        if (rvReviews != null) {
-            rvReviews.setLayoutManager(new LinearLayoutManager(this));
-            rvReviews.setNestedScrollingEnabled(false);
-            rvReviews.setAdapter(reviewAdapter);
-        } else {
-            Log.e("DEBUG", "Không tìm thấy rvReviews trong layout!");
-        }
+        rvReviews.setLayoutManager(new LinearLayoutManager(this));
+        rvReviews.setNestedScrollingEnabled(false);
+        rvReviews.setAdapter(reviewAdapter);
+
+        loadReviews(filmId);
 
         setElementsByID();
         setUpdateFilmLauncher();
@@ -111,9 +119,6 @@ public class AdminDetailFilm extends AppCompatActivity {
         }
         ListenerBoadcast(filmId); // Set up listener for booking tickets
 
-        if (filmId != -1) {
-            loadReviews(filmId);
-        }
 
     }
 
@@ -133,6 +138,35 @@ public class AdminDetailFilm extends AppCompatActivity {
         btnDelete = findViewById(R.id.btnDelete);
 
         ListenerUpdateButton();
+    }
+
+    private void showConfirmDeleteDialog(int reviewId) {
+        new AlertDialog.Builder(this)
+                .setTitle("Xác nhận xóa")
+                .setMessage("Bạn có chắc chắn muốn xóa vĩnh viễn đánh giá này không?")
+                .setPositiveButton("Xóa", (dialog, which) -> {
+                    deleteReview(reviewId);
+                })
+                .setNegativeButton("Hủy", null)
+                .show();
+    }
+
+    private void deleteReview(int reviewId) {
+        String token = "Bearer " + accessToken;
+        apiFilmService.deleteReview(token, reviewId).enqueue(new Callback<ReviewResponse>() {
+            @Override
+            public void onResponse(Call<ReviewResponse> call, Response<ReviewResponse> response) {
+                if (response.isSuccessful() && response.body() != null && "00".equals(response.body().getCode())) {
+                    Toast.makeText(AdminDetailFilm.this, "Đã xóa thành công", Toast.LENGTH_SHORT).show();
+                    loadReviews(filmId);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReviewResponse> call, Throwable t) {
+                Toast.makeText(AdminDetailFilm.this, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void loadFilmDetail(String id) {

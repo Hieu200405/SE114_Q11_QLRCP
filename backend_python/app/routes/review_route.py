@@ -3,7 +3,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from app.services.review_service import (
     add_review_service, 
     get_film_reviews_service, 
-    hide_review_service
+    delete_review_service
 )
 
 REVIEW_BLUEPRINT = Blueprint('review', __name__)
