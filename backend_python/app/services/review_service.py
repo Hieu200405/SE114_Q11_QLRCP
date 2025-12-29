@@ -22,6 +22,19 @@ def add_review_service(user_id, film_id, rating, comment):
     if now < broadcast_datetime:
         raise ValueError("Bạn chỉ có thể đánh giá sau khi suất chiếu bắt đầu.")
 
+    new_review = Review(
+        user_id=user_id,
+        film_id=film_id,
+        rating=rating,
+        comment=comment,
+        status=1 
+    )
+    
+    db.session.add(new_review)
+    db.session.commit()
+
+    return new_review.serialize()
+
 def get_film_reviews_service(film_id):
     # Get reviews with visible status (status=1)
     reviews = Review.query.filter_by(film_id=film_id, status=1).all()

@@ -272,20 +272,18 @@ public class UserAdminShowDetailTicket extends AppCompatActivity {
     private void sendReviewRequest(int broadcastId, int rating, String comment) {
         ReviewRequest request = new ReviewRequest(broadcastId, rating, comment);
         String authHeader = "Bearer " + accessToken;
-
+        Log.d("REVIEW_DEBUG", "Gửi đánh giá cho FilmID: " + broadcastId);
         apiFilmService.addReview(authHeader, request).enqueue(new Callback<ReviewResponse>() {
             @Override
             public void onResponse(Call<ReviewResponse> call, Response<ReviewResponse> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(UserAdminShowDetailTicket.this, "Cảm ơn bạn đã đánh giá!", Toast.LENGTH_SHORT).show();
-                } else {
-                    try {
-                        String errorDetail = response.errorBody().string();
-                        Log.e("SERVER_ERROR", errorDetail);
-                        Toast.makeText(UserAdminShowDetailTicket.this, "Lỗi Server: " + errorDetail, Toast.LENGTH_LONG).show();
-                    } catch (Exception e) {
-                        Toast.makeText(UserAdminShowDetailTicket.this, "Lỗi: " + response.code(), Toast.LENGTH_SHORT).show();
+                if (response.isSuccessful() && response.body() != null) {
+                    if ("00".equals(response.body().getCode())) {
+                        Toast.makeText(UserAdminShowDetailTicket.this, "Đánh giá thành công!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(UserAdminShowDetailTicket.this, "Lỗi: " + response.body().getDesc(), Toast.LENGTH_SHORT).show();
                     }
+                } else {
+                    Toast.makeText(UserAdminShowDetailTicket.this, "Gửi đánh giá thất bại!", Toast.LENGTH_SHORT).show();
                 }
             }
 

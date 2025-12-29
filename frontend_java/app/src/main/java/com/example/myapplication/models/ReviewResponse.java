@@ -10,7 +10,7 @@ public class ReviewResponse {
     private String desc;
 
     @SerializedName("data")
-    private List<Review> data; // Danh sách các Review
+    private List<Review> data;
 
     public String getCode() { return code; }
     public String getDesc() { return desc; }

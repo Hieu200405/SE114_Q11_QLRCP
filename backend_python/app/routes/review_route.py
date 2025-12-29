@@ -8,6 +8,9 @@ from app.services.review_service import (
 
 REVIEW_BLUEPRINT = Blueprint('review', __name__)
 
+# Add review
+# link: localhost:5000/api/reviews/add
+
 @REVIEW_BLUEPRINT.route('/add', methods=['POST'])
 @jwt_required()
 def add_review():
@@ -21,11 +24,15 @@ def add_review():
             rating=data.get('Rating'),
             comment=data.get('Comment')
         )
-        return jsonify({"code": "00", "desc": "Success", "data": result}), 201
+        return jsonify({"code": "00", "desc": "Success", "data": [result]}), 201
     except ValueError as e:
         return jsonify({"code": "01", "desc": str(e)}), 400
     except Exception as e:
         return jsonify({"code": "99", "desc": str(e)}), 500
+
+# Get reviews
+# link: localhost:5000/api/reviews/film/<film_id>
+
 
 @REVIEW_BLUEPRINT.route('/film/<int:film_id>', methods=['GET'])
 def get_film_reviews(film_id):
@@ -34,6 +41,9 @@ def get_film_reviews(film_id):
         return jsonify({"code": "00", "desc": "Success", "data": reviews}), 200
     except Exception as e:
         return jsonify({"code": "99", "desc": str(e)}), 500
+
+# Hide review (Admin only)
+# link: localhost:5000/api/reviews/admin/hide/<review_id>
 
 @REVIEW_BLUEPRINT.route('/admin/hide/<int:review_id>', methods=['PATCH'])
 @jwt_required()
