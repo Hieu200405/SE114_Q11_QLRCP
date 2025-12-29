@@ -20,6 +20,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/headerLogo"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:src="@drawable/ic_logo_toto_cinema"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerCrop"
+            android:background="@drawable/bg_logo_circle"
+            android:padding="@dimen/_6sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle" />
+
         <TextView
             android:id="@+id/textAppName"
             android:layout_width="0dp"
@@ -29,11 +41,9 @@
             android:fontFamily="@font/ubuntu_bold"
             android:gravity="center_vertical"
             android:maxLines="1"
-            android:text="  TOTO CINEMA"
+            android:text="TỔNG QUAN VỀ RẠP PHIM"
             android:textColor="@color/colorTextIcons"
-            android:textSize="@dimen/_14sdp"
-            app:drawableStartCompat="@drawable/ic_movie"
-            app:drawableTint="@color/colorTextIcons" />
+            android:textSize="@dimen/_14sdp" />
 
         <ImageView
             android:id="@+id/imageHistory"
@@ -133,10 +143,10 @@
             android:layout_width="@dimen/_90sdp"
             android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
-            android:background="@drawable/bg_button_light"
+            android:background="@drawable/bg_button_green_rounded"
             android:padding="8dp"
             android:text="Từ ngày"
-            android:textColor="@color/primary_text"
+            android:textColor="@color/white"
             android:textSize="@dimen/_12sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -149,8 +159,8 @@
             android:layout_height="wrap_content"
             android:text="Đến ngày"
             android:textSize="@dimen/_12sdp"
-            android:textColor="@color/primary_text"
-            android:background="@drawable/bg_button_light"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_button_green_rounded"
             android:padding="8dp"
             app:layout_constraintStart_toEndOf="@id/btnStartDate"
             app:layout_constraintTop_toTopOf="parent"
@@ -246,6 +256,14 @@
             android:layout_height="@dimen/_32sdp"
             android:layout_weight="1"
             android:src="@drawable/ic_manage_room"
+            app:tint="#888888" />
+
+        <ImageView
+            android:id="@+id/imageManageCinema"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_32sdp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_cinema"
             app:tint="#888888" />
 
         <ImageView

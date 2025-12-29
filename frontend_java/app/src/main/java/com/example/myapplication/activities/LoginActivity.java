@@ -1,6 +1,5 @@
 package com.example.myapplication.activities;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,7 +10,6 @@ import android.widget.Toast;
 import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 
 import com.example.myapplication.R;
 import com.example.myapplication.models.LoginRequest;
@@ -27,7 +25,6 @@ public class LoginActivity extends AppCompatActivity {
 
     ApiAuthService apiAuthService;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
             String username = ((android.widget.EditText) findViewById(R.id.etUsername)).getText().toString();
             String password = ((android.widget.EditText) findViewById(R.id.etPassword)).getText().toString();
 
-            if(username.isEmpty() || password.isEmpty()) {
+            if (username.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Vui lòng nhập tài khoản và mật khẩu", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -56,10 +53,9 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void LoginApi(LoginRequest loginRequest){
+    private void LoginApi(LoginRequest loginRequest) {
         Call<LoginResponse> call = apiAuthService.login(loginRequest);
         call.enqueue(new Callback<LoginResponse>() {
-
 
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
@@ -80,27 +76,34 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e("role", loginResponse.getRole());
 
                     Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-                    if(loginResponse.getRole().equals("admin")) {
-                        Toast.makeText(LoginActivity.this ,"Đăng nhập với quyền admin", Toast.LENGTH_SHORT).show();
+                    if (loginResponse.getRole().equals("admin")) {
+                        Toast.makeText(LoginActivity.this, "Đăng nhập với quyền admin", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(LoginActivity.this, AdminMainActivity.class));
-                    }
-                    else {
+                    } else {
                         startActivity(new Intent(LoginActivity.this, UserMainActivity.class));
                     }
 
                 } else {
-                    Toast.makeText(LoginActivity.this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();
+                    String errorMsg = "Lỗi đăng nhập";
+                    try {
+                        if (response.errorBody() != null) {
+                            errorMsg = response.errorBody().string();
+                            Log.e("LOGIN_ERROR", "Error body: " + errorMsg);
+                        }
+                    } catch (java.io.IOException e) {
+                        e.printStackTrace();
+                    }
+                    Toast.makeText(LoginActivity.this, "Đăng nhập thất bại: " + errorMsg, Toast.LENGTH_LONG).show();
+                    Log.e("LOGIN_ERROR", "Response code: " + response.code());
                 }
             }
 
-
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-
+                Toast.makeText(LoginActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Log.e("LOGIN_FAILURE", "Error: " + t.getMessage());
             }
-
         });
     }
-
 
 }

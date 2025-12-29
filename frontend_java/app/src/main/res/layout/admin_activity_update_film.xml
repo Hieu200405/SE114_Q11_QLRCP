@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
-    android:background="#141A31">
+    android:background="@color/primary_bg">
 
 
     <LinearLayout
@@ -27,6 +27,18 @@
             android:layout_marginRight="@dimen/_8sdp"
             android:src="@drawable/ic_back" />
 
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/headerLogo"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:src="@drawable/ic_logo_toto_cinema"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerCrop"
+            android:background="@drawable/bg_logo_circle"
+            android:padding="@dimen/_6sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle" />
+
         <TextView
             android:id="@+id/textAppName"
             android:layout_width="0dp"
@@ -39,11 +51,9 @@
             android:gravity="center_vertical"
             android:includeFontPadding="false"
             android:maxLines="1"
-            android:text="  TOTO CINEMA"
+            android:text="SỬA THÔNG TIN PHIM"
             android:textColor="@color/colorTextIcons"
-            android:textSize="@dimen/_14sdp"
-            app:drawableStartCompat="@drawable/ic_movie"
-            app:drawableTint="@color/colorTextIcons" />
+            android:textSize="@dimen/_14sdp" />
 
 
 
@@ -69,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:text="Thumbnail"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/primary_text"
                 android:textStyle="bold"
                 android:fontFamily="@font/ubuntu_bold"
                 android:textSize="30sp" />
@@ -79,7 +89,7 @@
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_150sdp"
                 android:layout_marginBottom="12dp"
-                android:background="#333333"
+                android:background="@color/input_field_stroke"
                 android:src="@drawable/default_img"
                 android:scaleType="centerCrop" />
 
@@ -97,72 +107,214 @@
 
 
 
-            <LinearLayout
+            <!-- Thông tin Film -->
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:padding="12dp"
-                android:background="@drawable/bg_item_dark_cart">
-                <!-- Thông tin Film -->
-                <EditText
+                android:text="Tên phim:"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@color/secondary_text"
+                android:layout_marginTop="8dp" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false"
+                app:boxBackgroundMode="filled"
+                app:boxBackgroundColor="@color/input_field_bg"
+                app:boxStrokeColor="@color/input_field_stroke"
+                android:layout_marginTop="4dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="2dp">
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editFilmName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:backgroundTint="#888888"
-                    android:hint="Tên Phim"
-                    android:textColor="#FFFFFF"
-                    android:textColorHint="#888888" />
+                    android:hint="Nhập tên phim"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textColor="@color/primary_text"
+                    android:textColorHint="@color/secondary_text"
+                    android:background="@null"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Thêm các EditText khác tương tự: start_date, end_date, rating, runtime -->
-
-                <EditText
+            <!-- Mô tả -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mô tả:"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@color/secondary_text"
+                android:layout_marginTop="12dp" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false"
+                app:boxBackgroundMode="filled"
+                app:boxBackgroundColor="@color/input_field_bg"
+                app:boxStrokeColor="@color/input_field_stroke"
+                android:layout_marginTop="4dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="2dp">
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editDescription"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-                    android:layout_marginTop="8dp"
-                    android:backgroundTint="#888888"
-                    android:gravity="start|top"
-                    android:hint="Mô Tả"
+                    android:gravity="top|start"
+                    android:hint="Nhập mô tả phim"
                     android:inputType="textMultiLine"
+                    android:minLines="3"
                     android:maxLines="5"
-                    android:overScrollMode="ifContentScrolls"
-                    android:padding="8dp"
                     android:scrollbars="vertical"
-                    android:textColor="#FFFFFF"
-                    android:textColorHint="#888888" />
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:paddingTop="12dp"
+                    android:textColor="@color/primary_text"
+                    android:textColorHint="@color/secondary_text"
+                    android:background="@null"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
+            <!-- Thời lượng -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Thời lượng (phút):"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@color/secondary_text"
+                android:layout_marginTop="12dp" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false"
+                app:boxBackgroundMode="filled"
+                app:boxBackgroundColor="@color/input_field_bg"
+                app:boxStrokeColor="@color/input_field_stroke"
+                android:layout_marginTop="4dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="2dp">
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editRunningTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:backgroundTint="#888888"
+                    android:hint="Nhập thời lượng"
                     android:inputType="number"
-                    android:hint="Thời Lượng (phút)"
-                    android:textColor="#FFFFFF"
-                    android:textColorHint="#888888" />
-                <EditText
-                    android:id="@+id/editRating"
-                    android:layout_width="match_parent"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textColor="@color/primary_text"
+                    android:textColorHint="@color/secondary_text"
+                    android:background="@null"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Đánh giá -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp"
+                android:baselineAligned="false">
+
+                <!-- Rating -->
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:backgroundTint="#888888"
-                    android:hint="Đánh giá (0-10)"
-                    android:inputType="numberDecimal"
-                    android:textColor="#FFFFFF"
-                    android:textColorHint="#888888" />
-                <EditText
-                    android:id="@+id/editRatingCount"
-                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="8dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Đánh giá (0-10):"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/secondary_text" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:hintEnabled="false"
+                        app:boxBackgroundMode="filled"
+                        app:boxBackgroundColor="@color/input_field_bg"
+                        app:boxStrokeColor="@color/input_field_stroke"
+                        android:layout_marginTop="4dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="2dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editRating"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="VD: 8.5"
+                            android:inputType="numberDecimal"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:textColor="@color/primary_text"
+                            android:textColorHint="@color/secondary_text"
+                            android:background="@null"
+                            android:textSize="14sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <!-- Rating Count -->
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:backgroundTint="#888888"
-                    android:hint="Số Lượng Đánh Giá"
-                    android:inputType="number"
-                    android:textColor="#FFFFFF"
-                    android:textColorHint="#888888" />
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="8dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Số lượt đánh giá:"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/secondary_text" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:hintEnabled="false"
+                        app:boxBackgroundMode="filled"
+                        app:boxBackgroundColor="@color/input_field_bg"
+                        app:boxStrokeColor="@color/input_field_stroke"
+                        android:layout_marginTop="4dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="2dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editRatingCount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="VD: 100"
+                            android:inputType="number"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:textColor="@color/primary_text"
+                            android:textColorHint="@color/secondary_text"
+                            android:background="@null"
+                            android:textSize="14sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -172,14 +324,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Update Film"
+                android:text="LƯU THÔNG TIN"
                 android:textColor="@color/white"
                 app:backgroundTint="@color/colorAccent"
-                app:cornerRadius="8dp"
-                app:iconSize="@dimen/_15sdp"
-                app:icon="@drawable/ic_check"
-                app:iconGravity="textStart"
-                app:iconPadding="8dp" />
+                app:cornerRadius="8dp"/>
 
         </LinearLayout>
     </ScrollView>
