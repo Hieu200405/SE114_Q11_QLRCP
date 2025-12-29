@@ -39,6 +39,7 @@ public class AdminActivityProfile extends AppCompatActivity {
     ImageView imageManageFilm;
     ImageView imageManageUser;
     ImageView imageManageRoom;
+    ImageView imageManageCinema;
     ImageView imageUser;
     Button btnEdit;
     Button btnLogout;
@@ -90,6 +91,7 @@ public class AdminActivityProfile extends AppCompatActivity {
         imageHome = findViewById(R.id.imageHome);
         imageManageFilm = findViewById(R.id.imageManageFilm);
         imageManageRoom = findViewById(R.id.imageManageRoom);
+        imageManageCinema = findViewById(R.id.imageManageCinema);
         imageManageUser = findViewById(R.id.imageManageUser);
         imageUser = findViewById(R.id.imageProfile);
         btnEdit = findViewById(R.id.btnEdit);
@@ -229,6 +231,13 @@ public class AdminActivityProfile extends AppCompatActivity {
         imageManageUser.setOnClickListener(
                 v -> {
                     Intent intent = new Intent(AdminActivityProfile.this, AdminActivityManageUser.class);
+                    startActivity(intent);
+                }
+        );
+
+        imageManageCinema.setOnClickListener(
+                v -> {
+                    Intent intent = new Intent(AdminActivityProfile.this, CinemaListActivity.class);
                     startActivity(intent);
                 }
         );

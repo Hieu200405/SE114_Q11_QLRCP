@@ -30,6 +30,16 @@ public class BroadcastFilm implements Parcelable {
     @SerializedName("Price")
     private double Price;
 
+    // Cinema info (loaded separately from Room -> Cinema)
+    // NOT transient - data must be preserved
+    private String cinemaName;
+    private String cinemaAddress;
+    private String distanceText;
+    private String durationText;
+    private int cinemaId;
+    private Double cinemaLatitude;
+    private Double cinemaLongitude;
+
     protected BroadcastFilm(Parcel in) {
         FilmID = in.readInt();
         ID = in.readInt();
@@ -38,6 +48,13 @@ public class BroadcastFilm implements Parcelable {
         RoomID = in.readInt();
         Seats = in.readInt();
         Price = in.readDouble();
+        cinemaName = in.readString();
+        cinemaAddress = in.readString();
+        distanceText = in.readString();
+        durationText = in.readString();
+        cinemaId = in.readInt();
+        cinemaLatitude = (Double) in.readSerializable();
+        cinemaLongitude = (Double) in.readSerializable();
     }
     public static final Creator<BroadcastFilm> CREATOR = new Creator<BroadcastFilm>() {
         @Override
@@ -59,6 +76,13 @@ public class BroadcastFilm implements Parcelable {
         dest.writeInt(RoomID);
         dest.writeInt(Seats);
         dest.writeDouble(Price);
+        dest.writeString(cinemaName);
+        dest.writeString(cinemaAddress);
+        dest.writeString(distanceText);
+        dest.writeString(durationText);
+        dest.writeInt(cinemaId);
+        dest.writeSerializable(cinemaLatitude);
+        dest.writeSerializable(cinemaLongitude);
     }
 
 //    getters
@@ -89,6 +113,28 @@ public class BroadcastFilm implements Parcelable {
     public double getPrice() {
         return Price;
     }
+
+    // Cinema getters/setters
+    public String getCinemaName() { return cinemaName; }
+    public void setCinemaName(String cinemaName) { this.cinemaName = cinemaName; }
+
+    public String getCinemaAddress() { return cinemaAddress; }
+    public void setCinemaAddress(String cinemaAddress) { this.cinemaAddress = cinemaAddress; }
+
+    public String getDistanceText() { return distanceText; }
+    public void setDistanceText(String distanceText) { this.distanceText = distanceText; }
+
+    public String getDurationText() { return durationText; }
+    public void setDurationText(String durationText) { this.durationText = durationText; }
+
+    public int getCinemaId() { return cinemaId; }
+    public void setCinemaId(int cinemaId) { this.cinemaId = cinemaId; }
+
+    public Double getCinemaLatitude() { return cinemaLatitude; }
+    public void setCinemaLatitude(Double cinemaLatitude) { this.cinemaLatitude = cinemaLatitude; }
+
+    public Double getCinemaLongitude() { return cinemaLongitude; }
+    public void setCinemaLongitude(Double cinemaLongitude) { this.cinemaLongitude = cinemaLongitude; }
 
 
     @Override

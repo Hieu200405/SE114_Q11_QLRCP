@@ -31,6 +31,18 @@
             android:layout_marginRight="@dimen/_8sdp"
 
             android:src="@drawable/ic_back" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/headerLogo"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:src="@drawable/ic_logo_toto_cinema"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerCrop"
+            android:background="@drawable/bg_logo_circle"
+            android:padding="@dimen/_6sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle" />
+
         <TextView
             android:id="@+id/textAppName"
             android:layout_width="0dp"
@@ -43,11 +55,9 @@
             android:gravity="center_vertical"
             android:includeFontPadding="false"
             android:maxLines="1"
-            android:text="  TOTO CINEMA"
+            android:text="VÉ KHÁCH ĐÃ ĐẶT"
             android:textColor="@color/colorTextIcons"
-            android:textSize="@dimen/_14sdp"
-            app:drawableStartCompat="@drawable/ic_movie"
-            app:drawableTint="@color/colorTextIcons" />
+            android:textSize="@dimen/_14sdp" />
 
         <ImageView
             android:id="@+id/imageHistory"

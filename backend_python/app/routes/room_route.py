@@ -6,7 +6,9 @@ from app.services.room_service import (
     get_room_by_id,
     create_room,
     update_room,
-    delete_room
+    delete_room,
+    update_room_cinema,
+    get_rooms_by_cinema
 )
 
 
@@ -47,7 +49,8 @@ def get_room(room_id):
 '''
 {
     "name": "Room 20",
-    "seats": 20
+    "seats": 20,
+    "cinema_id": 1
 }
 
 '''
@@ -60,10 +63,11 @@ def create_new_room():
     try:
         name = data.get('name')
         seats = data.get('seats')
+        cinema_id = data.get('cinema_id')
         if not name or seats is None:
             return jsonify({'message': 'Name and seats are required'}), 400
         
-        room = create_room(name, seats)
+        room = create_room(name, seats, cinema_id)
         return jsonify(room.serialize()), 201
     except ValueError as e:
         return jsonify({'message': str(e)}), 400
@@ -113,4 +117,46 @@ def delete_existing_room(room_id):
         return jsonify({'message': str(e)}), 400
     except Exception as e:
         return jsonify({'message': str(e)}), 500
-    
+
+
+# Assign room to cinema
+# link: localhost:5000/api/rooms/<room_id>/assign-cinema
+@ROOM_BLUEPRINT.route('/<int:room_id>/assign-cinema', methods=['PUT'])
+# @jwt_required()
+def assign_room_to_cinema(room_id):
+    """Assign a room to a cinema."""
+    data = request.get_json()
+    try:
+        cinema_id = data.get('cinema_id')
+        room = update_room_cinema(room_id, cinema_id)
+        return jsonify(room.serialize()), 200
+    except ValueError as e:
+        return jsonify({'message': str(e)}), 400
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
+
+# Get rooms by cinema
+# link: localhost:5000/api/rooms/by-cinema/<cinema_id>
+@ROOM_BLUEPRINT.route('/by-cinema/<int:cinema_id>', methods=['GET'])
+def get_rooms_for_cinema(cinema_id):
+    """Get all rooms belonging to a specific cinema."""
+    try:
+        rooms = get_rooms_by_cinema(cinema_id)
+        return jsonify([room.serialize() for room in rooms]), 200
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
+
+# Get room with cinema info
+# link: localhost:5000/api/rooms/get-with-cinema/<room_id>
+@ROOM_BLUEPRINT.route('/get-with-cinema/<int:room_id>', methods=['GET'])
+def get_room_with_cinema(room_id):
+    """Get a room with its cinema information."""
+    try:
+        room = get_room_by_id(room_id)
+        if not room:
+            return jsonify({'message': 'Room not found'}), 404
+        return jsonify(room.serialize_with_cinema()), 200
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500

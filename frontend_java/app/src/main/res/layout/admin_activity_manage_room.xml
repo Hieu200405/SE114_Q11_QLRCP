@@ -21,6 +21,18 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/headerLogo"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:src="@drawable/ic_logo_toto_cinema"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerCrop"
+            android:background="@drawable/bg_logo_circle"
+            android:padding="@dimen/_6sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle" />
+
         <TextView
             android:id="@+id/textAppName"
             android:layout_width="0dp"
@@ -33,11 +45,9 @@
             android:gravity="center_vertical"
             android:includeFontPadding="false"
             android:maxLines="1"
-            android:text="  TOTO CINEMA"
+            android:text="QUẢN LÝ PHÒNG"
             android:textColor="@color/colorTextIcons"
-            android:textSize="@dimen/_14sdp"
-            app:drawableStartCompat="@drawable/ic_movie"
-            app:drawableTint="@color/colorTextIcons" />
+            android:textSize="@dimen/_14sdp" />
 
 
 
@@ -90,6 +100,15 @@
             android:padding="@dimen/_2sdp"
             android:src="@drawable/ic_manage_room"
             app:tint="@color/colorTextIcons" />
+
+        <ImageView
+            android:id="@+id/imageManageCinema"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_32sdp"
+            android:layout_weight="1"
+            android:padding="@dimen/_2sdp"
+            android:src="@drawable/ic_cinema"
+            app:tint="#888888" />
 
         <ImageView
             android:id="@+id/imageManageUser"

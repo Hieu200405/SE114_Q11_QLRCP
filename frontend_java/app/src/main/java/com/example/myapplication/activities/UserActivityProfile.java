@@ -44,7 +44,6 @@ public class UserActivityProfile extends AppCompatActivity {
     ActivityResultLauncher launcherEditProfile;
     UserInfo userInfo;
 
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +78,7 @@ public class UserActivityProfile extends AppCompatActivity {
         // Load user profile data using the API
         loadApiUserProfile(accessToken, userId);
 
-
-
-        //Listeners for menu buttons
+        // Listeners for menu buttons
         listenerSetupMenu();
         // Listener for logout button
         listenerLogout();
@@ -103,7 +100,7 @@ public class UserActivityProfile extends AppCompatActivity {
             public void onResponse(Call<UserInfo> call, retrofit2.Response<UserInfo> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     userInfo = response.body();
-                    tvName.setText("Họ Tên: "+ userInfo.getName());
+                    tvName.setText("Họ Tên: " + userInfo.getName());
                     tvEmail.setText("Email: " + userInfo.getEmail());
                     tvPhone.setText("Số điện thoại: " + userInfo.getPhone());
                     tvUsername.setText("Tên người dùng: " + userInfo.getUsername());
@@ -132,7 +129,6 @@ public class UserActivityProfile extends AppCompatActivity {
 
     }
 
-
     private void listenerSetupMenu() {
         imageHome.setOnClickListener(v -> {
             // Handle home button click
@@ -145,7 +141,6 @@ public class UserActivityProfile extends AppCompatActivity {
             startActivity(intent);
         });
     }
-
 
     void listenerLogout() {
         btnLogout = findViewById(R.id.btnLogout);
@@ -169,13 +164,12 @@ public class UserActivityProfile extends AppCompatActivity {
         });
     }
 
-    void deleteDataSaved(){
+    void deleteDataSaved() {
         SharedPreferences preferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear(); // hoặc editor.remove("access_token"); nếu chỉ muốn xóa 1 giá trị
         editor.apply();
     }
-
 
     void listenerEditProfile() {
         btnEdit.setOnClickListener(v -> {
@@ -210,9 +204,7 @@ public class UserActivityProfile extends AppCompatActivity {
                             }
                         }
                     }
-                }
-        );
+                });
     }
-
 
 }
