@@ -320,7 +320,7 @@
         android:text="ĐÁNH GIÁ PHIM"
         android:textAllCaps="true"
         android:textColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/btnDeleteUser"
+        app:layout_constraintBottom_toTopOf="@+id/btnShowQR"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -372,11 +372,9 @@
         android:visibility="gone"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/btnBack"
+        app:layout_constraintBottom_toTopOf="@+id/btnDelete"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
-
     <!--
       Nút DELETE (ẩn mặc định), dùng cho thao tác xoá vé, vị trí và màu sắc tương tự btnDeleteUser.
       Có thể dùng để phân quyền, điều kiện khác nhau tuỳ business logic.
@@ -393,6 +391,5 @@
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/btnBack"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
