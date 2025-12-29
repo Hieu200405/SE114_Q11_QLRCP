@@ -5,14 +5,22 @@ import static androidx.core.content.ContextCompat.startActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,9 +28,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.adapters.TicketAdapter;
 import com.example.myapplication.models.BookingTicketResponse;
+import com.example.myapplication.models.ReviewRequest;
+import com.example.myapplication.models.ReviewResponse;
 import com.example.myapplication.models.Ticket;
 import com.example.myapplication.network.ApiClient;
+import com.example.myapplication.network.ApiFilmService;
 import com.example.myapplication.network.ApiTicketService;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -181,4 +193,5 @@ public class UserActivityHistoryBookingTicket extends AppCompatActivity {
                 }
         );
     }
+
 }

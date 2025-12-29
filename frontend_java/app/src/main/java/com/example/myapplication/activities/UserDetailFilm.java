@@ -11,16 +11,22 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.adapters.ImageFilmAdapter;
+import com.example.myapplication.adapters.ReviewAdapter;
 import com.example.myapplication.models.DetailFilm;
 import com.example.myapplication.models.ImageFilm;
+import com.example.myapplication.models.Review;
+import com.example.myapplication.models.ReviewResponse;
 import com.example.myapplication.network.ApiClient;
 import com.example.myapplication.network.ApiFilmService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,6 +51,10 @@ public class UserDetailFilm extends AppCompatActivity {
     TextView textReadMore;
     TextView textRuntime;
     Button btnBookTicket;
+    private RecyclerView rvReviews;
+    private ReviewAdapter reviewAdapter;
+    private List<Review> reviewList;
+    private ApiFilmService apiFilmService;
 
     @Override
     protected void onCreate(android.os.Bundle savedInstanceState) {
@@ -68,6 +78,19 @@ public class UserDetailFilm extends AppCompatActivity {
         textRuntime = findViewById(R.id.textRuntime); // Initialize your runtime TextView here
         btnBookTicket = findViewById(R.id.btnBookTicket); // Initialize your book ticket button here
 
+        apiFilmService = ApiClient.getRetrofit().create(ApiFilmService.class);
+        rvReviews = findViewById(R.id.rvReviews);
+        reviewList = new ArrayList<>();
+        reviewAdapter = new ReviewAdapter(reviewList);
+
+        if (rvReviews != null) {
+            rvReviews.setLayoutManager(new LinearLayoutManager(this));
+            rvReviews.setNestedScrollingEnabled(false);
+            rvReviews.setAdapter(reviewAdapter);
+        } else {
+            Log.e("DEBUG", "Không tìm thấy rvReviews trong layout!");
+        }
+
         // get the film ID from the intent
         int filmId = getIntent().getIntExtra("film_id", -1);
 
@@ -86,6 +109,10 @@ public class UserDetailFilm extends AppCompatActivity {
             Toast.makeText(this, "Lỗi Mã Phim", Toast.LENGTH_SHORT).show();
             Log.e("UserDetailFilm", "Invalid film ID received");
             finish();
+        }
+
+        if (filmId != -1) {
+            loadReviews(filmId);
         }
 
     }
@@ -133,6 +160,26 @@ public class UserDetailFilm extends AppCompatActivity {
 
                 Toast.makeText(UserDetailFilm.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("API_ERROR", Objects.requireNonNull(t.getMessage()));
+            }
+        });
+    }
+
+private void loadReviews(int filmId) {
+        apiFilmService.getFilmReviews(filmId).enqueue(new Callback<ReviewResponse>() {
+            @Override
+            public void onResponse(Call<ReviewResponse> call, Response<ReviewResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ReviewResponse res = response.body();
+                    if ("00".equals(res.getCode()) && res.getData() != null) {
+                        reviewList.clear();
+                        reviewList.addAll(res.getData());
+                        reviewAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ReviewResponse> call, Throwable t) {
+                Log.e("API_ERROR", t.getMessage());
             }
         });
     }

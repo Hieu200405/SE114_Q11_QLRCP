@@ -14,17 +14,23 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.adapters.ImageFilmAdapter;
+import com.example.myapplication.adapters.ReviewAdapter;
 import com.example.myapplication.models.DetailFilm;
 import com.example.myapplication.models.ImageFilm;
+import com.example.myapplication.models.Review;
+import com.example.myapplication.models.ReviewResponse;
 import com.example.myapplication.models.StatusMessage;
 import com.example.myapplication.network.ApiClient;
 import com.example.myapplication.network.ApiFilmService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -47,11 +53,19 @@ public class AdminDetailFilm extends AppCompatActivity {
     TextView textRuntime;
     Button btnBroadcast;
     Button btnUpdate, btnDelete;
+    private RecyclerView rvReviews;
+    private ReviewAdapter reviewAdapter;
+    private List<Review> reviewList = new ArrayList<>();
+    private ApiFilmService apiFilmService;
+    private int filmId;
+
 
     @Override
     protected void onCreate(android.os.Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_detail_film);
+
+        filmId = getIntent().getIntExtra("film_id", -1);
         accessToken = getSharedPreferences("MyAppPrefs", MODE_PRIVATE).getString("access_token", null);
         Log.d("AdminDetailFilm", "Access Token in detail film: " + accessToken);
         if(accessToken == null) {
@@ -59,6 +73,23 @@ public class AdminDetailFilm extends AppCompatActivity {
             finish();
             return;
         }
+
+        apiFilmService = ApiClient.getRetrofit().create(ApiFilmService.class);
+        rvReviews = findViewById(R.id.rvReviews);
+        reviewAdapter = new ReviewAdapter(reviewList);
+        reviewAdapter.setAdmin(true);
+        reviewAdapter.setOnReviewClickListener(new ReviewAdapter.OnReviewClickListener() {
+            @Override
+            public void onDeleteClick(int rId) {
+                showConfirmDeleteDialog(rId);
+            }
+        });
+
+        rvReviews.setLayoutManager(new LinearLayoutManager(this));
+        rvReviews.setNestedScrollingEnabled(false);
+        rvReviews.setAdapter(reviewAdapter);
+
+        loadReviews(filmId);
 
         setElementsByID();
         setUpdateFilmLauncher();
@@ -88,6 +119,7 @@ public class AdminDetailFilm extends AppCompatActivity {
         }
         ListenerBoadcast(filmId); // Set up listener for booking tickets
 
+
     }
 
     void setElementsByID() {
@@ -106,6 +138,35 @@ public class AdminDetailFilm extends AppCompatActivity {
         btnDelete = findViewById(R.id.btnDelete);
 
         ListenerUpdateButton();
+    }
+
+    private void showConfirmDeleteDialog(int reviewId) {
+        new AlertDialog.Builder(this)
+                .setTitle("Xác nhận xóa")
+                .setMessage("Bạn có chắc chắn muốn xóa vĩnh viễn đánh giá này không?")
+                .setPositiveButton("Xóa", (dialog, which) -> {
+                    deleteReview(reviewId);
+                })
+                .setNegativeButton("Hủy", null)
+                .show();
+    }
+
+    private void deleteReview(int reviewId) {
+        String token = "Bearer " + accessToken;
+        apiFilmService.deleteReview(token, reviewId).enqueue(new Callback<ReviewResponse>() {
+            @Override
+            public void onResponse(Call<ReviewResponse> call, Response<ReviewResponse> response) {
+                if (response.isSuccessful() && response.body() != null && "00".equals(response.body().getCode())) {
+                    Toast.makeText(AdminDetailFilm.this, "Đã xóa thành công", Toast.LENGTH_SHORT).show();
+                    loadReviews(filmId);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReviewResponse> call, Throwable t) {
+                Toast.makeText(AdminDetailFilm.this, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void loadFilmDetail(String id) {
@@ -144,6 +205,26 @@ public class AdminDetailFilm extends AppCompatActivity {
             public void onFailure(Call<DetailFilm> call, Throwable t) {
                 Toast.makeText(AdminDetailFilm.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("API_ERROR", Objects.requireNonNull(t.getMessage()));
+            }
+        });
+    }
+
+    private void loadReviews(int filmId) {
+        apiFilmService.getFilmReviews(filmId).enqueue(new Callback<ReviewResponse>() {
+            @Override
+            public void onResponse(Call<ReviewResponse> call, Response<ReviewResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ReviewResponse res = response.body();
+                    if ("00".equals(res.getCode()) && res.getData() != null) {
+                        reviewList.clear();
+                        reviewList.addAll(res.getData());
+                        reviewAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ReviewResponse> call, Throwable t) {
+                Log.e("API_ERROR", t.getMessage());
             }
         });
     }
