@@ -42,18 +42,18 @@ def get_film_reviews(film_id):
     except Exception as e:
         return jsonify({"code": "99", "desc": str(e)}), 500
 
-# Hide review (Admin only)
-# link: localhost:5000/api/reviews/admin/hide/<review_id>
-
-@REVIEW_BLUEPRINT.route('/admin/hide/<int:review_id>', methods=['PATCH'])
+# Delete review (Admin only)
+# link: localhost:5000/api/reviews/admin/delete/<review_id>
+@REVIEW_BLUEPRINT.route('/admin/delete/<int:review_id>', methods=['DELETE']) 
 @jwt_required()
-def hide_review(review_id):
+def delete_review(review_id):
     try:
         if get_jwt().get('role') != 'admin':
             return jsonify({"code": "03", "desc": "Chỉ Admin mới có quyền này"}), 403
             
-        hide_review_service(review_id)
-        return jsonify({"code": "00", "desc": "Đã ẩn đánh giá thành công"}), 200
+        from app.services.review_service import delete_review_service
+        delete_review_service(review_id) 
+        return jsonify({"code": "00", "desc": "Đã xóa đánh giá vĩnh viễn"}), 200
     except ValueError as e:
         return jsonify({"code": "01", "desc": str(e)}), 404
     except Exception as e:
