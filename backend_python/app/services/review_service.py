@@ -40,11 +40,11 @@ def get_film_reviews_service(film_id):
     reviews = Review.query.filter_by(film_id=film_id, status=1).all()
     return [r.serialize() for r in reviews]
 
-def hide_review_service(review_id):
+def delete_review_service(review_id):
     review = Review.query.get(review_id)
     if not review:
         raise ValueError("Không tìm thấy đánh giá")
     
-    review.status = 0
+    db.session.delete(review)
     db.session.commit()
     return True
