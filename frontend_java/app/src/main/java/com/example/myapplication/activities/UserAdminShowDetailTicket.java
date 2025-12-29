@@ -62,7 +62,6 @@ public class UserAdminShowDetailTicket extends AppCompatActivity {
     String accessToken;
     String ticketId;
     private ApiFilmService apiFilmService;
-    private BookingTicketResponse currentTicket;
 
     // Thông tin vé để tạo QR
     private BookingTicketResponse currentTicket;
