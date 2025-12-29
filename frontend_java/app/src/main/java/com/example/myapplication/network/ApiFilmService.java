@@ -5,6 +5,8 @@ import com.example.myapplication.models.FilmIdBroadcastToday;
 import com.example.myapplication.models.FilmRequest;
 import com.example.myapplication.models.FilmShow;
 import com.example.myapplication.models.FilmUpdateRequest;
+import com.example.myapplication.models.ReviewRequest;
+import com.example.myapplication.models.ReviewResponse;
 import com.example.myapplication.models.StatusMessage;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -42,5 +45,18 @@ public interface ApiFilmService {
     Call<StatusMessage> deleteFilm(@Header("Authorization") String token, @Path("id") int id);
 
 
+    @GET("reviews/film/{film_id}")
+    Call<ReviewResponse> getFilmReviews(@Path("film_id") int filmId);
 
+    @POST("reviews/add")
+    Call<ReviewResponse> addReview(
+            @Header("Authorization") String token,
+            @Body ReviewRequest reviewRequest
+    );
+
+    @PATCH("reviews/admin/hide/{review_id}")
+    Call<ReviewResponse> hideReview(
+            @Header("Authorization") String token,
+            @Path("review_id") int reviewId
+    );
 }

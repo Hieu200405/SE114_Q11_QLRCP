@@ -8,6 +8,7 @@ from .TotalDay import TotalDay
 from .Seat import Seat
 from .Ticket import Ticket
 from .Cinema import Cinema
+from .Review import Review
 from app import db
 
 
