@@ -37,6 +37,17 @@
             app:layout_constraintStart_toEndOf="@id/ivUserAvatar"
             app:layout_constraintTop_toTopOf="@id/ivUserAvatar" />
 
+        <ImageView
+            android:id="@+id/imageDeleteReview"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:padding="@dimen/_4sdp"
+            android:src="@drawable/ic_close"
+            app:tint="@android:color/holo_red_light"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <RatingBar
             android:id="@+id/ratingBarReview"
             style="?android:attr/ratingBarStyleSmall"
