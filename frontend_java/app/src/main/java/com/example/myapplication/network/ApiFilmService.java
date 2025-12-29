@@ -54,8 +54,8 @@ public interface ApiFilmService {
             @Body ReviewRequest reviewRequest
     );
 
-    @PATCH("reviews/admin/hide/{review_id}")
-    Call<ReviewResponse> hideReview(
+    @DELETE("reviews/admin/delete/{review_id}")
+    Call<ReviewResponse> deleteReview(
             @Header("Authorization") String token,
             @Path("review_id") int reviewId
     );
