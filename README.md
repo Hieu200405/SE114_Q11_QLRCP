@@ -146,5 +146,5 @@ Ensure the database is created before running the backend.
 This backend uses Flask development server — for production use, consider deploying with a WSGI server like gunicorn or uWSGI.
 
 Frontend is built using Java + Android Studio.
-Link document for project: https://drive.google.com/drive/folders/184ckkKy189U1c9S5OaGnpBFDBpFigkk3?usp=drive_link
+Link document for project
 
